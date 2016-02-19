@@ -7,7 +7,7 @@
     <ProjectGuid>{FFCFDAA0-BF70-452B-B460-45443E3447C3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PerformanceEvaluation.Biz</RootNamespace>
+    <RootNamespace>PerformanceEvaluation.PerformanceEvaluation.Biz</RootNamespace>
     <AssemblyName>PerformanceEvaluation.Biz</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\3rdParty\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />

@@ -1,0 +1,42 @@
+﻿@charset "utf-8";
+/* 公用部分开始 */
+body{margin:0 auto; font-size:12px; font-family:Verdana, 宋体; color:#000; background:url(../Images/background.jpg) no-repeat top center;}
+img{border:0;}
+a{text-decoration:none;}
+a:hover{color:#F00;}
+ul,ul li{list-style-type:none;}
+span,ul,ul li{display:block; float:left; margin:0; padding:0;}
+
+.f30{font-size:30px;}
+.f18{font-size:18px;}
+.f16{font-size:16px;}
+.f14{font-size:14px;}
+.f12{font-size:12px;}
+.f999{color:#969696;}
+.fwhite{color:#fff;}
+.fblack{color:#000;}
+.fred{color:#fd1212;}
+.forange{color:#fd8612;}
+.fblue{color:#1988e6;}
+.fgray{color:#ccc;}
+.fstrong{font-weight:bold;}
+.fweiruan{font-family:微软雅黑;}
+.noboreder{border:0;}
+.clear{clear:both; font-size:0; padding:0; margin:0;}
+.xhx{text-decoration:underline;}
+
+
+/* 登录页开始 */
+.loginbox{width:500px; height:513px; background:url(../Images/login_bg.png); margin:0 auto; margin-top:160px;}
+.txtbox{width:319px; height:60px; line-height:60px; padding-top:20px; font-family:微软雅黑; font-size:40px; color:#333; text-align:center; margin:0 auto;}
+.inputbox{width:319px; margin:0 auto; padding-top:20px;}
+.inputbox .ipb,.inputbox .ipc,.inputbox .ipd,.inputbox .ipe{width:268px; height:51px; margin-bottom:20px; padding-left:51px;}
+.inputbox .ipb{background:url(../Images/input_green.png);}
+.inputbox .ipc{background:url(../Images/input_key.png);}
+.inputbox .ipd{background:url(../Images/input_key2.png);}
+.inputbox .ipe{background:url(../Images/input_key3.png); width:160px; float:left; margin-right:8px;}
+.inputbox .ipb input,.inputbox .ipc input,.inputbox .ipd input,.inputbox .ipe input{width:260px; height:45px; line-height:45px; font-family:微软雅黑; font-size:16px; border:0; background:#accdba; color:#fff; margin-top:2px; text-shadow:1px 1px 2px #666;}
+.inputbox .ipe input{width:155px;}
+.inputbox .ipbottom{width:319px; height:51px;}
+.inputbox  .forget{height:30px; line-height:30px; text-align:right;}
+.inputbox  .forget a{color:#f60;}
