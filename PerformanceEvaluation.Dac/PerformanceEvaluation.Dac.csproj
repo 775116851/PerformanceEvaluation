@@ -43,9 +43,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JXKHGSBDac.cs" />
+    <Compile Include="JXKHYSBDac.cs" />
+    <Compile Include="OrganDac.cs" />
     <Compile Include="PagerData.cs" />
+    <Compile Include="PersonInfoDac.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cmn\Cmn.csproj">
+      <Project>{f1ed424c-ecfb-4d16-a1ae-e6e6049cfc2c}</Project>
+      <Name>Cmn</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PerformanceEvaluation.Info\PerformanceEvaluation.Info.csproj">
+      <Project>{ba044a98-9115-470b-9741-84644c50591b}</Project>
+      <Name>PerformanceEvaluation.Info</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

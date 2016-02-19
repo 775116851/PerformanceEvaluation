@@ -2723,5 +2723,13 @@ namespace PerformanceEvaluation.Cmn
                 return ConfigurationManager.AppSettings["GuangDaOrganSysNo"] ?? "";
             }
         }
+
+        #region 绩效管理相关
+        public static string Conn_PerformanceEvaluation
+        {
+            get { return ConfigurationManager.ConnectionStrings["Conn_PerformanceEvaluation"].ToString(); }
+        }
+        #endregion
+        
     }
 }
