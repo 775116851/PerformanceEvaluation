@@ -1,4 +1,5 @@
 ﻿using PerformanceEvaluation.Cmn;
+using PerformanceEvaluation.PerformanceEvaluation.Biz;
 using PerformanceEvaluation.PerformanceEvaluation.Info;
 using System;
 using System.Collections.Generic;
@@ -63,18 +64,43 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Home
             {
                 return;
             }
-            SessionInfo session = new SessionInfo();
-            session.IPAddress = CommonFunctions.GetClientIP(Request);
-            //session.User = oUser;
-            //if (oUser != null)
-            //{
-            //    UserManager userUM = new UserManager();
-            //    userUM.UserEntity = oUser;
-            //    userUM.LoadPrivilege();
-            //    session.PrivilegeHt = userUM.UserPrivilegeDic;
-            //}
-            Session["LoginSession"] = session;
-            Response.Redirect("~/Home/Default.aspx", true);
+            int userSysNo;
+            if(!int.TryParse(txtUserID.Text.Trim(),out userSysNo))
+            {
+                Assert(lblMessage, "无此用户", -1);
+                return;
+            }
+            PersonInfoEntity oUser = BasicManager.GetInstance().LoadUser(userSysNo);
+            if (oUser == null || oUser.IsLogin != (int)AppEnum.YNStatus.Yes)
+            {
+                Assert(lblMessage, "无此用户", -1);
+                return;
+            }
+            if (oUser.Status != (int)AppEnum.BiStatus.Valid)
+            {
+                Assert(lblMessage, "用户状态无效", -1);
+                return;
+            }
+            if (oUser.LoginPwd.ToUpper() == CommonFunctions.md5(txtPwd.Text.Trim() + AppConst.KEY_MD5_MIS) && oUser.Status == (int)AppEnum.BiStatus.Valid)
+            {
+                SessionInfo session = new SessionInfo();
+                session.IPAddress = CommonFunctions.GetClientIP(Request);
+                session.User = oUser;
+                //if (oUser != null)
+                //{
+                //    UserManager userUM = new UserManager();
+                //    userUM.UserEntity = oUser;
+                //    userUM.LoadPrivilege();
+                //    session.PrivilegeHt = userUM.UserPrivilegeDic;
+                //}
+                Session["LoginSession"] = session;
+                Response.Redirect("~/Home/Default.aspx", true);
+            }
+            else
+            {
+                Assert(lblMessage, "用户名或密码错误", -1);
+                return;
+            }
         }
 
     }

@@ -9,7 +9,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
     public class SessionInfo
     {
         public string IPAddress;
-        //public Sys_UserEntity User;
+        public PersonInfoEntity User;
         //public Dictionary<int, Sys_PrivilegeEntity> PrivilegeHt;
 
         public SessionInfo()

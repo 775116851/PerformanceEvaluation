@@ -2341,17 +2341,17 @@ namespace PerformanceEvaluation.Cmn
         }
         #endregion
 
-        #region 机构类型 1销售机构 2拓展机构 3销售+拓展机构
-        public enum OrganType : int
-        {
-            [Description("销售")]
-            Sale = 1,
-            [Description("拓展")]
-            Expand = 2,
-            [Description("销售+拓展")]
-            SaleAndExpand = 3,
-        }
-        #endregion
+        //#region 机构类型 1销售机构 2拓展机构 3销售+拓展机构
+        //public enum OrganType : int
+        //{
+        //    [Description("销售")]
+        //    Sale = 1,
+        //    [Description("拓展")]
+        //    Expand = 2,
+        //    [Description("销售+拓展")]
+        //    SaleAndExpand = 3,
+        //}
+        //#endregion
 
         #region 商户文件类型 1图片 2视频
         public enum VendorFileType : int
@@ -6474,6 +6474,59 @@ namespace PerformanceEvaluation.Cmn
             [Description("已作废")]
             Abandon = -1,
         }
+        #endregion
+
+        #region 绩效考核相关 
+        #region 机构类别 10二级部 20职能室
+        public enum OrganType
+        {
+            [Description("二级部")]
+            EJB = 10,
+            [Description("职能室")]
+            ZNS = 20,
+        }
+        #endregion
+
+        #region 绩效类别 10普通员工非二级部负责人 20二级部负责人 30其他
+        public enum JXCategory
+        {
+            [Description("普通员工")]
+            PTYG = 10,
+            [Description("二级部负责人")]
+            EJBFZR = 20,
+            [Description("其他")]
+            QT = 30,
+        }
+        #endregion
+
+        #region 绩效等级 1A 2B 3C 4D 5E
+        public enum JXGrade
+        {
+            [Description("A")]
+            A = 1,
+            [Description("B")]
+            B = 2,
+            [Description("C")]
+            C = 3,
+            [Description("D")]
+            D = 4,
+            [Description("E")]
+            E = 5,
+        }
+        #endregion
+
+        #region 明细类别 10明细 20单个汇总 99加权汇总
+        public enum JXMXCategory
+        {
+            [Description("明细")]
+            MX = 10,
+            [Description("单个汇总")]
+            DGHZ = 20,
+            [Description("加权汇总")]
+            JQHZ = 99,
+        }
+        #endregion
+
         #endregion
 
     }

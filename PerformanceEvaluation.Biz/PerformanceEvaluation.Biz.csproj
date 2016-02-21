@@ -42,8 +42,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BasicManager.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cmn\Cmn.csproj">
+      <Project>{f1ed424c-ecfb-4d16-a1ae-e6e6049cfc2c}</Project>
+      <Name>Cmn</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PerformanceEvaluation.Dac\PerformanceEvaluation.Dac.csproj">
+      <Project>{56988439-48a4-4b42-ab5b-31f6a469cf5d}</Project>
+      <Name>PerformanceEvaluation.Dac</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PerformanceEvaluation.Info\PerformanceEvaluation.Info.csproj">
+      <Project>{ba044a98-9115-470b-9741-84644c50591b}</Project>
+      <Name>PerformanceEvaluation.Info</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
