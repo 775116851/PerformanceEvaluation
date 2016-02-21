@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AAA.cs" />
     <Compile Include="JXKHGSBDac.cs" />
     <Compile Include="JXKHYSBDac.cs" />
     <Compile Include="JXMXBDac.cs" />
