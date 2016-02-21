@@ -17,16 +17,24 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
         }
 
         #region 成员变量和公共属性
+        private int _SysNo;
         private int _ParentPersonSysNo;
         private int _OrganSysNo;
         private int _LowerPersonSysNo;
         private int _LowerClassSysNo;
-        private int _JXSysNo;
-        private int _GradScale;
+        private int _JXCategory;
+        private decimal _GradScale;
         private DateTime _CreateTime;
         private DateTime _LastUpdateTime;
         private int _CreateUserSysNo;
         private int _LastUpdateUserSysNo;
+        [DataMember]
+        public int SysNo
+        {
+            set { _SysNo = value; }
+            get { return _SysNo; }
+        }
+
         [DataMember]
         public int ParentPersonSysNo
         {
@@ -56,14 +64,14 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
         }
 
         [DataMember]
-        public int JXSysNo
+        public int JXCategory
         {
-            set { _JXSysNo = value; }
-            get { return _JXSysNo; }
+            set { _JXCategory = value; }
+            get { return _JXCategory; }
         }
 
         [DataMember]
-        public int GradScale
+        public decimal GradScale
         {
             set { _GradScale = value; }
             get { return _GradScale; }
@@ -108,12 +116,13 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
 
         public void Init()
         {
+            SysNo = AppConst.IntNull;
             ParentPersonSysNo = AppConst.IntNull;
             OrganSysNo = AppConst.IntNull;
             LowerPersonSysNo = AppConst.IntNull;
             LowerClassSysNo = AppConst.IntNull;
-            JXSysNo = AppConst.IntNull;
-            GradScale = AppConst.IntNull;
+            JXCategory = AppConst.IntNull;
+            GradScale = AppConst.DecimalNull;
             CreateTime = AppConst.DateTimeNull;
             LastUpdateTime = AppConst.DateTimeNull;
             CreateUserSysNo = AppConst.IntNull;
@@ -123,13 +132,13 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
 
         #region 实现IComparable<T>接口的泛型排序方法
         /// <sumary> 
-        /// 根据ParentPersonSysNo字段实现的IComparable<T>接口的泛型排序方法 
+        /// 根据SysNo字段实现的IComparable<T>接口的泛型排序方法 
         /// </sumary> 
         /// <param name="other"></param> 
         /// <returns></returns> 
         public int CompareTo(JXKHGSBEntity other)
         {
-            return ParentPersonSysNo.CompareTo(other.ParentPersonSysNo);
+            return SysNo.CompareTo(other.SysNo);
         }
         #endregion
     }

@@ -50,12 +50,12 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
                 param.Value = model.ClassSysNo;
                 cmd.Parameters.Add(param);
             }
-            if (model.NAME != AppConst.StringNull)
+            if (model.Name != AppConst.StringNull)
             {
-                strSql1.Append("NAME,");
-                strSql2.Append("@NAME,");
-                SqlParameter param = new SqlParameter("@NAME", SqlDbType.NVarChar, 64);
-                param.Value = model.NAME;
+                strSql1.Append("Name,");
+                strSql2.Append("@Name,");
+                SqlParameter param = new SqlParameter("@Name", SqlDbType.NVarChar, 64);
+                param.Value = model.Name;
                 cmd.Parameters.Add(param);
             }
             if (model.BirthDate != AppConst.DateTimeNull)
@@ -162,6 +162,14 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
                 param.Value = model.LastUpdateUserSysNo;
                 cmd.Parameters.Add(param);
             }
+            if (model.IsAdmin != AppConst.IntNull)
+            {
+                strSql1.Append("IsAdmin,");
+                strSql2.Append("@IsAdmin,");
+                SqlParameter param = new SqlParameter("@IsAdmin", SqlDbType.SmallInt, 2);
+                param.Value = model.IsAdmin;
+                cmd.Parameters.Add(param);
+            }
             strSql.Append(strSql1.Remove(strSql1.Length - 1, 1)).Append(")");
             strSql.Append(" values (");
             strSql.Append(strSql2.Remove(strSql2.Length - 1, 1)).Append(")");
@@ -198,11 +206,11 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
                 param.Value = model.ClassSysNo;
                 cmd.Parameters.Add(param);
             }
-            if (model.NAME != AppConst.StringNull)
+            if (model.Name != AppConst.StringNull)
             {
-                strSql.Append("NAME=@NAME,");
-                SqlParameter param = new SqlParameter("@NAME", SqlDbType.NVarChar, 64);
-                param.Value = model.NAME;
+                strSql.Append("Name=@Name,");
+                SqlParameter param = new SqlParameter("@Name", SqlDbType.NVarChar, 64);
+                param.Value = model.Name;
                 cmd.Parameters.Add(param);
             }
             if (model.BirthDate != AppConst.DateTimeNull)
@@ -296,6 +304,13 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
                 param.Value = model.LastUpdateUserSysNo;
                 cmd.Parameters.Add(param);
             }
+            if (model.IsAdmin != AppConst.IntNull)
+            {
+                strSql.Append("IsAdmin=@IsAdmin,");
+                SqlParameter param = new SqlParameter("@IsAdmin", SqlDbType.SmallInt, 2);
+                param.Value = model.IsAdmin;
+                cmd.Parameters.Add(param);
+            }
             strSql.Remove(strSql.Length - 1, 1);
             strSql.Append(" where SysNo=@SysNo ");
             cmd.CommandText = strSql.ToString();
@@ -332,7 +347,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
             {
                 model.ClassSysNo = int.Parse(ds.Tables[0].Rows[0]["ClassSysNo"].ToString());
             }
-            model.NAME = ds.Tables[0].Rows[0]["NAME"].ToString();
+            model.Name = ds.Tables[0].Rows[0]["Name"].ToString();
             if (ds.Tables[0].Rows[0]["BirthDate"].ToString() != "")
             {
                 model.BirthDate = DateTime.Parse(ds.Tables[0].Rows[0]["BirthDate"].ToString());
@@ -375,6 +390,10 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
             if (ds.Tables[0].Rows[0]["LastUpdateUserSysNo"].ToString() != "")
             {
                 model.LastUpdateUserSysNo = int.Parse(ds.Tables[0].Rows[0]["LastUpdateUserSysNo"].ToString());
+            }
+            if (ds.Tables[0].Rows[0]["IsAdmin"].ToString() != "")
+            {
+                model.IsAdmin = int.Parse(ds.Tables[0].Rows[0]["IsAdmin"].ToString());
             }
             return model;
         }

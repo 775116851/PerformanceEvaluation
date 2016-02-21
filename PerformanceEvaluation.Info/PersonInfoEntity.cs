@@ -20,7 +20,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
         private int _SysNo;
         private int _OrganSysNo;
         private int _ClassSysNo;
-        private string _NAME;
+        private string _Name;
         private DateTime _BirthDate;
         private DateTime _EntryDate;
         private DateTime _OutData;
@@ -34,6 +34,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
         private DateTime _LastUpdateTime;
         private int _CreateUserSysNo;
         private int _LastUpdateUserSysNo;
+        private int _IsAdmin;
         [DataMember]
         public int SysNo
         {
@@ -56,10 +57,10 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
         }
 
         [DataMember]
-        public string NAME
+        public string Name
         {
-            set { _NAME = value; }
-            get { return _NAME; }
+            set { _Name = value; }
+            get { return _Name; }
         }
 
         [DataMember]
@@ -153,6 +154,13 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
             get { return _LastUpdateUserSysNo; }
         }
 
+        [DataMember]
+        public int IsAdmin
+        {
+            set { _IsAdmin = value; }
+            get { return _IsAdmin; }
+        }
+
 
         #endregion
 
@@ -167,7 +175,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
             SysNo = AppConst.IntNull;
             OrganSysNo = AppConst.IntNull;
             ClassSysNo = AppConst.IntNull;
-            NAME = AppConst.StringNull;
+            Name = AppConst.StringNull;
             BirthDate = AppConst.DateTimeNull;
             EntryDate = AppConst.DateTimeNull;
             OutData = AppConst.DateTimeNull;
@@ -181,6 +189,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
             LastUpdateTime = AppConst.DateTimeNull;
             CreateUserSysNo = AppConst.IntNull;
             LastUpdateUserSysNo = AppConst.IntNull;
+            IsAdmin = AppConst.IntNull;
 
         }
 

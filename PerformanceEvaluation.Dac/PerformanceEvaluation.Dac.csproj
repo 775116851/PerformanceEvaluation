@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="JXKHGSBDac.cs" />
     <Compile Include="JXKHYSBDac.cs" />
+    <Compile Include="JXMXBDac.cs" />
     <Compile Include="OrganDac.cs" />
     <Compile Include="PagerData.cs" />
     <Compile Include="PersonInfoDac.cs" />

@@ -17,23 +17,31 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
         }
 
         #region 成员变量和公共属性
-        private int _OrganSysNo;
+        private int _SysNo;
+        private string _OrganId;
         private int _OrganType;
         private string _FunctionInfo;
         private string _OrganName;
         private int _PersonNum;
-        private int _AGradScale;
-        private int _BGradScale;
+        private decimal _AGradScale;
+        private decimal _BGradScale;
         private int _PersonSysNo;
         private DateTime _CreateTime;
         private DateTime _LastUpdateTime;
         private int _CreateUserSysNo;
         private int _LastUpdateUserSysNo;
         [DataMember]
-        public int OrganSysNo
+        public int SysNo
         {
-            set { _OrganSysNo = value; }
-            get { return _OrganSysNo; }
+            set { _SysNo = value; }
+            get { return _SysNo; }
+        }
+
+        [DataMember]
+        public string OrganId
+        {
+            set { _OrganId = value; }
+            get { return _OrganId; }
         }
 
         [DataMember]
@@ -65,14 +73,14 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
         }
 
         [DataMember]
-        public int AGradScale
+        public decimal AGradScale
         {
             set { _AGradScale = value; }
             get { return _AGradScale; }
         }
 
         [DataMember]
-        public int BGradScale
+        public decimal BGradScale
         {
             set { _BGradScale = value; }
             get { return _BGradScale; }
@@ -124,13 +132,14 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
 
         public void Init()
         {
-            OrganSysNo = AppConst.IntNull;
+            SysNo = AppConst.IntNull;
+            OrganId = AppConst.StringNull;
             OrganType = AppConst.IntNull;
             FunctionInfo = AppConst.StringNull;
             OrganName = AppConst.StringNull;
             PersonNum = AppConst.IntNull;
-            AGradScale = AppConst.IntNull;
-            BGradScale = AppConst.IntNull;
+            AGradScale = AppConst.DecimalNull;
+            BGradScale = AppConst.DecimalNull;
             PersonSysNo = AppConst.IntNull;
             CreateTime = AppConst.DateTimeNull;
             LastUpdateTime = AppConst.DateTimeNull;
@@ -141,13 +150,13 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
 
         #region 实现IComparable<T>接口的泛型排序方法
         /// <sumary> 
-        /// 根据OrganSysNo字段实现的IComparable<T>接口的泛型排序方法 
+        /// 根据SysNo字段实现的IComparable<T>接口的泛型排序方法 
         /// </sumary> 
         /// <param name="other"></param> 
         /// <returns></returns> 
         public int CompareTo(OrganEntity other)
         {
-            return OrganSysNo.CompareTo(other.OrganSysNo);
+            return SysNo.CompareTo(other.SysNo);
         }
         #endregion
     }
