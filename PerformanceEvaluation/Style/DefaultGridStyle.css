@@ -1,0 +1,181 @@
+.Grid
+{
+	border-top: 1px solid #9495A2;
+	border-left: 1px solid #9495A2;
+	border-right: 1px solid #9495A2;
+	border-bottom: 1px solid #9495A2;
+	background-color: #FFFFFF;
+	cursor: pointer;
+	font-size:9pt;
+}
+
+.HeadingCell { 
+    height:25px;
+	line-height:25px;
+	font-size:15px;
+	font-weight:bold;
+	color:#333; 
+	padding:0 3px;
+	border-bottom:1px solid #bbb; 
+	border-left:1px solid #ddd; 
+	background:#eee url(../images/pager/horizontal.png) repeat-x 0 0; }
+
+.HeadingRow td.FirstHeadingCell { background-position:-1px -32px; }
+
+.HeadingCellText { cursor:default; 	font-weight:bold;
+}
+
+.HeadingCellHover { 
+    height:25px;
+	line-height:25px;
+	font-size:12px;
+	font-weight:bold;
+	color:#333; 
+	padding:0 3px;
+	border-bottom:1px solid #ddd; 
+	background:#ddd url(../images/pager/horizontal.png) repeat-x 0 -44px;  
+	}
+    .HeadingCellHover td.FirstHeadingCell { background-position:-1px -60px; }
+
+.HeadingCellActive { background-position:0 -90px; }
+    .HeadingCellActive .HeadingCellText { display:block;margin:1px -1px -1px 1px; }
+    .HeadingCellActive img { display:block;margin:1px -1px -1px 1px; }
+
+.DataCell 
+{ 
+   padding-left: 2px; 
+  
+} 
+
+.Row
+{
+    margin-left:10px;
+	background-color: #FFFFFF;
+	cursor: default;
+	height:22px;
+}
+
+.RedRow
+{
+    margin-left:10px;
+	background-color: #FFBD00;
+	cursor: default;
+	height:22px;
+}
+
+.Row td.DataCell
+{
+	border-right: 1px solid #E6E6E6;
+	border-bottom: 1px solid #E6E6E6;
+	font-family: verdana;
+	font-size: 12px;
+	cursor: pointer;
+}
+
+.AlternatingRow
+{
+	background-color: #eee;
+	cursor: pointer;
+	height:22px;
+}
+
+.AlternatingRow td.DataCell
+{
+	border-right: 1px solid #E6E6E6;
+	border-bottom: 1px solid #E6E6E6;
+	font-family: verdana;
+	font-size: 12px;
+	cursor: pointer;
+}
+
+.GridFooter
+{
+	cursor: default;
+	padding: 5px;
+	vertical-align: bottom;
+}
+
+.XS_GridFooter
+{
+	cursor: default;
+	padding: 7px;
+	vertical-align: bottom;
+}
+
+.GridFooterText
+{
+	color: #000000;
+	font-family: verdana;
+	font-size: 11px;
+}
+
+.CellText
+{
+	font-family: verdana;
+	font-size: 10px;
+}
+
+.SelectedRow 
+{
+	border-right: 1px solid #E6E6E6;
+	border-bottom: 1px solid #E6E6E6; 
+    background-color: #ccc;
+    font-size: 12px;
+	font-family: verdana;
+	height:22px;
+	margin-left:10px;
+}
+.SelectedRow td.DataCell 
+{ 
+	border-right: 1px solid #E6E6E6;
+	border-bottom: 1px solid #E6E6E6;
+	font-family: verdana;
+	font-size: 12px;
+	cursor: pointer;
+}
+
+.HoverRow
+{
+    border-right: 1px solid #E6E6E6;
+	border-bottom:1px solid #649ec6;
+	background:#e3eef8; 
+	font-size: 12px;
+	font-family: verdana;
+	height:22px;
+	margin-left:10px;
+}
+
+.HoverRow td.DataCell
+{
+ 	font-family: verdana;
+	font-size: 12px;
+	cursor: pointer;
+	border-bottom:1px solid #649ec6; 
+    border-right: 1px solid #E6E6E6;
+	background:#e3eef8;  
+}
+
+.MXGrid
+{
+	background-color: #FFFFFF;
+	cursor: pointer;
+}
+
+.EditDataCell
+{ 
+  padding: 0px!important; 
+  background-color: #E2E2E2; 
+  border-width:0px!important;
+   font-size: 12px;
+   height:22px;
+} 
+
+.EditDataField
+{ 
+  padding: 0px; 
+  padding-left: 1px; 
+  font-family: verdana; 
+  font-size: 11px; 
+  height: 18px;
+  width: 98%!important; 
+}

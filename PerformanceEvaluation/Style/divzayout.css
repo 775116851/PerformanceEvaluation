@@ -1,0 +1,51 @@
+﻿html,body{
+    margin: 0; /* 最好将 body 元素的边距和填充设置为 0 以覆盖不同的浏览器默认值 */
+    padding: 0;
+    text-align: center; /* 在 IE 5* 浏览器中，这会将容器居中。文本随后将在 #container 选择器中设置为默认左对齐 */
+    /*height: 100%;*/ /*这里将高度设置为100%是这个布局实现自适应高度的关键，只有这里设置了高度，下面div的高度设置才起作用*/
+}
+#layout {
+    width: 100%;
+    height: 100%;
+    margin: 0px auto;
+}
+#header{
+    height: 15%;
+    min-height:52px;
+   background: url(../Images/header_bg1.jpg) left top repeat-x; position:relative;
+   font-size:12px;
+}
+#header p.logo{ position:absolute; left:114px; top:7px;}
+#header p.info{ position:absolute; left:275px; top:26px; font: normal 16px/16px 微软雅黑; color:#fff;}
+#header dl{ width:340px; position:absolute; right:0; top:20px; text-align:right; overflow:hidden;}
+#header dl dt{ font-size:12px; color:#fff; float:left; margin-right:5px;}
+#header dl dd{ float:left; margin-right:3px;}
+#header dl dd a{ color:#fff;}
+#header dl dd a:hover,#header dl dd.On a{  color:#F1D627; text-decoration:none;}
+
+#container {
+    height: 85%;
+}
+#container #sidebar {
+    height: 100%;
+    width: 15%;
+    background-color: #C03;
+    float: left;
+}
+    #container #slider {
+        height: 100%;
+    width: 1%;  
+    float: left;
+    }
+#container #main {
+   height: 100%;
+    width: 84%;
+    background-color: #CFC;
+    float: left;
+}
+.clearfloat { /* 此类应当放在 div 或 break 元素上，而且该元素应当是完全包含浮动的容器关闭之前的最后一个元素 */
+    clear:both;
+    height:0;
+    font-size: 1px;
+    line-height: 0px;
+}

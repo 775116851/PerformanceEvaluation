@@ -109,7 +109,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
             strSql.Append(strSql1.Remove(strSql1.Length - 1, 1)).Append(")");
             strSql.Append(" values (");
             strSql.Append(strSql2.Remove(strSql2.Length - 1, 1)).Append(")");
-            strSql.Append(";select @@IDENTITY");
+            strSql.Append(";UPDATE dbo.JXKHYSB SET JXId=CAST(JXCategory AS VARCHAR(2)) + RIGHT('00' + CAST(@@IDENTITY AS VARCHAR), 3) WHERE SysNo=@@IDENTITY;select @@IDENTITY");
             cmd.CommandText = strSql.ToString();
 
             return Convert.ToInt32(SqlHelper.ExecuteScalar(AppConfig.Conn_PerformanceEvaluation, cmd));

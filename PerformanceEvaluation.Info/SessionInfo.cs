@@ -11,6 +11,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
         public string IPAddress;
         public PersonInfoEntity User;
         //public Dictionary<int, Sys_PrivilegeEntity> PrivilegeHt;
+        public List<Custom_Sys_MenuEntity> menuList;
 
         public SessionInfo()
         {

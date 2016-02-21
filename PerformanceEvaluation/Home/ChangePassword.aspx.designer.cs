@@ -10,52 +10,52 @@
 namespace PerformanceEvaluation.PerformanceEvaluation.Home {
     
     
-    public partial class SysLogin {
+    public partial class ChangePassword {
         
         /// <summary>
-        /// Form1 控件。
+        /// form1 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm Form1;
+        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
-        /// txtUserID 控件。
+        /// txtOldPwd 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtUserID;
+        protected global::System.Web.UI.HtmlControls.HtmlInputPassword txtOldPwd;
         
         /// <summary>
-        /// txtPwd 控件。
+        /// txtNewPwd 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtPwd;
+        protected global::System.Web.UI.HtmlControls.HtmlInputPassword txtNewPwd;
         
         /// <summary>
-        /// txtCode 控件。
+        /// txtConfirmNewPwd 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCode;
+        protected global::System.Web.UI.HtmlControls.HtmlInputPassword txtConfirmNewPwd;
         
         /// <summary>
-        /// btnLogin 控件。
+        /// btnSave 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor btnLogin;
+        protected global::System.Web.UI.WebControls.Button btnSave;
         
         /// <summary>
         /// lblMessage 控件。
@@ -65,14 +65,5 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Home {
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblMessage;
-        
-        /// <summary>
-        /// btnLo 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnLo;
     }
 }

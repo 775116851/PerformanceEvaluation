@@ -82,12 +82,12 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
                 param.Value = model.JXScore;
                 cmd.Parameters.Add(param);
             }
-            if (model.JXGrade != AppConst.IntNull)
+            if (model.JXLevel != AppConst.IntNull)
             {
-                strSql1.Append("JXGrade,");
-                strSql2.Append("@JXGrade,");
-                SqlParameter param = new SqlParameter("@JXGrade", SqlDbType.SmallInt, 2);
-                param.Value = model.JXGrade;
+                strSql1.Append("JXLevel,");
+                strSql2.Append("@JXLevel,");
+                SqlParameter param = new SqlParameter("@JXLevel", SqlDbType.SmallInt, 2);
+                param.Value = model.JXLevel;
                 cmd.Parameters.Add(param);
             }
             if (model.JXMXCategory != AppConst.IntNull)
@@ -194,11 +194,11 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
                 param.Value = model.JXScore;
                 cmd.Parameters.Add(param);
             }
-            if (model.JXGrade != AppConst.IntNull)
+            if (model.JXLevel != AppConst.IntNull)
             {
-                strSql.Append("JXGrade=@JXGrade,");
-                SqlParameter param = new SqlParameter("@JXGrade", SqlDbType.SmallInt, 2);
-                param.Value = model.JXGrade;
+                strSql.Append("JXLevel=@JXLevel,");
+                SqlParameter param = new SqlParameter("@JXLevel", SqlDbType.SmallInt, 2);
+                param.Value = model.JXLevel;
                 cmd.Parameters.Add(param);
             }
             if (model.JXMXCategory != AppConst.IntNull)
@@ -285,9 +285,9 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
             {
                 model.JXScore = decimal.Parse(ds.Tables[0].Rows[0]["JXScore"].ToString());
             }
-            if (ds.Tables[0].Rows[0]["JXGrade"].ToString() != "")
+            if (ds.Tables[0].Rows[0]["JXLevel"].ToString() != "")
             {
-                model.JXGrade = int.Parse(ds.Tables[0].Rows[0]["JXGrade"].ToString());
+                model.JXLevel = int.Parse(ds.Tables[0].Rows[0]["JXLevel"].ToString());
             }
             if (ds.Tables[0].Rows[0]["JXMXCategory"].ToString() != "")
             {

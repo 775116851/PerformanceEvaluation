@@ -1,0 +1,127 @@
+.TopGroup
+{
+  background-color:#DBD7D0; 
+  border-width:1px; 
+  border-color:gray; 
+  border-style:solid;
+}
+
+.MenuGroup
+{
+  background-image:url(images/background.gif);
+  border-width:1px; 
+  border-color:#7E7E81; 
+  border-style:solid;
+  cursor:default;
+  filter:progid:DXImageTransform.Microsoft.Shadow(color='#000000', Direction=135, Strength=3); 
+}
+
+.TopMenuItem
+{
+  background-color:#DBD7D0; 
+  color:black; 
+  font-family:MS Sans Serif; 
+  font-size:12px; 
+  border-width:1px; 
+  border-color:#DBD7D0; 
+  border-style:solid;
+  padding:2px;
+  padding-left:10px;
+  padding-right:10px;
+  cursor:default;
+}
+
+.TopMenuItemOver 
+{
+  background-color:#C2C5C8; 
+  color:black; 
+  font-family:MS Sans Serif; 
+  font-size:12px; 
+  border-width:1px; 
+  border-color:#A6A8B2; 
+  border-style:solid;
+  padding:2px;
+  padding-left:10px;
+  padding-right:10px;
+  cursor:default;
+}
+
+.MenuItem
+{
+  font-family:MS Sans Serif; 
+  font-size:12px; 
+  padding:5px;
+  padding-left:10px;
+  padding-right:10px;
+  cursor:default;
+}
+
+
+.DynMenuItem
+{
+  font-family:MS Sans Serif; 
+  font-size:12px; 
+  padding:3px;
+  padding-left:5px;
+  padding-right:5px;
+  cursor:hand;
+}
+
+.DynMenu
+{
+  font-family:MS Sans Serif;  
+  border-left:1px solid slive; 
+  border-right:1px solid slive;
+  border-bottom:1px solid slive;
+  border-top:0px solid slive;
+  min-width:50px;
+}
+
+.MenuItemOver 
+{
+  background-color:#C2C5C8; 
+  color:black; 
+  font-family:MS Sans Serif; 
+  font-size:12px; 
+  padding:5px;
+  padding-left:10px;
+  padding-right:10px;
+  cursor:default;
+}
+
+.MenuBreak
+{
+  margin-left:27px; 
+}
+.PageHeader_Member_Link {
+	color: #F5AB08;	
+}	 
+
+.PageHeader_Member_Link:link,.PageHeader_Member_Link:visited {
+	color: #F5AB08;
+	text-decoration: underline;
+}
+
+.PageHeader_Member_Link:hover {
+	color: #F5AB08; 
+	text-decoration: none;
+}
+.menu_table_1 {
+	TABLE-LAYOUT: fixed
+}
+.menu_table_1 TD {
+	BORDER-TOP-WIDTH: 0px; PADDING-RIGHT: 2px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; HEIGHT: 41px; BORDER-RIGHT-WIDTH: 0px; text-align:center;
+}
+.menu_table_1 IMG {
+	BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; BORDER-BOTTOM-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px
+}
+.Menu_Member
+{
+	background-image:url(../images/bg_menu.gif);
+	background-color:#afbed5;
+	width:124px;
+	height:41px;
+	color:white;
+	font-weight:bolder;
+	padding-right:10px;
+	}

@@ -24,7 +24,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
         private int _ParentPersonSysNo;
         private string _JXCycle;
         private decimal _JXScore;
-        private int _JXGrade;
+        private int _JXLevel;
         private int _JXMXCategory;
         private DateTime _CreateTime;
         private DateTime _LastUpdateTime;
@@ -80,10 +80,10 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
         }
 
         [DataMember]
-        public int JXGrade
+        public int JXLevel
         {
-            set { _JXGrade = value; }
-            get { return _JXGrade; }
+            set { _JXLevel = value; }
+            get { return _JXLevel; }
         }
 
         [DataMember]
@@ -139,7 +139,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
             ParentPersonSysNo = AppConst.IntNull;
             JXCycle = AppConst.StringNull;
             JXScore = AppConst.DecimalNull;
-            JXGrade = AppConst.IntNull;
+            JXLevel = AppConst.IntNull;
             JXMXCategory = AppConst.IntNull;
             CreateTime = AppConst.DateTimeNull;
             LastUpdateTime = AppConst.DateTimeNull;

@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Custom_Sys_MenuEntity.cs" />
     <Compile Include="JXKHGSBEntity.cs" />
     <Compile Include="JXKHYSBEntity.cs" />
     <Compile Include="JXMXBEntity.cs" />

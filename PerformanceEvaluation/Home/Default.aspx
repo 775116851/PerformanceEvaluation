@@ -68,11 +68,12 @@
     var LoginName = '<%=UserName%>';
 
     $(function () {
+
+        LoginName && $("#spLoginName b").text(LoginName);
         var m1list = getMenuListByLevel(SourceMenuList, 1);
         buildTopMenuList(m1list);
         $("ul.Btn li").first().addClass("On");
 
-        LoginName && $("#spLoginName b").text(LoginName);
         var m1list = getMenuListByLevel(SourceMenuList, 1);
         var m2list = getMenuListByLevel(SourceMenuList, 2);
         var m3list = getMenuListByLevel(SourceMenuList, 3);

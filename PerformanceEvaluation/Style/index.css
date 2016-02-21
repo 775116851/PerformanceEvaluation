@@ -1,0 +1,178 @@
+﻿@charset "utf-8"; @import url(reset.css);
+body{background: #fff;font-size: 12px;line-height: 1.8;overflow-y: auto;overflow-x: hidden;}
+.table th{text-align: center;}
+.table{width:100%;font-size:12px;}
+.BreadCrumb{font-weight: bold;color: #015FA7;padding: 5px 0 2px 15px;}
+.BreadCrumb a{color: #015FA7;margin: 0 7px;}
+.Content h3{background: #d7d7d7;font-size: 14px;padding: 3px 0 3px 15px;font-weight: bold;color: #54411B;}
+.QueryConditions{background: #F5F5F5;padding: 2px 0 5px 10px;margin-bottom: 20px;}
+.ConditionsOne{margin-bottom: 15px;overflow: hidden;}
+.ConditionsOne li{width: 278px;float: left;}
+.ConditionsOne li .this{border: 2px solid #F00;background: #FAF7DD;}
+.ConditionsOne li th, .ConditionsOne td{border: 1px solid #fff;height: 36px;line-height: 36px;}
+.ConditionsOne li th{text-align: right;width: 88px;}
+.ConditionsOne li th span{color: #f00;margin-right: 5px;}
+.ConditionsOne li td{padding-left: 10px;width: 180px;}
+.ConditionsTwo{overflow: hidden;zoom: 1;width: 330px;margin: 0 auto;}
+.ConditionsTwo-1{width: 190px;margin-top: 20px;}
+.ConditionsTwo li{float: left;display: inline;margin-right: 20px;}
+.ConditionsTwo-4{width: 370px;margin-top: 20px;}
+.TextareaInput01{width:580px; height:60px; border:1px solid #ccc; padding:5px;}
+.InputOne1{width: 145px;height: 23px;line-height: 23px;padding: 0 5px;border: 1px solid #ccc;}
+.InputOne2{width: 260px;height: 20px;line-height: 20px;padding: 0 5px;border: 1px solid #ccc;}
+.InputOne3{color: #FFF;border-style: none;width:72px; height:30px; border-color: inherit; border-width: medium; background: url('../images/btnImg04.png') no-repeat left top; cursor: pointer;display: block;font-size: 12px;line-height: 30px;text-align: center;color:#000;
+}
+.InputOne3:hover{background: url(../images/btnImg03.png) left top no-repeat; color:#fff;}
+.InputOne3-1{border-style: none; width:72px; height:30px; border-color: inherit; border-width: medium; background: url('../images/btnImg04.png') no-repeat left top; cursor: default;display: block;font-size: 12px;line-height: 30px;text-align: center;color:#ccc;}
+.InputOne3-1:hover{background: url('../images/btnImg04.png') no-repeat left top; color:#ccc;}
+.InputOne5{width: 530px;height: 20px;line-height: 20px;padding: 0 5px;border: 1px solid #ccc;}
+.InputOne6{width: 85px;height: 20px;line-height: 20px;padding: 0 5px;border: 1px solid #ccc;margin-right: 5px;}
+.InputOne7{width: 180px;height: 20px;line-height: 20px;padding: 0 5px;border: 1px solid #ccc;}
+.InputOne8{height: 22px;line-height: 19px;text-align: center;width: 72px;}
+.InputOne9{height: 20px;line-height: 20px;text-align: left;width: 120px;border: 1px solid #ccc;}
+.InputOne10{height: 22px;text-align: center;width: 80px;}
+.InputOne11{background: url(../images/btnImg05.png) no-repeat scroll left top transparent; border: medium none; color: #000000; cursor: pointer; display: block; font-size: 12px; height: 30px; line-height: 30px; text-align: center; width: 138px;}
+.InputOne11:hover{background: url(../images/btnImg06.png) no-repeat scroll left top transparent; color:#fff;}
+.SelectOne1{width: 158px;height: 24px;padding: 0 0 0 5px;border: 1px solid #ccc;}
+.SelectOne2{width: 273px;height: 22px;padding: 0 0 0 5px;border: 1px solid #ccc;}
+.SelectOne3{width: 130px;height: 22px;padding: 0 0 0 5px;border: 1px solid #ccc;margin-right: 10px;}
+.SelectOne8{width: 123px;height: 24px;padding: 0 0 0 5px;border: 1px solid #ccc;}
+.Information{background: #F5F5F5;padding: 2px 0 5px 10px;margin-bottom: 10px;}
+.Information th, .Information td{border: 1px solid #fff;height: 36px;line-height: 36px;}
+.Information td.remove{line-height: 22px;}
+.Information th{text-align: right;}
+.Information th span{color: #f00;margin-right: 5px;}
+.Information td{padding-left: 10px;overflow: hidden;}
+.Information td span.span1{float: right;color: #f90;margin: 2px 110px 0 0;}
+.Information td label{margin-left: 20px;}
+.Information td label a{color: #f90;}
+.Information td label a:hover{text-decoration: underline;}
+.file-box{position: relative;width: 350px;float: left;}
+.txt{border: 1px solid #CCC;height: 24px;line-height: 24px;margin-right: 10px;padding: 0 5px;width: 260px;}
+.btn{background-color: #3BB5E4;border: none;color: #FFF;font-size: 12px;height: 24px;width: 60px;}
+.file{height: 24px;left: 288px; *left: 276px;top: 6px; *top: 7px;opacity: 0;position: absolute;width: 60px;}
+/*-----分布提交----*/
+.flow{width: 765px;overflow: hidden;height: 40px;margin: 0 auto 10px auto;}
+.flow-a{background: url(../images/flow_allbgs.gif) 0 0 no-repeat;}
+.flow li{float: left;width: 150px;text-align: center;font-weight: bold;font-size: 14px;color: #666;height: 40px;line-height: 40px;}
+.flow li.a01{width: 165px;}
+.DingDan .nav1{overflow: hidden;}
+.DingDan .nav1 li{float: left;margin-right: 2px;width: 85px;text-align: center;height: 30px;line-height: 30px;font-weight: bold;}
+.DingDan .nav1 li a{background: #FFC147;border: 1px solid #F6AB16;border-radius: 3px 3px 0 0;display: block;color: #333;}
+.DingDan .nav1 li a:hover, .DingDan .nav1 li.On a{background: #fff;color: #F6AB16;}
+.PageOne{display: block;margin: 10px 0 5px 15px;}
+.PageOne span{color: #F6AB16;}
+.DingDanTable th{background: url(../images/nav_thbg2.png) left top repeat-x;border: 1px solid #ccc;height: 29px;line-height: 29px;text-align: center;font-weight: bold;}
+.DingDanTable td{text-align: center;padding: 5px 0;border: 1px solid #e1e1e1;}
+.DingDanTable td a{color: #06F;text-decoration: underline;}
+.DingDanTable td.Clan{background: #D7EBF9;border-bottom: 1px solid #0163AD;}
+/*--分页---*/
+.Pages{float: right;font-size: 12px;line-height: 16px;padding: 5px;text-align: right;}
+.Pages a, .Pages span{background: #FFF;color: #111;float: left;margin-left: 2px;}
+.Pages a, .Pages .PageSel{border: 1px solid #CCC;float: left;padding: 3px 7px;}
+.Pages a:hover, .Pages .PageSel{background: #2E6AB1;border-color: #060683;color: #FFF;text-decoration: none;}
+.Pages .PageSel{font-weight: bold;}
+.Pages .PageMore{float: left;padding: 3px;}
+/*--分页---*/
+.pages{font-size: 14px;overflow: hidden;zoom: 1;width: auto;}
+.pages li{float: left;display: inline;margin-right: 3px;line-height: 20px;padding: 3px 10px;text-align: center;border: 1px solid #ccc;}
+
+.pages li.pgCurrent{border: 1px solid #3aF;background: #3CF;color: #fff;}
+.pages li:hover{background: #3CF;color: #fff;border: 1px solid #3aF;cursor: pointer;}
+.DingDanTable2 th{background: url(../images/nav_thbg1.png) left top repeat-x;height: 31px;line-height: 31px;color: #015B9F;text-align: center;font-weight: bold;border: 1px solid #015B9F;}
+.DingDanTable2 td{background: url(../images/nav_thbg2.png) left top repeat-x;padding: 4px 0 4px 20px;border-left: 1px solid #ccc;border-right: 1px solid #ccc;border-bottom: 1px solid #ccc;}
+.DingDanTable3{margin-top: -1px;border-bottom: 2px solid #06F;}
+.DingDanTable3 th{background: url(../images/nav_thbg2.png) left top repeat-x;height: 31px;line-height: 31px;color: #333;text-align: center;font-weight: bold;border: 1px solid #ccc;}
+.DingDanTable3 td{background: #fff;padding: 4px 0 4px 20px;border-left: 1px solid #ccc;border-right: 1px solid #ccc;border-bottom: 1px solid #ccc;color: #015B9F;text-align: center;}
+.DingDanTable3 td a{background: url(../images/Cha_s1.gif) left center no-repeat;padding: 3px 0 3px 20px;color: #333;font-weight: bold;}
+.DingDanTable3 td a:hover{color: #F00;}
+.CaoZuo{border: 1px solid #ccc;margin-top: -1px;background: #F5F5F5;text-align: center;padding: 15px 0;}
+/*----------找回密码页面css--------------*/
+.R_P_header{width: 1000px;height: 60px;position: relative;border-bottom: 2px solid #0160A8;margin: 0 auto;}
+.R_P_logo{position: absolute;left: 8px;top: 15px;}
+.R_P_info{position: absolute;left: 160px;top: 30px;font-family: 微软雅黑;font-size: 16px;color: #0160A8;}
+.Retrieve_pwd{background: url(../Images/loginImgBg.gif) 325px bottom no-repeat;width: 1000px;margin: 0 auto;overflow: hidden;zoom: 1;padding-bottom: 100px;border-bottom: 1px solid #E6E6E6;}
+.hd{padding: 15px 0 10px;margin-bottom: 40px;}
+.hd_title{font: 18px/1.4 微软雅黑;padding: 0 0 3px 5px;color: #015FA7;}
+.LiuCheng{background: url(../Images/LiuCheng.gif) no-repeat;}
+.LiuCheng1{background-position: 0 0;}
+.LiuCheng2{background-position: 0 -52px;}
+.LiuCheng3{background-position: 0 -101px;}
+.password ol{width: 860px;overflow: hidden;padding-top: 50px;font-family: 微软雅黑;margin: 0 auto;}
+.password ol li{width: 285px;float: left;background: #fff;color: #999;text-align: center;}
+.password ol li.On{color: #F97337;}
+.kv_item{width: 600px;margin: 30px auto 0 auto;overflow: hidden;}
+.i_text{border: 1px solid #C8C8C8;height: 16px;line-height: 16px;margin: 0;padding: 4px 3px;width: 180px;}
+.PasswordTable1{width: 600px;}
+.PasswordTable1 th{width: 220px;text-align: right;font-size: 14px;height: 50px;line-height: 50px;}
+.PasswordTable1 td{height: 50px;line-height: 50px;padding-left: 5px;}
+.PasswordTable1 th.wor, .PasswordTable1 td.wor{height: 15px;line-height: 15px;font-size: 12px;color: #F00;}
+.InputOne{width: 150px;height: 35px;line-height: 35px;border: 1px solid #ccc;font-size: 14px;padding: 0 5px;}
+.PasswordTable1 td label{color: #f00;font-size: 12px;}
+.PasswordTable1 td label.label1{font-size: 14px;font-family: 微软雅黑;}
+.PasswordTable1 td label.label2{font-size: 12px;font-family: 微软雅黑;color: #333;}
+.btn-1{background: url(../Images/hqyzm.gif) left center no-repeat;border: none;color: #FFF;cursor: pointer;font-size: 14px;font-weight: bold;height: 29px;width: 110px;margin: 0 10px 0 0;}
+.Next{padding: 20px 0 0 220px;}
+.btn-next{background: url(../Images/forgetImg-Bg.png) 0 -39px no-repeat;border: medium none;color: #FFF;cursor: pointer;height: 39px;line-height: 39px;overflow: hidden;padding: 0;text-align: center;width: 110px;display: block;font: bold 18px/1.6 微软雅黑;}
+.btn-next:hover, .btn-emall:hover, .btn-Get:hover{background-position: 0 0px;}
+.btn-Get:hover{color: #fff;}
+.btn-Get{background: url(../Images/forgetImg-Bg.png) 0 -78px no-repeat;border: medium none;color: #0161AA;cursor: pointer;height: 39px;line-height: 39px;overflow: hidden;padding: 0;text-align: center;width: 110px;display: block;font: 18px/1.6 微软雅黑;}
+.btn-emall{background: url(../Images/forgetImg-Bg.png) 0 -39px no-repeat;border: medium none;color: #FFF;cursor: pointer;height: 39px;line-height: 39px;overflow: hidden;padding: 0;text-align: center;width: 110px;display: block;font: 16px/1.6 微软雅黑;}
+.Succeed{width: 300px;overflow: hidden;margin: 50px auto;}
+.Succeed dt{width: 45px;float: left;}
+.Succeed dd{font-size: 14px;font-weight: bold;margin: 10px 0 0 10px;float: left;}
+.Jx-Cz{font-size: 14px;}
+.Jx-Cz a{color: #015FA7;display: block;text-decoration: underline;margin-top: 20px;}
+.Succeed-1{width: 590px;overflow: hidden;margin: 50px auto;font-size: 14px;}
+.Succeed-1 dt{background: url(../images/eamll-i.gif) 120px center no-repeat;padding-left: 20px;font-size: 14px;text-align: center;margin-bottom: 5px;}
+.Succeed-1 dd{margin: 0 0 0 10px;text-align: center;}
+.Succeed-1 span{color: #f00;}
+.Succeed-1 dd.S-emall{margin: 50px auto 0 auto;width: 110px;}
+.password-way{width: 850px;margin: 0 auto;}
+.password-way li{border-top: 1px solid #fff;border-left: 1px solid #fff;border-right: 1px solid #fff;border-bottom: 1px solid #C5DAE9;padding: 40px 0 40px 120px;}
+.password-way li.P-way-On{background: #F9FCFF;border: 1px solid #C5DAE9;}
+.password-way li dl{overflow: hidden;zoom: 1;}
+.password-way li dl dt{font: 18px/1.4 微软雅黑;color: #878787;float: left;background: url(../images/fogetImg-tel.png) 8px center no-repeat;padding: 20px 0 20px 120px;width: 360px;}
+.password-way li dl dd{float: left;margin-top: 12px;}
+.password-way li dl.P-way-emall dt{background: url(../images/fogetImg-emall.png) left center no-repeat;}
+.ajaxWaiting{width: 48px;height: 48px;background: url(../images/Loading.gif) no-repeat;top: 40%;left: 48%;position: absolute;z-index: 2001;}
+.mask{width: 100%;height: 100%;opacity: 0.5;filter: alpha(opacity=50);background: white;position: absolute;top: 0;left: 0;z-index: 2000;}
+.mask2{width: 100%;height: 100%;opacity: 0.5;filter: alpha(opacity=50);background: black;position: absolute;top: 0;left: 0;z-index: 2000;}
+.tablePanel{min-height: 200px;background: #F5F5F5;}
+.microTablePanel{min-height: 100px;background: #F5F5F5;}
+.microTablePanel table tr{line-height: 1.8;height: 21px;}
+.microTablePanel table tr td{line-height: 1.8;height: 21px;}
+.addChildIcon{width: 24px;height: 24px;padding:0px;background: url(../images/add_child.png) no-repeat;cursor:pointer; float:left;}
+.moveUp{width: 24px;height: 24px;padding: 0px 5px 0px 5px;background: url(../images/move_up.png) no-repeat;cursor:pointer; float:left;}
+.moveDown{width: 24px;height: 24px;padding: 0px 5px 0px 5px;background: url(../images/move_down.png) no-repeat;cursor:pointer; float:left;}
+.openState{width: 10px;height: 20px;padding-left:5px;background: url(../images/open.png) no-repeat;cursor:pointer; float:left; margin-top:2px;}
+.shrinkState{width: 10px;height: 20px;padding-left:5px;background: url(../images/shrink.png) no-repeat;cursor:pointer; float:left; margin-top:2px;}
+.Box{width:700px;margin:50px auto;border:1px solid #333;overflow:hidden;font-size:12px;}
+.h3-2{border-bottom:1px solid #333;height:34px;line-height:34px;overflow:hidden;font-weight:bold;}
+.h3-2 span{float:left;margin:0 5px;}
+.BoxL{width:318px;float:left;border-right:1px solid #333;min-height:200px;}
+.BoxM{width:60px;float:left;overflow:hidden;}
+.BoxR{width:318px;float:left;border-left:1px solid #333;min-height:200px;}
+.BoxL dl dt{height:22px;line-height:22px;font-size:12px;color:#333;padding-left:5px;border-bottom:1px solid #333;}
+.BoxL dl dd{padding:10px;}
+.BoxL dl dd ul li{overflow:hidden;margin-bottom:5px;}
+.BoxL dl dd ul li input{vertical-align:bottom;float:left;margin:5px 5px 0 0;}
+.BoxM ul{width:56px;margin:100px auto 0 auto;}
+.BoxM ul li{margin-bottom:5px;}
+.BoxR dl dt{height:22px;line-height:22px;font-size:12px;color:#333;padding-left:5px;border-bottom:1px solid #333;}
+.BoxR dl dd{padding:10px;}
+.BoxR dl dd ul li{overflow:hidden;margin-bottom:5px;}
+.BoxR dl dd ul li input{vertical-align:bottom;float:left;margin:5px 5px 0 0;}
+.InputOne{border:1px solid #666;color: #000;cursor: pointer;display: block;font-size:14px;height:26px;line-height:26px;text-align: center;width:56px;}
+.BoxL dl.dl-1 input, .BoxR dl.dl-1 input{vertical-align:bottom;float:left;margin:5px 5px 0 0;}
+.BoxL dl.dl-1 dt, .BoxR dl.dl-1 dt{border-bottom:none;margin-top:15px;}
+.BoxL dl.dl-1 dd.dd-1, .BoxR dl.dl-1 dd.dd-1{padding-left:23px;}
+.BoxL dl.dl-1 dd, .BoxR dl.dl-1 dd{padding:2px 0 2px 41px;}
+.DingDanTable .DataGridHead td{background:url(../images/nav_thbg2.png) 0 0 repeat-x;padding: 4px 0;}
+.DingDanTable .DataGridHead td a{text-decoration:none;}
+.DingDanTable tr.DataGridHead:hover{background :none;}
+.DingDanTable tr.DataGridPager:hover{background :none;}
+.DingDanTable tr:hover{background:#dbdbdb;}
+.DingDanTable tr.DataGridPager td a{padding:3px 7px;border:1px solid #ccc;text-decoration:none;}
+.DingDanTable tr.DataGridPager td a:hover{background: none repeat scroll 0 0 #2E6AB1;border-color: #060683;color: #FFFFFF;text-decoration: none;}
+.btnLong{cursor: pointer;display: block;font-size: 12px;height: 31px;line-height: 31px;text-align: center;width: 100px;}

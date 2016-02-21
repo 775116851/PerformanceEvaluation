@@ -42,6 +42,10 @@
       <HintPath>..\3rdParty\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json.Net20, Version=3.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\3rdParty\Newtonsoft.Json.Net20.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -61,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="Home\ChangePassword.aspx" />
     <Content Include="Home\Default.aspx" />
     <Content Include="Home\SysLogin.aspx" />
     <Content Include="Home\VerifyCode.aspx" />
@@ -156,6 +161,7 @@
     <Content Include="Images\w404_s1.png" />
     <Content Include="Images\wrong_icon.png" />
     <Content Include="Images\XJS_Water\xjs_water.png" />
+    <Content Include="PerformanceEvaluationDB.sql" />
     <Content Include="Scripts\BuildMenu.js" />
     <Content Include="Scripts\Common.js" />
     <Content Include="Scripts\CutImage.js" />
@@ -532,7 +538,6 @@
     <Content Include="Style\divLayout.css" />
     <Content Include="Style\divzayout.css" />
     <Content Include="Style\index.css" />
-    <Content Include="Style\IPP.js" />
     <Content Include="Style\Jcrop.gif" />
     <Content Include="Style\jquery-ui-1.10.4.custom.css" />
     <Content Include="Style\jquery-ui-1.10.4.custom.min.css" />
@@ -561,6 +566,13 @@
     <Compile Include="Code\ResponseResult.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Home\ChangePassword.aspx.cs">
+      <DependentUpon>ChangePassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Home\ChangePassword.aspx.designer.cs">
+      <DependentUpon>ChangePassword.aspx</DependentUpon>
     </Compile>
     <Compile Include="Home\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>

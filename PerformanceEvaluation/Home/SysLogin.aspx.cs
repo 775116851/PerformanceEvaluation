@@ -86,13 +86,19 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Home
                 SessionInfo session = new SessionInfo();
                 session.IPAddress = CommonFunctions.GetClientIP(Request);
                 session.User = oUser;
-                //if (oUser != null)
-                //{
-                //    UserManager userUM = new UserManager();
-                //    userUM.UserEntity = oUser;
-                //    userUM.LoadPrivilege();
-                //    session.PrivilegeHt = userUM.UserPrivilegeDic;
-                //}
+                if (oUser != null)
+                {
+
+                    List<Custom_Sys_MenuEntity> menuList = GetMenuList();
+                    if(menuList != null)
+                    {
+                        session.menuList = menuList;
+                    }
+                    //UserManager userUM = new UserManager();
+                    //userUM.UserEntity = oUser;
+                    //userUM.LoadPrivilege();
+                    //session.PrivilegeHt = userUM.UserPrivilegeDic;
+                }
                 Session["LoginSession"] = session;
                 Response.Redirect("~/Home/Default.aspx", true);
             }
@@ -101,6 +107,56 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Home
                 Assert(lblMessage, "用户名或密码错误", -1);
                 return;
             }
+        }
+
+        //获取菜单列表
+        public List<Custom_Sys_MenuEntity> GetMenuList()
+        {
+            List<Custom_Sys_MenuEntity> menuList = new List<Custom_Sys_MenuEntity>();
+            Custom_Sys_MenuEntity mA = new Custom_Sys_MenuEntity();
+            mA.SysNo = 1;
+            mA.MenuName = "日常管理";
+            mA.Status = 0;
+            menuList.Add(mA);
+            Custom_Sys_MenuEntity mAA = new Custom_Sys_MenuEntity();
+            mAA.SysNo = 2;
+            mAA.M1SysNo = 1;
+            mAA.MenuName = "绩效管理";
+            mAA.Status = 0;
+            menuList.Add(mAA);
+            Custom_Sys_MenuEntity mAA1 = new Custom_Sys_MenuEntity();
+            mAA1.SysNo = 3;
+            mAA1.M1SysNo = 1;
+            mAA1.M2SysNo = 2;
+            mAA1.MenuName = "商户查询1";
+            mAA1.MenuLink = "../Vendor/VendorSearch.aspx";
+            mAA1.Status = 0;
+            menuList.Add(mAA1);
+            Custom_Sys_MenuEntity mAA2 = new Custom_Sys_MenuEntity();
+            mAA2.SysNo = 4;
+            mAA2.M1SysNo = 1;
+            mAA2.M2SysNo = 2;
+            mAA2.MenuName = "商户查询2";
+            mAA2.MenuLink = "../Vendor/VendorSearch.aspx";
+            mAA2.Status = 0;
+            menuList.Add(mAA2);
+            Custom_Sys_MenuEntity mAA3 = new Custom_Sys_MenuEntity();
+            mAA3.SysNo = 5;
+            mAA3.M1SysNo = 1;
+            mAA3.M2SysNo = 2;
+            mAA3.MenuName = "商户查询3";
+            mAA3.MenuLink = "../Vendor/VendorSearch.aspx";
+            mAA3.Status = 0;
+            menuList.Add(mAA3);
+            Custom_Sys_MenuEntity mAA4 = new Custom_Sys_MenuEntity();
+            mAA4.SysNo = 6;
+            mAA4.M1SysNo = 1;
+            mAA4.M2SysNo = 2;
+            mAA4.MenuName = "商户查询4";
+            mAA4.MenuLink = "../Vendor/VendorSearch.aspx";
+            mAA4.Status = 0;
+            menuList.Add(mAA4);
+            return menuList;
         }
 
     }

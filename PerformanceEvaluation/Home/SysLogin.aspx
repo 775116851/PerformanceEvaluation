@@ -7,13 +7,20 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>欢迎您登录绩效管理平台</title>
     <link href="../Style/style.css" rel="stylesheet" />
+    <script src="../Scripts/jquery-1.7.1.min.js"></script>
     <script type="text/javascript">
         function SetFocus() {
             document.all.txtUserID.focus();
         }
+        function keyLogin() {
+            if (event.keyCode == 13)   //回车键的键值为13
+            {
+                $("#<%=btnLo.ClientID %>").click();//调用登录按钮的登录事件
+            }
+        }
     </script>
 </head>
-<body onload="SetFocus()">
+<body onload="SetFocus()" onkeydown="keyLogin();">
     <form id="Form1" method="post" runat="server">
     <div class="loginbox png">
 	    <div class="txtbox">绩效管理平台</div>
@@ -39,7 +46,7 @@
                 <div style="clear:both;"></div>
             </div>
             <div class="ipbottom"><a href="#" runat="server" id="btnLogin" onserverclick="btnLogin_Click"><img src="../images/login_bottom.png"></a><asp:Label ID="lblMessage" runat="server" EnableViewState="False" /></div>
-            <div class="forget"><%--<a href="FindIndex.aspx?Type=SysLogin" target="_blank">忘记密码了？</a>--%></div>
+            <div class="forget"><%--<a href="FindIndex.aspx?Type=SysLogin" target="_blank">忘记密码了？</a>--%><asp:Button ID="btnLo" style="display:none;" runat="server" OnClick="btnLogin_Click" Text="" /></div>
         </div>
     </div>
     </form>
