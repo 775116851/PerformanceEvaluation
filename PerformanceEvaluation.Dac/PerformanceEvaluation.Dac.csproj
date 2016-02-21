@@ -43,7 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AAA.cs" />
     <Compile Include="JXKHGSBDac.cs" />
     <Compile Include="JXKHYSBDac.cs" />
     <Compile Include="JXMXBDac.cs" />
@@ -52,7 +51,6 @@
     <Compile Include="PersonInfoDac.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlHelper.cs" />
-    <Compile Include="XXC.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cmn\Cmn.csproj">
