@@ -30,6 +30,8 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
         private DateTime _LastUpdateTime;
         private int _CreateUserSysNo;
         private int _LastUpdateUserSysNo;
+
+        private double _TotalScore;//评分总分(评分*权重/满分) 非数据库字段
         [DataMember]
         public int SysNo
         {
@@ -121,6 +123,12 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
             get { return _LastUpdateUserSysNo; }
         }
 
+        [DataMember]
+        public double TotalScore
+        {
+            set { _TotalScore = value; }
+            get { return _TotalScore; }
+        }
 
         #endregion
 
@@ -146,6 +154,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
             CreateUserSysNo = AppConst.IntNull;
             LastUpdateUserSysNo = AppConst.IntNull;
 
+            TotalScore = AppConst.DoubleNull;
         }
 
         #region 实现IComparable<T>接口的泛型排序方法

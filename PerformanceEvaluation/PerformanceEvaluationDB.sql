@@ -150,7 +150,7 @@ ORDER BY b.EntryDate DESC
 GO
 SELECT b.SysNo,b.JXId,b.JXCategory,b.JXInfo,b.JXScore,b.JXGrad,a.OrganSysNo,c.JXScore AS JXMXScore,c.SysNo AS JXMXSysNo
 FROM dbo.JXKHGSB a WITH (NOLOCK) INNER JOIN dbo.JXKHYSB b WITH (NOLOCK) ON a.JXCategory = b.JXCategory
-LEFT JOIN dbo.JXMXB c WITH (NOLOCK) ON c.ParentPersonSysNo = a.ParentPersonSysNo AND c.LowerPersonSysNo = a.LowerPersonSysNo AND c.JXMXCategory = '10' AND c.JXCycle = '201602'
+LEFT JOIN dbo.JXMXB c WITH (NOLOCK) ON c.ParentPersonSysNo = a.ParentPersonSysNo AND c.LowerPersonSysNo = a.LowerPersonSysNo AND b.SysNo = c.JXSysNo AND c.JXMXCategory = '10' AND c.JXCycle = '201602'
 WHERE 1=1 AND a.ParentPersonSysNo = '1' AND a.LowerPersonSysNo = '3'
 
 GO
@@ -159,3 +159,11 @@ GO
 
 UPDATE JXKHYSB SET JXInfo = '监管员工监管员工监管员工监管员工监管员工监管员工监管员工监管员工监管员工监管员工监管员工监管员工监管员工监管员工监管员工' WHERE SysNo = '4'
 UPDATE JXKHYSB SET JXInfo = '请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况' WHERE SysNo = '5'
+GO
+
+
+30  100  60   18
+50  100  40   20
+20  100  50   10
+
+

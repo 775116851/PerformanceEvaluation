@@ -148,8 +148,9 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Basic
                     return;
                 }
                 int mIScore = Convert.ToInt32(iScore);
-                int mJxScore = 0;
-                if (!string.IsNullOrEmpty(ipt_JXScore.Value) && ipt_JXScore.Value != ((int)AppConst.DecimalNull).ToString() && int.TryParse(ipt_JXScore.Value, out mJxScore))
+                double mJxScore = 0.0;
+                double mJXGrad = 0.0;
+                if (!string.IsNullOrEmpty(ipt_JXScore.Value) && double.TryParse(ipt_JXScore.Value, out mJxScore) && mJxScore != (int)AppConst.DoubleNull)
                 {
                 }
                 else
@@ -167,18 +168,15 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Basic
                 HtmlInputHidden ipt_JXMXScore = Rep1.Items[i].FindControl("ipt_JXMXScore") as HtmlInputHidden;
                 HtmlInputHidden ipt_JXCategory = Rep1.Items[i].FindControl("ipt_JXCategory") as HtmlInputHidden;
                 HtmlInputHidden ipt_JXMXSysNo = Rep1.Items[i].FindControl("ipt_JXMXSysNo") as HtmlInputHidden;
-
+                if (!string.IsNullOrEmpty(ipt_JXGrad.Value) && double.TryParse(ipt_JXGrad.Value, out mJXGrad) && mJXGrad != (int)AppConst.DoubleNull)
+                {
+                }
                 //拼接评分明细表
                 JXMXBEntity jMX = new JXMXBEntity();
                 if (JXMXSysNo == AppConst.IntNull)//新增
                 {
                     jMX.SysNo = AppConst.IntNull;
-                    jMX.LowerPersonSysNo = SysNo;
-                    jMX.JXCategory = Convert.ToInt32(ipt_JXCategory.Value.Trim());
-                    jMX.JXSysNo = Convert.ToInt32(ipt_SysNo.Value.Trim());
-                    jMX.ParentPersonSysNo = LoginSession.User.SysNo;
-                    jMX.JXCycle = pfCycle;
-                    jMX.JXMXCategory = (int)AppEnum.JXMXCategory.MX;
+                    
                     jMX.CreateTime = dtTime;
                     jMX.CreateUserSysNo = LoginSession.User.SysNo;
                 }
@@ -186,9 +184,17 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Basic
                 {
                     jMX.SysNo = Convert.ToInt32(ipt_JXMXSysNo.Value.Trim());
                 }
+                jMX.LowerPersonSysNo = SysNo;
+                jMX.JXCategory = Convert.ToInt32(ipt_JXCategory.Value.Trim());
+                jMX.JXSysNo = Convert.ToInt32(ipt_SysNo.Value.Trim());
+                jMX.ParentPersonSysNo = LoginSession.User.SysNo;
+                jMX.JXCycle = pfCycle;
+                jMX.JXMXCategory = (int)AppEnum.JXMXCategory.MX;
+
                 jMX.JXScore = mIScore;
                 jMX.LastUpdateTime = dtTime;
                 jMX.LastUpdateUserSysNo = LoginSession.User.SysNo;
+                jMX.TotalScore = Math.Round(Convert.ToDouble(mIScore * mJXGrad / mJxScore), 2, MidpointRounding.AwayFromZero);
                 list.Add(jMX);
             }
             if(list.Count <= 0)
@@ -196,7 +202,50 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Basic
                 Assert(lblMsg, "请先将评分项填写完整后，再提交！", -1);
                 return;
             }
+            Tuple<bool, string> retust = BasicManager.GetInstance().SaveJXMX(list, LoginSession.User.SysNo, JXMXSysNo);
+            if (retust.Item1 == true)
+            {
+                Assert(lblMsg, "保存成功，评分等级为：" + retust.Item2, 1);
+                return;
+            }
+            else
+            {
+                Assert(lblMsg, retust.Item2, -1);
+                return;
+            }
 
+        }
+
+        public string GetIntScore(string score)
+        {
+            double mScore = 0.0;
+            if (string.IsNullOrEmpty(score) || !double.TryParse(score, out mScore))
+            {
+                return "";
+            }
+            return Convert.ToInt32(mScore).ToString();
+        }
+
+        protected string GetTotalScore(string score, string JXGrad, string JXScore)
+        {
+            double mScore = 0.0;
+            if(string.IsNullOrEmpty(score) || !double.TryParse(score,out mScore))
+            {
+                return "";
+            }
+            double mJxScore = 0.0;
+            double mJXGrad = 0.0;
+            if (!string.IsNullOrEmpty(JXGrad) && double.TryParse(JXGrad, out mJXGrad) && mJXGrad != (int)AppConst.DoubleNull)
+            {
+            }
+            else
+            {
+                mJxScore = 100;//默认满分100分
+            }
+            if (!string.IsNullOrEmpty(JXScore) && double.TryParse(JXScore, out mJxScore) && mJxScore != (int)AppConst.DoubleNull)
+            {
+            }
+            return Math.Round(Convert.ToDouble(mScore * mJXGrad / mJxScore), 2, MidpointRounding.AwayFromZero).ToString();
         }
     }
 }

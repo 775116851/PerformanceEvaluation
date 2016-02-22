@@ -74,8 +74,6 @@
                                         <asp:Label ID="lblSysNo" runat="server" Text='<%# Eval("SysNo") %>'></asp:Label>
                                         <input id="ipt_SysNo" runat="server" style="width: 32px" type="hidden" value='<%# Eval("SysNo") %>' />
                                         <input id="ipt_JXId" runat="server" style="width: 32px" type="hidden" value='<%# Eval("JXId") %>' />
-                                        <input id="ipt_JXGrad" runat="server" style="width: 32px" type="hidden" value='<%# Eval("JXGrad") %>'  />
-                                        <input id="ipt_JXScore" runat="server" style="width: 32px" type="hidden" value='<%# Eval("JXScore") %>' sname="NScore" />
                                         <input id="ipt_JXMXScore" runat="server" style="width: 32px" type="hidden" value='<%# Eval("JXMXScore") %>' />
                                         <input id="ipt_JXCategory" runat="server" style="width: 32px" type="hidden" value='<%# Eval("JXCategory") %>' />
                                         <input id="ipt_JXMXSysNo" runat="server" style="width: 32px" type="hidden" value='<%# Eval("JXMXSysNo") %>' />
@@ -94,7 +92,10 @@
                                         <%# Eval("JXScore") %>
                                     </td>
                                     <td style="width: 80px; text-align: center">
-                                        <asp:TextBox ID="txtMScore" sname="Nsort" runat="server" Width="96px" Text='<%# Eval("JXMXScore") %>'></asp:TextBox>
+                                        <input id="ipt_JXGrad" runat="server" style="width: 32px" type="hidden" value='<%# Eval("JXGrad") %>'  sname="NGrad"/>
+                                        <input id="ipt_JXScore" runat="server" style="width: 32px" type="hidden" value='<%# Eval("JXScore") %>' sname="NScore" />
+                                        <asp:TextBox ID="txtMScore" sname="Nsort" runat="server" Width="96px" Text='<%# GetIntScore(Eval("JXMXScore").ToString()) %>' MaxLength="3"></asp:TextBox>
+                                        <asp:TextBox ID="txtTotalScore" sname="Msort" runat="server" Text='<%# GetTotalScore(Eval("JXMXScore").ToString(),Eval("JXGrad").ToString(),Eval("JXScore").ToString()) %>' ReadOnly="true" MaxLength="3" Width="40px" Enabled="False"></asp:TextBox>
                                     </td>
                                 </tr>
                             </ItemTemplate>
@@ -163,5 +164,17 @@
             }
             return true;
         });
+
+        $("input:[sname=Nsort]").change(function () {
+            var mScore = $(this).val();
+            var mJXScore = $(this).parent().find("input:[sname=NScore]").val();
+            var mJXGrad = $(this).parent().find("input:[sname=NGrad]").val();
+            if ($.trim(mScore).length <= 0) {
+                $(this).parent().find("input:[sname=Msort]").val();
+            }
+            else {
+                $(this).parent().find("input:[sname=Msort]").val((parseFloat(mScore) * parseFloat(mJXGrad) / parseFloat(mJXScore)).toFixed(2));
+            }
+        })
     })
 </script>
