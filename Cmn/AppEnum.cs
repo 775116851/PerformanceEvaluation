@@ -6500,7 +6500,7 @@ namespace PerformanceEvaluation.Cmn
         #endregion
 
         #region 绩效等级 1A 2B 3C 4D 5E
-        public enum JXGrade
+        public enum JXLevel
         {
             [Description("A")]
             A = 1,

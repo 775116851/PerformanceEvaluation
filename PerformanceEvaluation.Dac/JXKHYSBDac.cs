@@ -54,7 +54,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
             {
                 strSql1.Append("JXInfo,");
                 strSql2.Append("@JXInfo,");
-                SqlParameter param = new SqlParameter("@JXInfo", SqlDbType.NVarChar, 240);
+                SqlParameter param = new SqlParameter("@JXInfo", SqlDbType.NVarChar, 600);
                 param.Value = model.JXInfo;
                 cmd.Parameters.Add(param);
             }
@@ -145,7 +145,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
             if (model.JXInfo != AppConst.StringNull)
             {
                 strSql.Append("JXInfo=@JXInfo,");
-                SqlParameter param = new SqlParameter("@JXInfo", SqlDbType.NVarChar, 240);
+                SqlParameter param = new SqlParameter("@JXInfo", SqlDbType.NVarChar, 600);
                 param.Value = model.JXInfo;
                 cmd.Parameters.Add(param);
             }

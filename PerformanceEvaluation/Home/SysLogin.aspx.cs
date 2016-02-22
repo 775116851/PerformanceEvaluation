@@ -129,7 +129,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Home
             mAA1.M1SysNo = 1;
             mAA1.M2SysNo = 2;
             mAA1.MenuName = "商户查询1";
-            mAA1.MenuLink = "../Vendor/VendorSearch.aspx";
+            mAA1.MenuLink = "../Basic/PerformanceRating.aspx";
             mAA1.Status = 0;
             menuList.Add(mAA1);
             Custom_Sys_MenuEntity mAA2 = new Custom_Sys_MenuEntity();
@@ -137,7 +137,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Home
             mAA2.M1SysNo = 1;
             mAA2.M2SysNo = 2;
             mAA2.MenuName = "商户查询2";
-            mAA2.MenuLink = "../Vendor/VendorSearch.aspx";
+            mAA2.MenuLink = "../Basic/PerformanceRating.aspx";
             mAA2.Status = 0;
             menuList.Add(mAA2);
             Custom_Sys_MenuEntity mAA3 = new Custom_Sys_MenuEntity();
@@ -145,7 +145,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Home
             mAA3.M1SysNo = 1;
             mAA3.M2SysNo = 2;
             mAA3.MenuName = "商户查询3";
-            mAA3.MenuLink = "../Vendor/VendorSearch.aspx";
+            mAA3.MenuLink = "../Basic/PerformanceRating.aspx";
             mAA3.Status = 0;
             menuList.Add(mAA3);
             Custom_Sys_MenuEntity mAA4 = new Custom_Sys_MenuEntity();
@@ -153,7 +153,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Home
             mAA4.M1SysNo = 1;
             mAA4.M2SysNo = 2;
             mAA4.MenuName = "商户查询4";
-            mAA4.MenuLink = "../Vendor/VendorSearch.aspx";
+            mAA4.MenuLink = "../Basic/PerformanceRating.aspx";
             mAA4.Status = 0;
             menuList.Add(mAA4);
             return menuList;

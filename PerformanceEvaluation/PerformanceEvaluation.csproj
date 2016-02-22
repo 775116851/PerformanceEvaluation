@@ -64,6 +64,9 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Basic\PerformanceRating.aspx" />
+    <Content Include="Basic\PerformanceRatingOpt.aspx" />
+    <Content Include="Basic\PerformanceRating_Ajax.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Home\ChangePassword.aspx" />
     <Content Include="Home\Default.aspx" />
@@ -560,6 +563,27 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Basic\PerformanceRating.aspx.cs">
+      <DependentUpon>PerformanceRating.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Basic\PerformanceRating.aspx.designer.cs">
+      <DependentUpon>PerformanceRating.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Basic\PerformanceRatingOpt.aspx.cs">
+      <DependentUpon>PerformanceRatingOpt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Basic\PerformanceRatingOpt.aspx.designer.cs">
+      <DependentUpon>PerformanceRatingOpt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Basic\PerformanceRating_Ajax.aspx.cs">
+      <DependentUpon>PerformanceRating_Ajax.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Basic\PerformanceRating_Ajax.aspx.designer.cs">
+      <DependentUpon>PerformanceRating_Ajax.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Code\PageBase.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -651,7 +675,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>22201</DevelopmentServerPort>
+          <DevelopmentServerPort>7856</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:14655/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
