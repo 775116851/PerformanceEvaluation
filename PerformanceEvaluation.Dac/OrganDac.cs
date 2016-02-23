@@ -330,5 +330,32 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
             }
         }
         #endregion  成员方法
+
+        /// <summary>
+        /// 得到一个对象实体
+        /// </summary>
+        public OrganEntity GetModel(int PersonSysNo, int OrganType)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select TOP 1 *  from  dbo.Organ");
+            strSql.Append(" where PersonSysNo = @PersonSysNo AND OrganType = @OrganType ");
+            SqlParameter[] parameters = { 
+		        new SqlParameter("@PersonSysNo", SqlDbType.Int,4 ),
+                new SqlParameter("@OrganType", SqlDbType.Int,2 ),
+ 		    };
+            parameters[0].Value = PersonSysNo;
+            parameters[1].Value = OrganType;
+            OrganEntity model = new OrganEntity();
+            DataSet ds = SqlHelper.ExecuteDataSet(AppConfig.Conn_PerformanceEvaluation, strSql.ToString(), parameters);
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                SetDsToEntity(ds, model);
+                return model;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

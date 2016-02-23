@@ -90,6 +90,14 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
                 param.Value = model.JXLevel;
                 cmd.Parameters.Add(param);
             }
+            if (model.Status != AppConst.IntNull)
+            {
+                strSql1.Append("Status,");
+                strSql2.Append("@Status,");
+                SqlParameter param = new SqlParameter("@Status", SqlDbType.SmallInt, 2);
+                param.Value = model.Status;
+                cmd.Parameters.Add(param);
+            }
             if (model.JXMXCategory != AppConst.IntNull)
             {
                 strSql1.Append("JXMXCategory,");
@@ -201,6 +209,13 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
                 param.Value = model.JXLevel;
                 cmd.Parameters.Add(param);
             }
+            if (model.Status != AppConst.IntNull)
+            {
+                strSql.Append("Status=@Status,");
+                SqlParameter param = new SqlParameter("@Status", SqlDbType.SmallInt, 2);
+                param.Value = model.Status;
+                cmd.Parameters.Add(param);
+            }
             if (model.JXMXCategory != AppConst.IntNull)
             {
                 strSql.Append("JXMXCategory=@JXMXCategory,");
@@ -292,6 +307,10 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
             if (ds.Tables[0].Rows[0]["JXMXCategory"].ToString() != "")
             {
                 model.JXMXCategory = int.Parse(ds.Tables[0].Rows[0]["JXMXCategory"].ToString());
+            }
+            if (ds.Tables[0].Rows[0]["Status"].ToString() != "")
+            {
+                model.Status = int.Parse(ds.Tables[0].Rows[0]["Status"].ToString());
             }
             if (ds.Tables[0].Rows[0]["CreateTime"].ToString() != "")
             {

@@ -62,24 +62,27 @@
                             <th>是否已评分</th>
                             <td colspan="3"><uc:DropDown runat="server" ID="ddlPF" /></td>
                         </tr>
+                        <tr>
+                            <td colspan="4"><asp:Label ID="lblMsg" runat="server" /></td>
+                        </tr>
                     </tbody>
                 </table>
                 <ul class="ConditionsTwo ConditionsTwo-1">
                     <li>
                         <input type="button" class="InputOne3" id="btnQuery" value="查询" onclick="Search()" />
                     </li>
-                    <%--<li>
-                        
-                    </li>--%>
+                    <li>
+                        <asp:Button ID="btnSave" runat="server" Text="加权汇总" class="InputOne3" OnClick="btnSave_Click"/>
+                    </li>
                 </ul>
             </div>
-            <table id="Table3" cellspacing="1" cellpadding="2" width="80%" align="center">
+            <%--<table id="Table3" cellspacing="1" cellpadding="2" width="80%" align="center">
                 <tr class="tblrow">
                     <td align="left" colspan="4" style="padding: 0px;">
-                            <asp:Label ID="lblMsg" runat="server" />
+                            
                     </td>
                 </tr>
-            </table>
+            </table>--%>
             <div id="ListDiv">
                 <table class="table" width="100%" border="0" cellpadding="0" cellspacing="0">
                     <tr>
@@ -95,3 +98,13 @@
     </div>
 </body>
 </html>
+<script type="text/javascript">
+    $(function () {
+        $("#<%=btnSave.ClientID %>").click(function () {
+            if (confirm("您确定要进行加权汇总操作么，这将删除当期的加权汇总数据？") == true) {
+                return true;
+            }
+            return false;
+        });
+    })
+</script>

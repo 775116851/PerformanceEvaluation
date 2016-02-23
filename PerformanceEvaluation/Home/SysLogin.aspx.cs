@@ -1,4 +1,5 @@
-﻿using PerformanceEvaluation.Cmn;
+﻿using log4net;
+using PerformanceEvaluation.Cmn;
 using PerformanceEvaluation.PerformanceEvaluation.Biz;
 using PerformanceEvaluation.PerformanceEvaluation.Info;
 using System;
@@ -12,6 +13,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Home
 {
     public partial class SysLogin : System.Web.UI.Page
     {
+        private ILog _log = log4net.LogManager.GetLogger(typeof(SysLogin));
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
@@ -60,52 +62,75 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Home
         //登录
         protected void btnLogin_Click(object sender, EventArgs e)
         {
-            if (!checkForm())
+            try
             {
-                return;
-            }
-            int userSysNo;
-            if(!int.TryParse(txtUserID.Text.Trim(),out userSysNo))
-            {
-                Assert(lblMessage, "无此用户", -1);
-                return;
-            }
-            PersonInfoEntity oUser = BasicManager.GetInstance().LoadUser(userSysNo);
-            if (oUser == null || oUser.IsLogin != (int)AppEnum.YNStatus.Yes)
-            {
-                Assert(lblMessage, "无此用户", -1);
-                return;
-            }
-            if (oUser.Status != (int)AppEnum.BiStatus.Valid)
-            {
-                Assert(lblMessage, "用户状态无效", -1);
-                return;
-            }
-            if (oUser.LoginPwd.ToUpper() == CommonFunctions.md5(txtPwd.Text.Trim() + AppConst.KEY_MD5_MIS) && oUser.Status == (int)AppEnum.BiStatus.Valid)
-            {
-                SessionInfo session = new SessionInfo();
-                session.IPAddress = CommonFunctions.GetClientIP(Request);
-                session.User = oUser;
-                if (oUser != null)
+                if (!checkForm())
                 {
-
-                    List<Custom_Sys_MenuEntity> menuList = GetMenuList();
-                    if(menuList != null)
-                    {
-                        session.menuList = menuList;
-                    }
-                    //UserManager userUM = new UserManager();
-                    //userUM.UserEntity = oUser;
-                    //userUM.LoadPrivilege();
-                    //session.PrivilegeHt = userUM.UserPrivilegeDic;
+                    return;
                 }
-                Session["LoginSession"] = session;
-                Response.Redirect("~/Home/Default.aspx", true);
+                int userSysNo;
+                if (!int.TryParse(txtUserID.Text.Trim(), out userSysNo))
+                {
+                    Assert(lblMessage, "无此用户", -1);
+                    return;
+                }
+                PersonInfoEntity oUser = BasicManager.GetInstance().LoadUser(userSysNo);
+                if (oUser == null || oUser.IsLogin != (int)AppEnum.YNStatus.Yes)
+                {
+                    Assert(lblMessage, "无此用户", -1);
+                    return;
+                }
+                if (oUser.Status != (int)AppEnum.BiStatus.Valid)
+                {
+                    Assert(lblMessage, "用户状态无效", -1);
+                    return;
+                }
+                if (oUser.LoginPwd.ToUpper() == CommonFunctions.md5(txtPwd.Text.Trim() + AppConst.KEY_MD5_MIS) && oUser.Status == (int)AppEnum.BiStatus.Valid)
+                {
+                    SessionInfo session = new SessionInfo();
+                    session.IPAddress = CommonFunctions.GetClientIP(Request);
+                    if (oUser.IsAdmin == (int)AppEnum.YNStatus.Yes)
+                    {
+                        if (oUser.ParentPersonSysNo == 99999)
+                        {
+                            oUser.UserType = 3;//公司老大
+                        }
+                        else
+                        {
+                            oUser.UserType = 2;//绩效管理员
+                        }
+                    }
+                    else
+                    {
+                        oUser.UserType = 1;//普通用户
+                    }
+                    session.User = oUser;
+                    if (oUser != null)
+                    {
+
+                        List<Custom_Sys_MenuEntity> menuList = GetMenuList();
+                        if (menuList != null)
+                        {
+                            session.menuList = menuList;
+                        }
+                        //UserManager userUM = new UserManager();
+                        //userUM.UserEntity = oUser;
+                        //userUM.LoadPrivilege();
+                        //session.PrivilegeHt = userUM.UserPrivilegeDic;
+                    }
+                    Session["LoginSession"] = session;
+                    Response.Redirect("~/Home/Default.aspx", true);
+                }
+                else
+                {
+                    Assert(lblMessage, "用户名或密码错误", -1);
+                    return;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                Assert(lblMessage, "用户名或密码错误", -1);
-                return;
+                _log.Error(string.Format("登录出现异常，异常信息：{0} ;异常详情：{1}", ex.Message, ex));
+                Assert(lblMessage, "登录出现异常：" + ex.Message, -1);
             }
         }
 

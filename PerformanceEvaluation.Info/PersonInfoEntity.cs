@@ -35,6 +35,8 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
         private int _CreateUserSysNo;
         private int _LastUpdateUserSysNo;
         private int _IsAdmin;
+
+        private int _UserType;//用户类型(1普通用户 2绩效管理员 3公司老大) 非数据库字段
         [DataMember]
         public int SysNo
         {
@@ -161,6 +163,13 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
             get { return _IsAdmin; }
         }
 
+        [DataMember]
+        public int UserType
+        {
+            set { _UserType = value; }
+            get { return _UserType; }
+        }
+
 
         #endregion
 
@@ -191,6 +200,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
             LastUpdateUserSysNo = AppConst.IntNull;
             IsAdmin = AppConst.IntNull;
 
+            UserType = AppConst.IntNull;
         }
 
         #region 实现IComparable<T>接口的泛型排序方法

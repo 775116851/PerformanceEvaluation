@@ -63,7 +63,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Home
             }
             catch (Exception ex)
             {
-                _log.Error(string.Format("登录出现异常，异常信息：{0} ;异常详情：{1}",ex.Message,ex));
+                _log.Error(string.Format("登录出现异常,页面Default，异常信息：{0} ;异常详情：{1}",ex.Message,ex));
             }
         }
     }

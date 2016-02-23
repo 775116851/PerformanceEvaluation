@@ -1,4 +1,5 @@
-﻿using PerformanceEvaluation.Cmn;
+﻿using log4net;
+using PerformanceEvaluation.Cmn;
 using PerformanceEvaluation.PerformanceEvaluation.Dac;
 using PerformanceEvaluation.PerformanceEvaluation.Info;
 using System;
@@ -14,6 +15,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Biz
 {
     public class BasicManager
     {
+        private ILog _log = log4net.LogManager.GetLogger(typeof(BasicManager));
         private BasicManager()
         {
 
@@ -57,7 +59,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Biz
             pd.Conn = AppConfig.Conn_PerformanceEvaluation;
             pd.Field = @" '" + pfCycle + "' AS JXZQ,b.SysNo,b.Name,b.EntryDate,b.SkillCategory,CASE WHEN c.SysNo IS NULL THEN 0 ELSE 1 END AS IsPF,c.JXScore,c.JXLevel,c.SysNo AS JXMXSysNo ";//c.JXLevel
             pd.Table = @" dbo.JXKHGSB a WITH (NOLOCK) INNER JOIN dbo.PersonInfo b WITH (NOLOCK) ON a.LowerPersonSysNo = b.SysNo AND b.Status = '" + (int)AppEnum.BiStatus.Valid + @"'
-LEFT JOIN dbo.JXMXB c WITH (NOLOCK) ON b.SysNo = c.LowerPersonSysNo AND a.ParentPersonSysNo = c.ParentPersonSysNo AND c.JXMXCategory = '" + (int)AppEnum.JXMXCategory.DGHZ + "' AND c.JXCycle = @pfCycle ";
+LEFT JOIN dbo.JXMXB c WITH (NOLOCK) ON b.SysNo = c.LowerPersonSysNo AND a.ParentPersonSysNo = c.ParentPersonSysNo AND c.Status = '" + (int)AppEnum.BiStatus.Valid + "' AND c.JXMXCategory = '" + (int)AppEnum.JXMXCategory.DGHZ + "' AND c.JXCycle = @pfCycle ";
             pd.Where = " WHERE 1=1 AND a.ParentPersonSysNo = @ParentPersonSysNo ";
             pd.SearchWhere = " 1=1 ";
             pd.Order = " ORDER BY b.EntryDate DESC ";
@@ -108,7 +110,7 @@ LEFT JOIN dbo.JXMXB c WITH (NOLOCK) ON b.SysNo = c.LowerPersonSysNo AND a.Parent
             StringBuilder sbSQL = new StringBuilder();
             sbSQL.Append(" SELECT b.SysNo,b.JXId,b.JXCategory,b.JXInfo,b.JXScore,b.JXGrad,a.OrganSysNo,c.JXScore AS JXMXScore,c.SysNo AS JXMXSysNo ");
             sbSQL.Append(" FROM dbo.JXKHGSB a WITH (NOLOCK) INNER JOIN dbo.JXKHYSB b WITH (NOLOCK) ON a.JXCategory = b.JXCategory ");
-            sbSQL.Append(" LEFT JOIN dbo.JXMXB c WITH (NOLOCK) ON c.ParentPersonSysNo = a.ParentPersonSysNo AND c.LowerPersonSysNo = a.LowerPersonSysNo AND b.SysNo = c.JXSysNo AND c.JXMXCategory = '" + (int)AppEnum.JXMXCategory.MX + "' AND c.JXCycle = @pfCycle ");
+            sbSQL.Append(" LEFT JOIN dbo.JXMXB c WITH (NOLOCK) ON c.ParentPersonSysNo = a.ParentPersonSysNo AND c.LowerPersonSysNo = a.LowerPersonSysNo AND b.SysNo = c.JXSysNo AND c.Status = '" + (int)AppEnum.BiStatus.Valid + "' AND c.JXMXCategory = '" + (int)AppEnum.JXMXCategory.MX + "' AND c.JXCycle = @pfCycle ");
             sbSQL.Append(" WHERE 1=1 ");
             sbSQL.Append(" AND a.ParentPersonSysNo = @ParentPersonSysNo AND a.LowerPersonSysNo = @LowerPersonSysNo ");
             return SqlHelper.ExecuteDataSet(AppConfig.Conn_PerformanceEvaluation, sbSQL.ToString(),sp);
@@ -117,89 +119,329 @@ LEFT JOIN dbo.JXMXB c WITH (NOLOCK) ON b.SysNo = c.LowerPersonSysNo AND a.Parent
         //绩效打分
         public Tuple<bool, string> SaveJXMX(List<JXMXBEntity> list, int parentPersonSysNo,int JXMXSysNo)
         {
-            PersonInfoEntity pie = LoadUser(parentPersonSysNo);
-            if(pie == null || pie.Status != (int)AppEnum.BiStatus.Valid)
+            try
             {
-                return Tuple.Create<bool, string>(false, "用户不存在或无效，请联系管理员！");
-            }
-            if(list.Count <= 0)
-            {
-                return Tuple.Create<bool, string>(false, "评分子项为空，保存异常！");
-            }
-            int userLever = 0;//1:普通用户 2:绩效管理员 3:公司老大
-            if (pie.IsAdmin == (int)AppEnum.YNStatus.Yes)
-            {
-                if (pie.ParentPersonSysNo == 99999)
+                PersonInfoEntity pie = LoadUser(parentPersonSysNo);
+                if (pie == null || pie.Status != (int)AppEnum.BiStatus.Valid)
                 {
-                    userLever = 3;
+                    return Tuple.Create<bool, string>(false, "用户不存在或无效，请联系管理员！");
                 }
-                else
+                if (list.Count <= 0)
                 {
-                    userLever = 2;
+                    return Tuple.Create<bool, string>(false, "评分子项为空，保存异常！");
                 }
-            }
-            else
-            {
-                userLever = 1;
-            }
-            DateTime dtTime = DateTime.Now;
-            double TotalScore = 0.0;//总评分 用于等级
-            int returnLevel = 0;
-            TransactionOptions options = new TransactionOptions();
-            options.IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted;
-            options.Timeout = TransactionManager.DefaultTimeout;
-            using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, options))
-            {
-                foreach(JXMXBEntity jxmxbe in list)
+                int userLever = 0;//1:普通用户 2:绩效管理员 3:公司老大
+                if (pie.IsAdmin == (int)AppEnum.YNStatus.Yes)
                 {
-                    if(JXMXSysNo == AppConst.IntNull)
+                    if (pie.ParentPersonSysNo == 99999)
                     {
-                        if (jxmxbe.SysNo != AppConst.IntNull)
-                        {
-                            return Tuple.Create<bool, string>(false, "评分子项数据异常，保存异常！");
-                        }
-                        new JXMXBDac().Add(jxmxbe);
+                        userLever = 3;
                     }
                     else
                     {
-                        new JXMXBDac().Update(jxmxbe);
+                        userLever = 2;
                     }
-                    TotalScore += jxmxbe.TotalScore;
-                }
-                JXMXBEntity jeDGHZ = new JXMXBEntity();
-                returnLevel = GetScoreLevel(TotalScore);
-                if (JXMXSysNo != AppConst.IntNull)
-                {
-                    jeDGHZ.SysNo = JXMXSysNo;
-                    jeDGHZ.JXScore = Convert.ToDecimal(TotalScore);
-                    jeDGHZ.JXLevel = returnLevel;
-                    jeDGHZ.LastUpdateTime = dtTime;
-                    jeDGHZ.LastUpdateUserSysNo = parentPersonSysNo;
-                    new JXMXBDac().Update(jeDGHZ);
                 }
                 else
                 {
-                    JXMXBEntity jA = list[0];
-                    jeDGHZ.SysNo = AppConst.IntNull;
-                    jeDGHZ.LowerPersonSysNo = jA.LowerPersonSysNo;
-                    jeDGHZ.JXCategory = jA.JXCategory;
-                    jeDGHZ.ParentPersonSysNo = jA.ParentPersonSysNo;
-                    jeDGHZ.JXCycle = jA.JXCycle;
-                    jeDGHZ.JXScore = Convert.ToDecimal(TotalScore);
-                    jeDGHZ.JXLevel = returnLevel;
-                    jeDGHZ.JXMXCategory = (int)AppEnum.JXMXCategory.DGHZ;
-                    jeDGHZ.CreateTime = dtTime;
-                    jeDGHZ.LastUpdateTime = dtTime;
-                    jeDGHZ.CreateUserSysNo = parentPersonSysNo;
-                    jeDGHZ.LastUpdateUserSysNo = parentPersonSysNo;
-                    new JXMXBDac().Add(jeDGHZ);
+                    userLever = 1;
                 }
-                scope.Complete();
-                return Tuple.Create<bool,string>(true,AppEnum.GetDescription(typeof(AppEnum.JXLevel),returnLevel));
+                JXMXBEntity jA = list[0];
+                //判断打分人员是否为二级部负责人(若是，则判断A等级比例上限和B等级比例上限)
+                bool isCheck = false;//是否限制比例
+                int maxA = 0;//A等级最大人数
+                int maxB = 0;//B等级最大人数
+                OrganEntity oe = new OrganDac().GetModel(parentPersonSysNo, (int)AppEnum.OrganType.EJB);
+                if (oe != null && oe.SysNo != AppConst.IntNull)
+                {
+                    isCheck = true;
+                    if (oe.PersonNum == AppConst.IntNull)
+                    {
+                        return Tuple.Create<bool, string>(false, "当前二级部人数为空，请联系系统管理员！");
+                    }
+                    if (oe.AGradScale != AppConst.DecimalNull)
+                    {
+                        maxA = Convert.ToInt32(Math.Round(oe.PersonNum * oe.AGradScale / 100, 0, MidpointRounding.AwayFromZero));
+                    }
+                    else
+                    {
+                        maxA = 99999;
+                    }
+                    if (oe.BGradScale != AppConst.DecimalNull)
+                    {
+                        maxB = Convert.ToInt32(Math.Round(oe.PersonNum * oe.BGradScale / 100, 0, MidpointRounding.AwayFromZero));
+                    }
+                    else
+                    {
+                        maxB = 99999;
+                    }
+
+                }
+                DateTime dtTime = DateTime.Now;
+                double TotalScore = 0.0;//总评分 用于等级
+                int returnLevel = 0;
+                TransactionOptions options = new TransactionOptions();
+                options.IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted;
+                options.Timeout = TransactionManager.DefaultTimeout;
+                using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, options))
+                {
+                    foreach (JXMXBEntity jxmxbe in list)
+                    {
+                        if (JXMXSysNo == AppConst.IntNull)
+                        {
+                            if (jxmxbe.SysNo != AppConst.IntNull)
+                            {
+                                return Tuple.Create<bool, string>(false, "评分子项数据异常，保存异常！");
+                            }
+                            new JXMXBDac().Add(jxmxbe);
+                        }
+                        else
+                        {
+                            new JXMXBDac().Update(jxmxbe);
+                        }
+                        TotalScore += jxmxbe.TotalScore;
+                    }
+                    JXMXBEntity jeDGHZ = new JXMXBEntity();
+                    returnLevel = GetScoreLevel(TotalScore);
+                    if (isCheck == true)//二级部评分 考虑A，B等级比例
+                    {
+                        if (returnLevel == (int)AppEnum.JXLevel.A || returnLevel == (int)AppEnum.JXLevel.B)
+                        {
+                            //获取当前已评分人员的等级汇总
+                            Hashtable htM = new Hashtable();
+                            htM.Add("ParentPersonSysNo", parentPersonSysNo);
+                            htM.Add("LowerPersonSysNo", jA.LowerPersonSysNo);
+                            htM.Add("JXMXCategory", (int)AppEnum.JXMXCategory.DGHZ);
+                            DataSet dsCount = GetLevelCount(htM);
+                            if (Util.HasMoreRow(dsCount))
+                            {
+                                DataRow drCount = dsCount.Tables[0].Rows[0];
+                                int drACount = Convert.ToInt32(drCount["ACount"]);//已评为A的人数
+                                int drBCount = Convert.ToInt32(drCount["BCount"]);//已评为B的人数
+                                if (returnLevel == (int)AppEnum.JXLevel.A)
+                                {
+                                    if (maxA < (drACount + 1))
+                                    {
+                                        return Tuple.Create<bool, string>(false, "评分为A等级人员已超过比例上限：" + maxA + "人，保存异常！");
+                                    }
+                                }
+                                else
+                                {
+                                    if (maxB < (drBCount + 1))
+                                    {
+                                        return Tuple.Create<bool, string>(false, "评分为B等级人员已超过比例上限：" + maxB + "人，保存异常！");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (JXMXSysNo != AppConst.IntNull)
+                    {
+                        jeDGHZ.SysNo = JXMXSysNo;
+                        jeDGHZ.JXScore = Convert.ToDecimal(TotalScore);
+                        jeDGHZ.JXLevel = returnLevel;
+                        jeDGHZ.LastUpdateTime = dtTime;
+                        jeDGHZ.LastUpdateUserSysNo = parentPersonSysNo;
+                        new JXMXBDac().Update(jeDGHZ);
+                    }
+                    else
+                    {
+
+                        jeDGHZ.SysNo = AppConst.IntNull;
+                        jeDGHZ.LowerPersonSysNo = jA.LowerPersonSysNo;
+                        jeDGHZ.JXCategory = jA.JXCategory;
+                        jeDGHZ.ParentPersonSysNo = jA.ParentPersonSysNo;
+                        jeDGHZ.JXCycle = jA.JXCycle;
+                        jeDGHZ.JXScore = Convert.ToDecimal(TotalScore);
+                        jeDGHZ.JXLevel = returnLevel;
+                        jeDGHZ.JXMXCategory = (int)AppEnum.JXMXCategory.DGHZ;
+                        jeDGHZ.CreateTime = dtTime;
+                        jeDGHZ.LastUpdateTime = dtTime;
+                        jeDGHZ.CreateUserSysNo = parentPersonSysNo;
+                        jeDGHZ.LastUpdateUserSysNo = parentPersonSysNo;
+                        jeDGHZ.Status = (int)AppEnum.BiStatus.Valid;
+                        JXMXSysNo = new JXMXBDac().Add(jeDGHZ);
+                    }
+                    scope.Complete();
+                    return Tuple.Create<bool, string>(true, AppEnum.GetDescription(typeof(AppEnum.JXLevel), returnLevel) + "|" + JXMXSysNo);
+                }
+            }
+            catch (Exception ex)
+            {
+                _log.Error(string.Format("绩效打分出错，错误信息：{0};错误详情：{1}", ex.Message, ex));
+                return Tuple.Create<bool, string>(false, "绩效打分出错：" + ex.Message);
             }
         }
 
-        
+        //加权汇总
+        public Tuple<bool, string> SaveJQHZ(Hashtable ht)
+        {
+            try
+            {
+                DateTime dtTime = DateTime.Now;
+                string iJXCycle = Convert.ToString(ht["pfCycle"]);
+                int updateUserSysNo = Convert.ToInt32(ht["userSysNo"]);
+                SqlParameterCollection sp = new SqlCommand().Parameters;
+                sp.Add(new SqlParameter("@pfCycle", iJXCycle));
+                StringBuilder sbSQL = new StringBuilder();
+                sbSQL.Append(" UPDATE JXMXB SET Status = '" + (int)AppEnum.BiStatus.Delete + "' WHERE JXMXCategory = '" + (int)AppEnum.JXMXCategory.JQHZ + "' AND JXCycle = @pfCycle;SELECT a.LowerPersonSysNo,MAX(a.JXCategory) AS JXCategory,MAX(a.ParentPersonSysNo) AS ParentPersonSysNo,MAX(a.JXCycle) AS JXCycle,SUM(a.JXScore * b.GradScale/100) AS TotalScore  ");
+                sbSQL.Append(" FROM JXMXB a INNER JOIN JXKHGSB b ON a.ParentPersonSysNo = b.ParentPersonSysNo AND a.LowerPersonSysNo = b.LowerPersonSysNo AND a.JXMXCategory = '" + (int)AppEnum.JXMXCategory.DGHZ + "' AND a.Status = '" + (int)AppEnum.BiStatus.Valid + "' AND a.JXCycle = @pfCycle ");
+                sbSQL.Append(" WHERE 1=1 ");
+                sbSQL.Append(" GROUP BY a.LowerPersonSysNo ");
+                DataSet dsList = SqlHelper.ExecuteDataSet(AppConfig.Conn_PerformanceEvaluation, sbSQL.ToString(), sp);
+                if (!Util.HasMoreRow(dsList))
+                {
+                    return Tuple.Create<bool, string>(false, "请先进行打分后，再进行加权汇总A！");
+                }
+                List<JXMXBEntity> list = new List<JXMXBEntity>();
+                foreach (DataRow drOne in dsList.Tables[0].Rows)
+                {
+                    JXMXBEntity je = new JXMXBEntity();
+                    je.SysNo = AppConst.IntNull;
+                    je.LowerPersonSysNo = Convert.ToInt32(drOne["LowerPersonSysNo"]);
+                    je.JXCategory = Convert.ToInt32(drOne["JXCategory"]);
+                    je.ParentPersonSysNo = 9999;
+                    je.JXCycle = Convert.ToString(drOne["JXCycle"]);
+                    double totalScore = Convert.ToDouble(drOne["TotalScore"]);
+                    totalScore = Math.Round(Convert.ToDouble(totalScore), 2, MidpointRounding.AwayFromZero);
+                    je.JXScore = Convert.ToDecimal(totalScore);
+                    je.JXLevel = GetScoreLevel(totalScore);
+                    je.Status = (int)AppEnum.BiStatus.Valid;
+                    je.JXMXCategory = (int)AppEnum.JXMXCategory.JQHZ;
+                    je.CreateTime = dtTime;
+                    je.LastUpdateTime = dtTime;
+                    je.CreateUserSysNo = updateUserSysNo;
+                    je.LastUpdateUserSysNo = updateUserSysNo;
+                    list.Add(je);
+                }
+                if (list.Count <= 0)
+                {
+                    return Tuple.Create<bool, string>(false, "请先进行打分后，再进行加权汇总B！");
+                }
+                TransactionOptions options = new TransactionOptions();
+                options.IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted;
+                options.Timeout = TransactionManager.DefaultTimeout;
+                using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, options))
+                {
+                    foreach (JXMXBEntity jee in list)
+                    {
+                        new JXMXBDac().Add(jee);
+                    }
+                    scope.Complete();
+                }
+                return Tuple.Create<bool, string>(true, "加权汇总成功;" + RetMsg(ht));
+            }
+            catch (Exception ex)
+            {
+                _log.Error(string.Format("加权汇总出错，错误信息：{0};错误详情：{1}", ex.Message, ex));
+                return Tuple.Create<bool, string>(false, "加权汇总出错：" + ex.Message);
+            }
+        }
+
+        //获取二级部负责人已评的A，B等级人数(加权汇总使用)
+        public string RetMsg(Hashtable ht)
+        {
+            try
+            {
+                string retuMsg = string.Empty;
+                string iJXCycle = Convert.ToString(ht["pfCycle"]);
+                StringBuilder sbSQL = new StringBuilder();
+                sbSQL.Append(" SELECT a.SysNo,a.PersonSysNo,a.PersonNum,a.AGradScale,a.BGradScale,b.Name FROM Organ a LEFT JOIN PersonInfo b ON a.PersonSysNo = b.SysNo WHERE OrganType = '" + (int)AppEnum.OrganType.EJB + "' ");
+                DataSet dsOrganList = SqlHelper.ExecuteDataSet(AppConfig.Conn_PerformanceEvaluation, sbSQL.ToString());
+                if (!Util.HasMoreRow(dsOrganList))
+                {
+                    retuMsg = "";
+                    return retuMsg;
+                }
+                int maxA = 0;//A等级最大人数
+                int maxB = 0;//B等级最大人数
+                SqlParameterCollection sp = new SqlCommand().Parameters;
+                foreach (DataRow drOne in dsOrganList.Tables[0].Rows)
+                {
+                    int iOrganSysNo = Convert.ToInt32(drOne["SysNo"]);
+                    string iName = Convert.ToString(drOne["Name"]);
+                    string iPeronNum = Convert.ToString(drOne["PersonNum"]);
+                    string iAGradScale = Convert.ToString(drOne["AGradScale"]);
+                    string iBGradScale = Convert.ToString(drOne["BGradScale"]);
+                    int mPersonNum = 0;
+                    decimal mAGradScale = 0;
+                    decimal mBGradScale = 0;
+                    if (string.IsNullOrEmpty(iPeronNum) || !int.TryParse(iPeronNum, out mPersonNum) || mPersonNum == (int)AppConst.IntNull)
+                    {
+                        retuMsg += "用户：" + iName + " 未设置机构人数;";
+                        continue;
+                    }
+                    if (!string.IsNullOrEmpty(iAGradScale) && decimal.TryParse(iAGradScale, out mAGradScale) && mAGradScale != (int)AppConst.DecimalNull)
+                    {
+                        maxA = Convert.ToInt32(Math.Round(mPersonNum * mAGradScale / 100, 0, MidpointRounding.AwayFromZero));
+                    }
+                    else
+                    {
+                        maxA = 99999;
+                    }
+                    if (!string.IsNullOrEmpty(iBGradScale) && decimal.TryParse(iBGradScale, out mBGradScale) && mBGradScale != (int)AppConst.DecimalNull)
+                    {
+                        maxB = Convert.ToInt32(Math.Round(mPersonNum * mBGradScale / 100, 0, MidpointRounding.AwayFromZero));
+                    }
+                    else
+                    {
+                        maxB = 99999;
+                    }
+                    sp = new SqlCommand().Parameters;
+                    sp.Add(new SqlParameter("@OrganSysNo", iOrganSysNo));
+                    sp.Add(new SqlParameter("@pfCycle", iJXCycle));
+                    sbSQL.Clear();
+                    sbSQL.Append(" SELECT ISNULL(SUM(CASE WHEN b.JXLevel = 1 THEN 1 ELSE 0 END),0) AS ACount,ISNULL(SUM(CASE WHEN b.JXLevel = 2 THEN 1 ELSE 0 END),0) AS BCount ");
+                    sbSQL.Append(" FROM JXKHGSB a INNER JOIN JXMXB b ON a.LowerPersonSysNo = b.LowerPersonSysNo AND b.Status = '" + (int)AppEnum.BiStatus.Valid + "' AND b.JXMXCategory = '" + (int)AppEnum.JXMXCategory.JQHZ + "' AND b.JXCycle = @pfCycle ");
+                    sbSQL.Append(" WHERE 1=1 AND a.OrganSysNo = @OrganSysNo ");
+                    DataSet dsCount = SqlHelper.ExecuteDataSet(AppConfig.Conn_PerformanceEvaluation, sbSQL.ToString(), sp);
+                    if (Util.HasMoreRow(dsCount))
+                    {
+                        DataRow drCount = dsCount.Tables[0].Rows[0];
+                        int drACount = Convert.ToInt32(drCount["ACount"]);//已评为A的人数
+                        int drBCount = Convert.ToInt32(drCount["BCount"]);//已评为B的人数
+                        if (drACount > maxA)
+                        {
+                            retuMsg += "用户：" + iName + " 对应机构所评分为A等级人员已超过比例上限" + maxA + "人;";
+                        }
+                        if (drBCount > maxB)
+                        {
+                            retuMsg += "用户：" + iName + " 对应机构所评分为B等级人员已超过比例上限" + maxB + "人;";
+                        }
+                    }
+
+                }
+                return retuMsg;
+            }
+            catch (Exception ex)
+            {
+                _log.Error(string.Format("加权汇总获取二级部负责人已评分AB人数出错，错误信息：{0};错误详情：{1}", ex.Message, ex));
+                throw ex;
+            }
+        }
+
+        //获取二级部负责人已评的A，B等级人数（打分使用）
+        public DataSet GetLevelCount(Hashtable ht)
+        {
+            try
+            {
+                SqlParameterCollection sp = new SqlCommand().Parameters;
+                sp.Add(new SqlParameter("@ParentPersonSysNo", Convert.ToString(ht["ParentPersonSysNo"])));
+                sp.Add(new SqlParameter("@LowerPersonSysNo", Convert.ToString(ht["LowerPersonSysNo"])));
+                sp.Add(new SqlParameter("@JXMXCategory", Convert.ToString(ht["JXMXCategory"])));
+                StringBuilder sbSQL = new StringBuilder();
+                sbSQL.Append(" SELECT ISNULL(SUM(CASE WHEN JXLevel = 1 THEN 1 ELSE 0 END),0) AS ACount,ISNULL(SUM(CASE WHEN JXLevel = 2 THEN 1 ELSE 0 END),0) AS BCount ");
+                sbSQL.Append(" FROM JXMXB ");
+                sbSQL.Append(" WHERE 1=1 ");
+                sbSQL.Append(" AND ParentPersonSysNo = @ParentPersonSysNo AND LowerPersonSysNo != @LowerPersonSysNo AND Status = '" + (int)AppEnum.BiStatus.Valid + "' AND JXMXCategory = @JXMXCategory ");
+                return SqlHelper.ExecuteDataSet(AppConfig.Conn_PerformanceEvaluation, sbSQL.ToString(), sp);
+            }
+            catch (Exception ex)
+            {
+                _log.Error(string.Format("打分获取二级部负责人已评分AB人数出错，错误信息：{0};错误详情：{1}", ex.Message, ex));
+                throw ex;
+            }
+        }
 
         public int GetScoreLevel(double totalScore)
         {

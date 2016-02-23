@@ -87,6 +87,7 @@ JXCycle NVARCHAR(32),
 JXScore DECIMAL(9,2),
 JXLevel SMALLINT,
 JXMXCategory SMALLINT,
+[Status] SMALLINT,
 CreateTime DATETIME,
 LastUpdateTime DATETIME,
 CreateUserSysNo INT,
@@ -106,12 +107,14 @@ GO
 --INSERT INTO dbo.Organ(OrganId,OrganType,FunctionInfo,OrganName,PersonNum,AGradScale,BGradScale,CreateTime,LastUpdateTime)
 --VALUES(10003,20,'互联网应用C','互联网应用C',12,30,30,GETDATE(),GETDATE())
 GO
---INSERT INTO dbo.PersonInfo(OrganSysNo,ClassSysNo,Name,BirthDate,EntryDate,Status,SkillCategory,TelPhone,IsLogin,LoginPwd,CreateTime,LastUpdateTime,IsAdmin)
---VALUES(1,2,'周',GETDATE(),GETDATE(),0,'一','88888888','1','11111',GETDATE(),GETDATE(),0)
 --INSERT INTO dbo.PersonInfo(OrganSysNo,ClassSysNo,Name,BirthDate,EntryDate,Status,SkillCategory,ParentPersonSysNo,TelPhone,IsLogin,LoginPwd,CreateTime,LastUpdateTime,IsAdmin)
---VALUES(1,2,'陆',GETDATE(),GETDATE(),0,'二','1','88888888','1','11111',GETDATE(),GETDATE(),0)
+--VALUES(1,2,'周',GETDATE(),GETDATE(),0,'一','99999','88888888','1','9577C930E002DFE330CEFAFBA8DF82DE',GETDATE(),GETDATE(),1)
 --INSERT INTO dbo.PersonInfo(OrganSysNo,ClassSysNo,Name,BirthDate,EntryDate,Status,SkillCategory,ParentPersonSysNo,TelPhone,IsLogin,LoginPwd,CreateTime,LastUpdateTime,IsAdmin)
---VALUES(1,2,'風',GETDATE(),GETDATE(),0,'三','2','88888888','0','11111',GETDATE(),GETDATE(),0)
+--VALUES(1,2,'陆',GETDATE(),GETDATE(),0,'二','1','88888888','1','9577C930E002DFE330CEFAFBA8DF82DE',GETDATE(),GETDATE(),0)
+--INSERT INTO dbo.PersonInfo(OrganSysNo,ClassSysNo,Name,BirthDate,EntryDate,Status,SkillCategory,ParentPersonSysNo,TelPhone,IsLogin,LoginPwd,CreateTime,LastUpdateTime,IsAdmin)
+--VALUES(1,2,'風',GETDATE(),GETDATE(),0,'三','2','88888888','0','9577C930E002DFE330CEFAFBA8DF82DE',GETDATE(),GETDATE(),0)
+--INSERT INTO dbo.PersonInfo(OrganSysNo,ClassSysNo,Name,BirthDate,EntryDate,Status,SkillCategory,ParentPersonSysNo,TelPhone,IsLogin,LoginPwd,CreateTime,LastUpdateTime,IsAdmin)
+--VALUES(1,2,'绩效管理员',GETDATE(),GETDATE(),0,'二','2','88888888','1','9577C930E002DFE330CEFAFBA8DF82DE',GETDATE(),GETDATE(),1)
 GO
 --INSERT INTO dbo.JXKHYSB(JXId,JXCategory,JXInfo,JXScore,JXGrad,CreateTime,LastUpdateTime)
 --VALUES('10001','10','上下班打卡情况',100,5,GETDATE(),GETDATE())
@@ -160,10 +163,38 @@ GO
 UPDATE JXKHYSB SET JXInfo = '监管员工监管员工监管员工监管员工监管员工监管员工监管员工监管员工监管员工监管员工监管员工监管员工监管员工监管员工监管员工' WHERE SysNo = '4'
 UPDATE JXKHYSB SET JXInfo = '请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况请假情况' WHERE SysNo = '5'
 GO
-
+--UPDATE JXMXB SET Status = '0'
+SELECT * FROM JXMXB
 
 30  100  60   18
 50  100  40   20
 20  100  50   10
 
+SELECT * FROM JXMXB
+SELECT * FROM JXKHGSB
+GO
+SELECT * FROM JXMXB WHERE JXMXCategory = '20' AND Status = '0'
+SELECT * FROM JXKHGSB 
+GO
+SELECT a.LowerPersonSysNo,MAX(a.JXCategory) AS JXCategory,MAX(a.ParentPersonSysNo) AS ParentPersonSysNo,MAX(a.JXCycle) AS JXCycle,SUM(a.JXScore * b.GradScale/100) AS TotalScore 
+FROM JXMXB a INNER JOIN JXKHGSB b ON a.ParentPersonSysNo = b.ParentPersonSysNo AND a.LowerPersonSysNo = b.LowerPersonSysNo AND a.JXMXCategory = '20' AND a.Status = '0' AND a.JXCycle = '201602'
+WHERE 1=1
+GROUP BY a.LowerPersonSysNo
+GO
+--UPDATE JXMXB SET Status = '-1' WHERE JXMXCategory = '99' AND JXCycle = '201602'
+GO
+SELECT * FROM PersonInfo
+SELECT * FROM Organ
+SELECT * FROM JXMXB
+SELECT * FROM JXKHGSB
+SELECT * FROM JXKHYSB
+GO
+SELECT a.SysNo, a.PersonSysNo,a.PersonNum,a.AGradScale,a.BGradScale,b.Name FROM Organ a LEFT JOIN PersonInfo b ON a.PersonSysNo = b.SysNo WHERE OrganType = '10'
+SELECT ISNULL(SUM(CASE WHEN b.JXLevel = 5 THEN 1 ELSE 0 END),0) AS ACount,ISNULL(SUM(CASE WHEN b.JXLevel = 2 THEN 1 ELSE 0 END),0) AS BCount 
+FROM JXKHGSB a INNER JOIN JXMXB b ON a.LowerPersonSysNo = b.LowerPersonSysNo AND b.Status = '0' AND b.JXMXCategory = '99' AND b.JXCycle = '201602'
+WHERE 1=1 AND a.OrganSysNo = '1'
 
+SELECT * FROM PersonInfo
+GO
+UPDATE PersonInfo SET ParentPersonSysNo = '99999',IsAdmin='1' WHERE SysNo = '1'
+UPDATE PersonInfo SET LoginPwd = '9577C930E002DFE330CEFAFBA8DF82DE'

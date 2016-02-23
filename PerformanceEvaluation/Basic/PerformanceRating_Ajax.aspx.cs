@@ -1,4 +1,5 @@
-﻿using PerformanceEvaluation.Cmn;
+﻿using log4net;
+using PerformanceEvaluation.Cmn;
 using PerformanceEvaluation.PerformanceEvaluation.Biz;
 using PerformanceEvaluation.PerformanceEvaluation.Code;
 using System;
@@ -22,6 +23,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Basic
         protected int EndIndex = 0;
         protected string Begin = "";
         protected string End = "";
+        private ILog _log = log4net.LogManager.GetLogger(typeof(PerformanceRating_Ajax));
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Request.QueryString["PageIndex"] != null)
@@ -33,28 +35,42 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Basic
 
         protected void BindRep1()
         {
-            Hashtable ht = new Hashtable();
-            if (Request.Form["txtPersonName"] != null && Request.Form["txtPersonName"].ToString() != "")
+            try
             {
-                ht.Add("PersonName", Request.Form["txtPersonName"].Trim());
+                Hashtable ht = new Hashtable();
+                if (Request.Form["txtPersonName"] != null && Request.Form["txtPersonName"].ToString() != "")
+                {
+                    ht.Add("PersonName", Request.Form["txtPersonName"].Trim());
+                }
+                if (Request.Form["ddlPF$ddlEnum"] != null && Request.Form["ddlPF$ddlEnum"].ToString() != "" && Convert.ToInt32(Request.Form["ddlPF$ddlEnum"]) != AppConst.IntNull)
+                {
+                    ht.Add("IsPF", Convert.ToInt32(Request.Form["ddlPF$ddlEnum"]).ToString());
+                }
+                if (LoginSession.User.UserType == 2)//绩效管理员
+                {
+                    ht.Add("ParentPersonSysNo", -999999);
+                }
+                else
+                {
+                    ht.Add("ParentPersonSysNo", LoginSession.User.SysNo);
+                }
+
+                DataSet ds = BasicManager.GetInstance().GetJXPFSearchDs(PageIndex, PageSize, ht);
+                PageCount = Convert.ToInt32(ds.Tables[1].Rows[0][0]);
+                BeginIndex = (PageIndex - 1) * PageSize + 1;
+                MaxPages = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(PageCount) / Convert.ToDouble(PageSize)));
+                EndIndex = (PageIndex * PageSize) > PageCount ? PageCount : (PageIndex * PageSize);
+                Rep1.DataSource = ds.Tables[0];
+                Rep1.DataBind();
             }
-            if (Request.Form["ddlPF$ddlEnum"] != null && Request.Form["ddlPF$ddlEnum"].ToString() != "" && Convert.ToInt32(Request.Form["ddlPF$ddlEnum"]) != AppConst.IntNull)
+            catch (Exception ex)
             {
-                ht.Add("IsPF", Convert.ToInt32(Request.Form["ddlPF$ddlEnum"]).ToString());
+                _log.Error(string.Format("当期评分列表查询异常，异常信息：{0};异常详情：{1}",ex.Message,ex));
             }
-            ht.Add("ParentPersonSysNo", LoginSession.User.SysNo);
-            DataSet ds = BasicManager.GetInstance().GetJXPFSearchDs(PageIndex, PageSize, ht);
-            PageCount = Convert.ToInt32(ds.Tables[1].Rows[0][0]);
-            BeginIndex = (PageIndex - 1) * PageSize + 1;
-            MaxPages = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(PageCount) / Convert.ToDouble(PageSize)));
-            EndIndex = (PageIndex * PageSize) > PageCount ? PageCount : (PageIndex * PageSize);
-            Rep1.DataSource = ds.Tables[0];
-            Rep1.DataBind();
         }
 
         protected void Rep1_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            //PerformanceRating
             if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
                 int sysNo = Convert.ToInt32(DataBinder.Eval(e.Item.DataItem, "SysNo"));
