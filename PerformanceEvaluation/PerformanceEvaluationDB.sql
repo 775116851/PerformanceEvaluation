@@ -196,5 +196,30 @@ WHERE 1=1 AND a.OrganSysNo = '1'
 
 SELECT * FROM PersonInfo
 GO
-UPDATE PersonInfo SET ParentPersonSysNo = '99999',IsAdmin='1' WHERE SysNo = '1'
-UPDATE PersonInfo SET LoginPwd = '9577C930E002DFE330CEFAFBA8DF82DE'
+--UPDATE PersonInfo SET ParentPersonSysNo = '99999',IsAdmin='1' WHERE SysNo = '1'
+--UPDATE PersonInfo SET LoginPwd = '9577C930E002DFE330CEFAFBA8DF82DE'
+GO
+SELECT * FROM dbo.PersonInfo
+SELECT * FROM dbo.Organ
+SELECT * FROM dbo.JXKHYSB
+SELECT * FROM dbo.JXKHGSB
+SELECT * FROM dbo.JXMXB
+GO
+SELECT * FROM dbo.JXMXB WHERE JXMXCategory = '99' AND Status = '0' AND JXCycle = '201602'
+GO
+SELECT DISTINCT c.SysNo,b.OrganSysNo,b.LowerClassSysNo AS ClassSysNo,a.JXCycle,a.JXScore,a.JXLevel,c.Name,d.OrganName,e.FunctionInfo
+FROM dbo.JXMXB a INNER JOIN dbo.JXKHGSB b ON a.LowerPersonSysNo = b.LowerPersonSysNo AND a.JXMXCategory = '99' AND a.Status = '0'
+INNER JOIN dbo.PersonInfo c ON a.LowerPersonSysNo = c.SysNo
+LEFT JOIN dbo.Organ d ON b.OrganSysNo = d.SysNo
+LEFT JOIN dbo.Organ e ON b.LowerClassSysNo = e.SysNo
+WHERE 1=1 AND (b.ParentPersonSysNo = '2' OR b.LowerPersonSysNo='2') AND a.JXCycle = '201602' AND a.JXLevel = '5' AND c.Name LIKE '%ÔL%' AND b.OrganSysNo = '1' AND b.LowerClassSysNo = '2' AND a.JXCycle LIKE '2016%'
+GO
+SELECT DISTINCT b.SysNo,b.OrganSysNo,b.ClassSysNo,a.JXCycle,a.JXScore,a.JXLevel,b.Name,d.OrganName,e.FunctionInfo
+FROM dbo.JXMXB a INNER JOIN dbo.PersonInfo b ON a.LowerPersonSysNo = b.SysNo AND a.JXMXCategory = '99' AND a.Status = '0'
+LEFT JOIN dbo.Organ d ON b.OrganSysNo = d.SysNo
+LEFT JOIN dbo.Organ e ON b.ClassSysNo = e.SysNo
+WHERE 1=1 AND a.JXCycle = '201602' AND a.JXLevel = '5' AND b.Name LIKE '%ÔL%' AND b.OrganSysNo = '1' AND b.ClassSysNo = '2' AND a.JXCycle LIKE '2016%'
+GO
+SELECT SysNo AS [key],OrganName AS value FROM dbo.Organ WHERE OrganType = '10' ORDER BY OrganId ASC
+SELECT SysNo AS [key],FunctionInfo AS value FROM dbo.Organ WHERE OrganType = '20' AND OrganId LIKE '10%' ORDER BY OrganId ASC
+
