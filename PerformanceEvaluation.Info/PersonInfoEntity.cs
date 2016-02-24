@@ -37,6 +37,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
         private int _IsAdmin;
 
         private int _UserType;//用户类型(1普通用户 2绩效管理员 3公司老大) 非数据库字段
+        private int _EJBAdmin;//是否二级部管理人员(1是 0否) 非数据库字段
         [DataMember]
         public int SysNo
         {
@@ -170,6 +171,13 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
             get { return _UserType; }
         }
 
+        [DataMember]
+        public int EJBAdmin
+        {
+            set { _EJBAdmin = value; }
+            get { return _EJBAdmin; }
+        }
+
 
         #endregion
 
@@ -201,6 +209,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
             IsAdmin = AppConst.IntNull;
 
             UserType = AppConst.IntNull;
+            EJBAdmin = AppConst.IntNull;
         }
 
         #region 实现IComparable<T>接口的泛型排序方法

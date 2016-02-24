@@ -65,6 +65,8 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Basic\PerformanceHistory.aspx" />
+    <Content Include="Basic\PerformanceHistory_Ajax.aspx" />
     <Content Include="Basic\PerformanceRating.aspx" />
     <Content Include="Basic\PerformanceRatingOpt.aspx" />
     <Content Include="Basic\PerformanceRating_Ajax.aspx" />
@@ -562,8 +564,23 @@
     <Content Include="Style\thickBox.css" />
     <Content Include="UC\DropDown.ascx" />
     <Content Include="Web.config" />
+    <Content Include="WebServices\GeneralSearch.asmx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Basic\PerformanceHistory.aspx.cs">
+      <DependentUpon>PerformanceHistory.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Basic\PerformanceHistory.aspx.designer.cs">
+      <DependentUpon>PerformanceHistory.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Basic\PerformanceHistory_Ajax.aspx.cs">
+      <DependentUpon>PerformanceHistory_Ajax.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Basic\PerformanceHistory_Ajax.aspx.designer.cs">
+      <DependentUpon>PerformanceHistory_Ajax.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Basic\PerformanceRating.aspx.cs">
       <DependentUpon>PerformanceRating.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -628,6 +645,10 @@
     <Compile Include="UC\DropDown.ascx.designer.cs">
       <DependentUpon>DropDown.ascx</DependentUpon>
     </Compile>
+    <Compile Include="WebServices\GeneralSearch.asmx.cs">
+      <DependentUpon>GeneralSearch.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config\Memcached.config" />
@@ -676,7 +697,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>7856</DevelopmentServerPort>
+          <DevelopmentServerPort>18117</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:14655/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

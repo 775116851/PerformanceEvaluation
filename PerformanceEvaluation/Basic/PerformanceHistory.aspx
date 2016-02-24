@@ -1,13 +1,11 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="PerformanceRating.aspx.cs" Inherits="PerformanceEvaluation.PerformanceEvaluation.Basic.PerformanceRating" %>
-
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="PerformanceHistory.aspx.cs" Inherits="PerformanceEvaluation.PerformanceEvaluation.Basic.PerformanceHistory" %>
 <%@ Register Src="~/UC/DropDown.ascx" TagPrefix="uc" TagName="DropDown" %>
-
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>绩效评分</title>
+    <title>绩效历史查询</title>
     <link href="../Style/index.css" rel="stylesheet" />
     <link href="../Style/reset.css" rel="stylesheet" />
     <link href="../Style/pager.css" rel="stylesheet" />
@@ -30,7 +28,7 @@
         function LoadList(JsonObj) {
             $("#lblMsg").text("")
             $("#ListDiv").html("<table class='table' width='100%' height='180px' border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tr><td height='180px' style='text-align:center; padding-top:50px;'><img src='../images/pager/spinner.gif'>数据载入中,请稍候...&nbsp;</td></tr></table>");
-            $("#ListDiv").load("../Basic/PerformanceRating_Ajax.aspx?PageIndex=" + CurrentPageIndex, JsonObj, function (a, b, c) {
+            $("#ListDiv").load("../Basic/PerformanceHistory_Ajax.aspx?PageIndex=" + CurrentPageIndex, JsonObj, function (a, b, c) {
                 $("#ListDiv").fadeIn();
             });
         }
@@ -38,12 +36,12 @@
         var PreJson; //记录之前的查询值，用于翻页
         function Search() {
             CurrentPageIndex = 1
-            LoadList($("[sname='forminput'],#txtPersonName,#ddlPF_ddlEnum").serializeObject());
-            PreJson = $("[sname='forminput'],#txtPersonName,#ddlPF_ddlEnum").serializeObject();
+            LoadList($("[sname='forminput'],#txtPersonName,#ddlLevel_ddlEnum,#ddlYY,#ddlMM").serializeObject());
+            PreJson = $("[sname='forminput'],#txtPersonName,#ddlLevel_ddlEnum,#ddlYY,#ddlMM").serializeObject();
         }
         function goFilterPager() {
             if (PreJson == null) {
-                PreJson = $("[sname='forminput'],#txtPersonName,#ddlPF_ddlEnum").serializeObject();
+                PreJson = $("[sname='forminput'],#txtPersonName,#ddlLevel_ddlEnum,#ddlYY,#ddlMM").serializeObject();
             }
             LoadList(PreJson);
         }
@@ -53,14 +51,23 @@
     <form id="form1" runat="server">
         <div class="Content">
             <div class="Information">
-                <h3>绩效评分</h3>
+                <h3>绩效历史查询</h3>
                 <table id="table1">
                     <tbody>
                         <tr>
+                            <th>所属机构</th>
+                            <td><asp:DropDownList ID="ddlOrgan" sname="forminput" runat="server" OnSelectedIndexChanged="ddlOrgan_SelectedIndexChanged"></asp:DropDownList>
+                                <asp:DropDownList ID="ddlClass" sname="forminput" runat="server"></asp:DropDownList>
+                            </td>
+                            <th>绩效周期</th>
+                            <td><asp:DropDownList ID="ddlYY" sname="forminput" runat="server"></asp:DropDownList>
+                                <asp:DropDownList ID="ddlMM" sname="forminput" runat="server"></asp:DropDownList></td>
+                        </tr>
+                        <tr>
                             <th>员工姓名</th>
                             <td><asp:TextBox ID="txtPersonName" CssClass="InputOne9" runat="server" sname="forminput"></asp:TextBox></td>
-                            <th>是否已评分</th>
-                            <td colspan="3"><uc:DropDown runat="server" ID="ddlPF" /></td>
+                            <th>绩效等级</th>
+                            <td colspan="3"><uc:DropDown runat="server" ID="ddlLevel" /></td>
                         </tr>
                         <tr>
                             <td colspan="4"><asp:Label ID="lblMsg" runat="server" /></td>
@@ -70,6 +77,9 @@
                 <ul class="ConditionsTwo ConditionsTwo-1">
                     <li>
                         <input type="button" class="InputOne3" id="btnQuery" value="查询" onclick="Search()" />
+                    </li>
+                    <li>
+                        <asp:Button ID="btnSave" runat="server" Text="加权汇总" class="InputOne3" OnClick="btnSave_Click"/>
                     </li>
                 </ul>
             </div>
@@ -90,12 +100,44 @@
             </div>
         </div>
     </form>
-    <div class="mask" style="display: none;">
-        <div class="ajaxWaiting"></div>
-    </div>
 </body>
 </html>
 <script type="text/javascript">
     $(function () {
-    })
+        $("#<%=btnSave.ClientID %>").click(function () {
+            if (confirm("您确定要进行加权汇总操作么，这将删除当期的加权汇总数据？") == true) {
+                return true;
+            }
+            return false;
+        });
+
+        $("#<%=ddlOrgan.ClientID %>").change(function () {
+            var pOrgan = $("#<%=ddlOrgan.ClientID %>").val();
+            var pClass = $("#<%=ddlClass.ClientID %>").val();
+            $("#<%=ddlClass.ClientID%>").empty();
+            $("#<%=ddlClass.ClientID%>").append(("<option value='" +<%=PerformanceEvaluation.Cmn.AppConst.IntNull%> +"'>--- 全部 ---</option>"));
+            if (pOrgan != "<%=PerformanceEvaluation.Cmn.AppConst.IntNull%>") {
+                AjaxWebService("GetClassList", "{organSysNo:'" + pOrgan + "'}", OrganChange_Callback);
+            }
+        });
+
+        $("#<%=ddlYY.ClientID %>").change(function () {
+            var pYY = $("#<%=ddlYY.ClientID %>").val();
+            if (pYY == "<%=PerformanceEvaluation.Cmn.AppConst.IntNull%>") {
+                $("#<%=ddlMM.ClientID %>").val(pYY);
+                $("#<%=ddlMM.ClientID %>").attr("disabled", "disabled")
+            }
+            else {
+                $("#<%=ddlMM.ClientID %>").removeAttr("disabled");
+            }
+        });
+
+        function OrganChange_Callback(result) {
+            for (var i = 0; i < result.length; i++) {
+                $("#<%=ddlClass.ClientID%>").append(("<option value='" + result[i][0] + "'>" + result[i][1] + "</option>"));
+            }
+        }
+
+
+    });
 </script>

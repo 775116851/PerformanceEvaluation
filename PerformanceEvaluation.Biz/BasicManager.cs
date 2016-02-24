@@ -443,6 +443,151 @@ LEFT JOIN dbo.JXMXB c WITH (NOLOCK) ON b.SysNo = c.LowerPersonSysNo AND a.Parent
             }
         }
 
+        //绩效考核历史数据
+        public DataSet GetJXKHHistory(int PageIndex, int PageSize, Hashtable ht)
+        {
+            int mType = Convert.ToInt32(ht["MType"]);//分(普通人员)走归属表和(绩效管理员和公司老大)不走归属表 1普通员工 2管理员及老大
+            PagerData pd = PagerData.GetInstance();
+            pd.Conn = AppConfig.Conn_PerformanceEvaluation;
+            if (mType == 1)
+            {
+                pd.Field = @" DISTINCT c.SysNo,b.OrganSysNo,b.LowerClassSysNo AS ClassSysNo,a.JXCycle AS JXZQ,a.JXScore,a.JXLevel,c.Name,d.OrganName,e.FunctionInfo,c.EntryDate ";
+                pd.Table = @" dbo.JXMXB a INNER JOIN dbo.JXKHGSB b ON a.LowerPersonSysNo = b.LowerPersonSysNo AND a.JXMXCategory = '99' AND a.Status = '0'
+INNER JOIN dbo.PersonInfo c ON a.LowerPersonSysNo = c.SysNo
+LEFT JOIN dbo.Organ d ON b.OrganSysNo = d.SysNo
+LEFT JOIN dbo.Organ e ON b.LowerClassSysNo = e.SysNo ";
+                
+            }
+            else
+            {
+                pd.Field = @" DISTINCT b.SysNo,b.OrganSysNo,b.ClassSysNo,a.JXCycle AS JXZQ,a.JXScore,a.JXLevel,b.Name,d.OrganName,e.FunctionInfo,b.EntryDate ";
+                pd.Table = @" dbo.JXMXB a INNER JOIN dbo.PersonInfo b ON a.LowerPersonSysNo = b.SysNo AND a.JXMXCategory = '99' AND a.Status = '0'
+LEFT JOIN dbo.Organ d ON b.OrganSysNo = d.SysNo
+LEFT JOIN dbo.Organ e ON b.ClassSysNo = e.SysNo ";
+            }
+            pd.Where = " WHERE 1=1 ";
+            pd.SearchWhere = " 1=1 ";
+            pd.Order = " ORDER BY a.JXCycle DESC ";
+            pd.PageSize = PageSize;
+            pd.CurrentPageIndex = PageIndex;
+            SqlParameterCollection spc = new SqlCommand().Parameters;
+            if (ht != null && ht.Count > 0)
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach (string key in ht.Keys)
+                {
+                    #region 搜索条件
+                    if (key == "ParentPersonSysNo")
+                    {
+                        if (mType == 1)
+                        {
+                            sb.Append(" AND (b.ParentPersonSysNo = @ParentPersonSysNo OR b.LowerPersonSysNo=@LowerPersonSysNo) ");
+                            spc.Add(new SqlParameter("@PersonName", ht[key].ToString()));
+                        }
+                    }
+                    else if (key == "pfCycle")
+                    {
+                        sb.Append(" AND a.JXCycle = @pfCycle ");
+                        spc.Add(new SqlParameter("@pfCycle", ht[key].ToString()));
+                    }
+                    else if (key == "JXLevel")
+                    {
+                        sb.Append(" AND a.JXLevel = @JXLevel ");
+                        spc.Add(new SqlParameter("@JXLevel", ht[key].ToString()));
+                    }
+                    else if (key == "Name")
+                    {
+                        if (mType == 1)
+                        {
+                            sb.Append(" AND c.Name LIKE @Name ");
+                        }
+                        else
+                        {
+                            sb.Append(" AND b.Name LIKE @Name ");
+                        }
+                        spc.Add(new SqlParameter("@Name", "%" + ht[key].ToString() + "%"));
+                    }
+                    else if (key == "OrganSysNo")
+                    {
+                        sb.Append(" AND b.OrganSysNo = @OrganSysNo ");
+                        spc.Add(new SqlParameter("@OrganSysNo", ht[key].ToString()));
+                    }
+                    else if (key == "ClassSysNo")
+                    {
+                        if (mType == 1)
+                        {
+                            sb.Append(" AND b.LowerClassSysNo = @ClassSysNo ");
+                        }
+                        else
+                        {
+                            sb.Append(" AND b.ClassSysNo = @ClassSysNo ");
+                        }
+                        spc.Add(new SqlParameter("@ClassSysNo", ht[key].ToString()));
+                    }
+                    else if (key == "pfCycleM")
+                    {
+                        sb.Append(" AND a.JXCycle LIKE @pfCycleM ");
+                        spc.Add(new SqlParameter("@pfCycleM", ht[key].ToString() + "%"));
+                    }
+                    #endregion
+                }
+                pd.SearchWhere += sb.ToString();
+            }
+            pd.Collection = spc;
+            DataSet ds = pd.GetPage(PageIndex);
+            return ds;
+        }
+
+        //获取机构列表
+        public Dictionary<int, OrganEntity> GetOrganList()
+        {
+            Dictionary<int, OrganEntity> organList = new Dictionary<int, OrganEntity>();
+            string sSQL = " SELECT * FROM dbo.Organ WITH (NOLOCK) WHERE 1=1 AND OrganType = '" + (int)AppEnum.OrganType.EJB + "' ORDER BY OrganId ASC ";
+            DataSet dsOrganList = SqlHelper.ExecuteDataSet(AppConfig.Conn_PerformanceEvaluation, sSQL);
+            if(Util.HasMoreRow(dsOrganList))
+            {
+                foreach(DataRow drOrgan in dsOrganList.Tables[0].Rows)
+                {
+                    OrganEntity pie = new OrganEntity();
+                    new OrganDac().SetDrToEntity(drOrgan, pie);
+                    organList.Add(pie.SysNo,pie);
+                }
+            }
+            return organList;
+        }
+
+        //获取职能室列表
+        public Dictionary<int, OrganEntity> GetClassList(int organSysNo)
+        {
+            string OID = "";
+            Dictionary<int, OrganEntity> classList = new Dictionary<int, OrganEntity>();
+            OrganEntity oee = new OrganDac().GetModel(organSysNo);
+            if(oee != null && oee.SysNo != AppConst.IntNull)
+            {
+                OID = oee.OrganId.Substring(0, 2);
+            }
+            SqlParameterCollection sp = new SqlCommand().Parameters;
+            sp.Add(new SqlParameter("@OID", OID + "%"));
+            Dictionary<int, OrganEntity> organList = new Dictionary<int, OrganEntity>();
+            string sSQL = " SELECT * FROM dbo.Organ WITH (NOLOCK) WHERE OrganType = '" + (int)AppEnum.OrganType.ZNS + "' AND OrganId LIKE @OID ORDER BY OrganId ASC ";
+            DataSet dsOrganList = SqlHelper.ExecuteDataSet(AppConfig.Conn_PerformanceEvaluation, sSQL, sp);
+            if (Util.HasMoreRow(dsOrganList))
+            {
+                foreach (DataRow drOrgan in dsOrganList.Tables[0].Rows)
+                {
+                    OrganEntity pie = new OrganEntity();
+                    new OrganDac().SetDrToEntity(drOrgan, pie);
+                    organList.Add(pie.SysNo, pie);
+                }
+            }
+            return organList;
+        }
+
+        public OrganEntity GetEJBOrgan(int OrganSysNo,int OrderType)
+        {
+            return new OrganDac().GetModel(OrganSysNo, OrderType);
+        }
+
         public int GetScoreLevel(double totalScore)
         {
             if(totalScore >= 90)

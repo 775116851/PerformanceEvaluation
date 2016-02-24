@@ -422,5 +422,73 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
             }
         }
         #endregion  成员方法
+
+        /// <summary>
+        /// 将DataRow赋值到实体
+        /// </summary>
+        public PersonInfoEntity SetDrToEntity(DataRow dr, PersonInfoEntity model)
+        {
+            if (dr["SysNo"].ToString() != "")
+            {
+                model.SysNo = int.Parse(dr["SysNo"].ToString());
+            }
+            if (dr["OrganSysNo"].ToString() != "")
+            {
+                model.OrganSysNo = int.Parse(dr["OrganSysNo"].ToString());
+            }
+            if (dr["ClassSysNo"].ToString() != "")
+            {
+                model.ClassSysNo = int.Parse(dr["ClassSysNo"].ToString());
+            }
+            model.Name = dr["Name"].ToString();
+            if (dr["BirthDate"].ToString() != "")
+            {
+                model.BirthDate = DateTime.Parse(dr["BirthDate"].ToString());
+            }
+            if (dr["EntryDate"].ToString() != "")
+            {
+                model.EntryDate = DateTime.Parse(dr["EntryDate"].ToString());
+            }
+            if (dr["OutData"].ToString() != "")
+            {
+                model.OutData = DateTime.Parse(dr["OutData"].ToString());
+            }
+            if (dr["Status"].ToString() != "")
+            {
+                model.Status = int.Parse(dr["Status"].ToString());
+            }
+            model.SkillCategory = dr["SkillCategory"].ToString();
+            if (dr["ParentPersonSysNo"].ToString() != "")
+            {
+                model.ParentPersonSysNo = int.Parse(dr["ParentPersonSysNo"].ToString());
+            }
+            model.TelPhone = dr["TelPhone"].ToString();
+            if (dr["IsLogin"].ToString() != "")
+            {
+                model.IsLogin = int.Parse(dr["IsLogin"].ToString());
+            }
+            model.LoginPwd = dr["LoginPwd"].ToString();
+            if (dr["CreateTime"].ToString() != "")
+            {
+                model.CreateTime = DateTime.Parse(dr["CreateTime"].ToString());
+            }
+            if (dr["LastUpdateTime"].ToString() != "")
+            {
+                model.LastUpdateTime = DateTime.Parse(dr["LastUpdateTime"].ToString());
+            }
+            if (dr["CreateUserSysNo"].ToString() != "")
+            {
+                model.CreateUserSysNo = int.Parse(dr["CreateUserSysNo"].ToString());
+            }
+            if (dr["LastUpdateUserSysNo"].ToString() != "")
+            {
+                model.LastUpdateUserSysNo = int.Parse(dr["LastUpdateUserSysNo"].ToString());
+            }
+            if (dr["IsAdmin"].ToString() != "")
+            {
+                model.IsAdmin = int.Parse(dr["IsAdmin"].ToString());
+            }
+            return model;
+        }
     }
 }

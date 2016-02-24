@@ -357,5 +357,56 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
                 return null;
             }
         }
+
+        /// <summary>
+        /// 将DataRow赋值到实体
+        /// </summary>
+        public OrganEntity SetDrToEntity(DataRow dr, OrganEntity model)
+        {
+            if (dr["SysNo"].ToString() != "")
+            {
+                model.SysNo = int.Parse(dr["SysNo"].ToString());
+            }
+            model.OrganId = dr["OrganId"].ToString();
+            if (dr["OrganType"].ToString() != "")
+            {
+                model.OrganType = int.Parse(dr["OrganType"].ToString());
+            }
+            model.FunctionInfo = dr["FunctionInfo"].ToString();
+            model.OrganName = dr["OrganName"].ToString();
+            if (dr["PersonNum"].ToString() != "")
+            {
+                model.PersonNum = int.Parse(dr["PersonNum"].ToString());
+            }
+            if (dr["AGradScale"].ToString() != "")
+            {
+                model.AGradScale = decimal.Parse(dr["AGradScale"].ToString());
+            }
+            if (dr["BGradScale"].ToString() != "")
+            {
+                model.BGradScale = decimal.Parse(dr["BGradScale"].ToString());
+            }
+            if (dr["PersonSysNo"].ToString() != "")
+            {
+                model.PersonSysNo = int.Parse(dr["PersonSysNo"].ToString());
+            }
+            if (dr["CreateTime"].ToString() != "")
+            {
+                model.CreateTime = DateTime.Parse(dr["CreateTime"].ToString());
+            }
+            if (dr["LastUpdateTime"].ToString() != "")
+            {
+                model.LastUpdateTime = DateTime.Parse(dr["LastUpdateTime"].ToString());
+            }
+            if (dr["CreateUserSysNo"].ToString() != "")
+            {
+                model.CreateUserSysNo = int.Parse(dr["CreateUserSysNo"].ToString());
+            }
+            if (dr["LastUpdateUserSysNo"].ToString() != "")
+            {
+                model.LastUpdateUserSysNo = int.Parse(dr["LastUpdateUserSysNo"].ToString());
+            }
+            return model;
+        }
     }
 }

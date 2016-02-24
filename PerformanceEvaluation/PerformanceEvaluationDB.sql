@@ -94,6 +94,15 @@ CreateUserSysNo INT,
 LastUpdateUserSysNo INT
 )
 GO
+--œµÕ≥≈‰÷√±Ì
+CREATE TABLE Sys_Configuration
+(
+SysNo INT IDENTITY(1,1) PRIMARY KEY,
+ConfigKey NVARCHAR(20),
+ConfigValue NVARCHAR(500)
+)
+GO
+INSERT INTO Sys_Configuration VALUES('LevelRangeScore','1&90|2&80|3&70|4&60|5&0')
 GO
 SELECT * FROM PersonInfo
 SELECT * FROM Organ
@@ -207,19 +216,25 @@ SELECT * FROM dbo.JXMXB
 GO
 SELECT * FROM dbo.JXMXB WHERE JXMXCategory = '99' AND Status = '0' AND JXCycle = '201602'
 GO
-SELECT DISTINCT c.SysNo,b.OrganSysNo,b.LowerClassSysNo AS ClassSysNo,a.JXCycle,a.JXScore,a.JXLevel,c.Name,d.OrganName,e.FunctionInfo
+SELECT DISTINCT c.SysNo,b.OrganSysNo,b.LowerClassSysNo AS ClassSysNo,a.JXCycle,a.JXScore,a.JXLevel,c.Name,d.OrganName,e.FunctionInfo,c.EntryDate
 FROM dbo.JXMXB a INNER JOIN dbo.JXKHGSB b ON a.LowerPersonSysNo = b.LowerPersonSysNo AND a.JXMXCategory = '99' AND a.Status = '0'
 INNER JOIN dbo.PersonInfo c ON a.LowerPersonSysNo = c.SysNo
 LEFT JOIN dbo.Organ d ON b.OrganSysNo = d.SysNo
 LEFT JOIN dbo.Organ e ON b.LowerClassSysNo = e.SysNo
 WHERE 1=1 AND (b.ParentPersonSysNo = '2' OR b.LowerPersonSysNo='2') AND a.JXCycle = '201602' AND a.JXLevel = '5' AND c.Name LIKE '%ÔL%' AND b.OrganSysNo = '1' AND b.LowerClassSysNo = '2' AND a.JXCycle LIKE '2016%'
+ORDER BY a.JXCycle DESC
 GO
-SELECT DISTINCT b.SysNo,b.OrganSysNo,b.ClassSysNo,a.JXCycle,a.JXScore,a.JXLevel,b.Name,d.OrganName,e.FunctionInfo
+SELECT DISTINCT b.SysNo,b.OrganSysNo,b.ClassSysNo,a.JXCycle,a.JXScore,a.JXLevel,b.Name,d.OrganName,e.FunctionInfo,b.EntryDate
 FROM dbo.JXMXB a INNER JOIN dbo.PersonInfo b ON a.LowerPersonSysNo = b.SysNo AND a.JXMXCategory = '99' AND a.Status = '0'
 LEFT JOIN dbo.Organ d ON b.OrganSysNo = d.SysNo
 LEFT JOIN dbo.Organ e ON b.ClassSysNo = e.SysNo
 WHERE 1=1 AND a.JXCycle = '201602' AND a.JXLevel = '5' AND b.Name LIKE '%ÔL%' AND b.OrganSysNo = '1' AND b.ClassSysNo = '2' AND a.JXCycle LIKE '2016%'
+ORDER BY a.JXCycle DESC
 GO
 SELECT SysNo AS [key],OrganName AS value FROM dbo.Organ WHERE OrganType = '10' ORDER BY OrganId ASC
 SELECT SysNo AS [key],FunctionInfo AS value FROM dbo.Organ WHERE OrganType = '20' AND OrganId LIKE '10%' ORDER BY OrganId ASC
 
+ddlOrgan=1&ddlClass=-9999&ddlYY=2016&ddlMM=2&txtPersonName=aaa&ddlLevel%24ddlEnum=5
+
+
+SELECT * FROM dbo.Organ WITH (NOLOCK) WHERE 1=1 AND OrganType = '10' ORDER BY OrganId ASC

@@ -34,9 +34,9 @@ iframe {
 }
 #header p.info {
 	position: absolute;
-	left: 275px;
-	top: 26px;
-	font: normal 16px/16px 微软雅黑;
+	left: 24px;
+	top: 19px;
+	font: normal 26px/16px 微软雅黑;
 	color: #fff;
 }
 #header dl {
