@@ -65,7 +65,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Basic
                 ddlMM.SelectedValue = newMM.ToString();
 
                 //职能室列表
-                Dictionary<int, OrganEntity> classList = BasicManager.GetInstance().GetClassList(1);
+                Dictionary<int, OrganEntity> classList = BasicManager.GetInstance().GetClassList(LoginSession.User.OrganSysNo);
                 if (classList != null && classList.Count != 0)
                 {
                     for (int i = 0; i < classList.Count; i++)
@@ -74,7 +74,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Basic
                     }
                 }
 
-                ddlOrgan.SelectedIndex = LoginSession.User.OrganSysNo;
+                ddlOrgan.SelectedValue = LoginSession.User.OrganSysNo.ToString();
                 ddlOrgan.Enabled = false;
                 if (LoginSession.User.EJBAdmin == (int)AppEnum.YNStatus.Yes)//二级部管理人员可选择职能室
                 {
@@ -84,7 +84,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Basic
                 {
                     if(LoginSession.User.ClassSysNo != AppConst.IntNull)
                     {
-                        ddlClass.SelectedIndex = LoginSession.User.ClassSysNo;
+                        ddlClass.SelectedValue = LoginSession.User.ClassSysNo.ToString();
                     }
                     ddlClass.Enabled = false;
                 }

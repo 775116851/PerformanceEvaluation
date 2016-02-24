@@ -311,7 +311,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
         public OrganEntity GetModel(int SysNo)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select *  from  dbo.Organ");
+            strSql.Append("select *  from  dbo.Organ WITH (NOLOCK) ");
             strSql.Append(" where SysNo=@SysNo ");
             SqlParameter[] parameters = { 
 		new SqlParameter("@SysNo", SqlDbType.Int,4 )
@@ -337,7 +337,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
         public OrganEntity GetModel(int PersonSysNo, int OrganType)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select TOP 1 *  from  dbo.Organ");
+            strSql.Append("select TOP 1 *  from  dbo.Organ WITH (NOLOCK) ");
             strSql.Append(" where PersonSysNo = @PersonSysNo AND OrganType = @OrganType ");
             SqlParameter[] parameters = { 
 		        new SqlParameter("@PersonSysNo", SqlDbType.Int,4 ),

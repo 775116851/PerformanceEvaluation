@@ -336,7 +336,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
         public JXMXBEntity GetModel(int SysNo)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select *  from  dbo.JXMXB");
+            strSql.Append("select *  from  dbo.JXMXB WITH (NOLOCK) ");
             strSql.Append(" where SysNo=@SysNo ");
             SqlParameter[] parameters = { 
 		new SqlParameter("@SysNo", SqlDbType.Int,4 )

@@ -282,7 +282,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
         public JXKHGSBEntity GetModel(int SysNo)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select *  from  dbo.JXKHGSB");
+            strSql.Append("select *  from  dbo.JXKHGSB WITH (NOLOCK) ");
             strSql.Append(" where SysNo=@SysNo ");
             SqlParameter[] parameters = { 
 		new SqlParameter("@SysNo", SqlDbType.Int,4 )

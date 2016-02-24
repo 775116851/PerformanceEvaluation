@@ -5,6 +5,7 @@ using PerformanceEvaluation.PerformanceEvaluation.Info;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -285,7 +286,7 @@ LEFT JOIN dbo.JXMXB c WITH (NOLOCK) ON b.SysNo = c.LowerPersonSysNo AND a.Parent
                 sp.Add(new SqlParameter("@pfCycle", iJXCycle));
                 StringBuilder sbSQL = new StringBuilder();
                 sbSQL.Append(" UPDATE JXMXB SET Status = '" + (int)AppEnum.BiStatus.Delete + "' WHERE JXMXCategory = '" + (int)AppEnum.JXMXCategory.JQHZ + "' AND JXCycle = @pfCycle;SELECT a.LowerPersonSysNo,MAX(a.JXCategory) AS JXCategory,MAX(a.ParentPersonSysNo) AS ParentPersonSysNo,MAX(a.JXCycle) AS JXCycle,SUM(a.JXScore * b.GradScale/100) AS TotalScore  ");
-                sbSQL.Append(" FROM JXMXB a INNER JOIN JXKHGSB b ON a.ParentPersonSysNo = b.ParentPersonSysNo AND a.LowerPersonSysNo = b.LowerPersonSysNo AND a.JXMXCategory = '" + (int)AppEnum.JXMXCategory.DGHZ + "' AND a.Status = '" + (int)AppEnum.BiStatus.Valid + "' AND a.JXCycle = @pfCycle ");
+                sbSQL.Append(" FROM JXMXB a WITH (NOLOCK) INNER JOIN JXKHGSB b WITH (NOLOCK) ON a.ParentPersonSysNo = b.ParentPersonSysNo AND a.LowerPersonSysNo = b.LowerPersonSysNo AND a.JXMXCategory = '" + (int)AppEnum.JXMXCategory.DGHZ + "' AND a.Status = '" + (int)AppEnum.BiStatus.Valid + "' AND a.JXCycle = @pfCycle ");
                 sbSQL.Append(" WHERE 1=1 ");
                 sbSQL.Append(" GROUP BY a.LowerPersonSysNo ");
                 DataSet dsList = SqlHelper.ExecuteDataSet(AppConfig.Conn_PerformanceEvaluation, sbSQL.ToString(), sp);
@@ -346,7 +347,7 @@ LEFT JOIN dbo.JXMXB c WITH (NOLOCK) ON b.SysNo = c.LowerPersonSysNo AND a.Parent
                 string retuMsg = string.Empty;
                 string iJXCycle = Convert.ToString(ht["pfCycle"]);
                 StringBuilder sbSQL = new StringBuilder();
-                sbSQL.Append(" SELECT a.SysNo,a.PersonSysNo,a.PersonNum,a.AGradScale,a.BGradScale,b.Name FROM Organ a LEFT JOIN PersonInfo b ON a.PersonSysNo = b.SysNo WHERE OrganType = '" + (int)AppEnum.OrganType.EJB + "' ");
+                sbSQL.Append(" SELECT a.SysNo,a.PersonSysNo,a.PersonNum,a.AGradScale,a.BGradScale,b.Name FROM Organ a  WITH (NOLOCK) JOIN PersonInfo b WITH (NOLOCK) ON a.PersonSysNo = b.SysNo WHERE OrganType = '" + (int)AppEnum.OrganType.EJB + "' ");
                 DataSet dsOrganList = SqlHelper.ExecuteDataSet(AppConfig.Conn_PerformanceEvaluation, sbSQL.ToString());
                 if (!Util.HasMoreRow(dsOrganList))
                 {
@@ -392,7 +393,7 @@ LEFT JOIN dbo.JXMXB c WITH (NOLOCK) ON b.SysNo = c.LowerPersonSysNo AND a.Parent
                     sp.Add(new SqlParameter("@pfCycle", iJXCycle));
                     sbSQL.Clear();
                     sbSQL.Append(" SELECT ISNULL(SUM(CASE WHEN b.JXLevel = 1 THEN 1 ELSE 0 END),0) AS ACount,ISNULL(SUM(CASE WHEN b.JXLevel = 2 THEN 1 ELSE 0 END),0) AS BCount ");
-                    sbSQL.Append(" FROM JXKHGSB a INNER JOIN JXMXB b ON a.LowerPersonSysNo = b.LowerPersonSysNo AND b.Status = '" + (int)AppEnum.BiStatus.Valid + "' AND b.JXMXCategory = '" + (int)AppEnum.JXMXCategory.JQHZ + "' AND b.JXCycle = @pfCycle ");
+                    sbSQL.Append(" FROM JXKHGSB a WITH (NOLOCK) INNER JOIN JXMXB b WITH (NOLOCK) ON a.LowerPersonSysNo = b.LowerPersonSysNo AND b.Status = '" + (int)AppEnum.BiStatus.Valid + "' AND b.JXMXCategory = '" + (int)AppEnum.JXMXCategory.JQHZ + "' AND b.JXCycle = @pfCycle ");
                     sbSQL.Append(" WHERE 1=1 AND a.OrganSysNo = @OrganSysNo ");
                     DataSet dsCount = SqlHelper.ExecuteDataSet(AppConfig.Conn_PerformanceEvaluation, sbSQL.ToString(), sp);
                     if (Util.HasMoreRow(dsCount))
@@ -431,7 +432,7 @@ LEFT JOIN dbo.JXMXB c WITH (NOLOCK) ON b.SysNo = c.LowerPersonSysNo AND a.Parent
                 sp.Add(new SqlParameter("@JXMXCategory", Convert.ToString(ht["JXMXCategory"])));
                 StringBuilder sbSQL = new StringBuilder();
                 sbSQL.Append(" SELECT ISNULL(SUM(CASE WHEN JXLevel = 1 THEN 1 ELSE 0 END),0) AS ACount,ISNULL(SUM(CASE WHEN JXLevel = 2 THEN 1 ELSE 0 END),0) AS BCount ");
-                sbSQL.Append(" FROM JXMXB ");
+                sbSQL.Append(" FROM JXMXB WITH (NOLOCK) ");
                 sbSQL.Append(" WHERE 1=1 ");
                 sbSQL.Append(" AND ParentPersonSysNo = @ParentPersonSysNo AND LowerPersonSysNo != @LowerPersonSysNo AND Status = '" + (int)AppEnum.BiStatus.Valid + "' AND JXMXCategory = @JXMXCategory ");
                 return SqlHelper.ExecuteDataSet(AppConfig.Conn_PerformanceEvaluation, sbSQL.ToString(), sp);
@@ -452,18 +453,18 @@ LEFT JOIN dbo.JXMXB c WITH (NOLOCK) ON b.SysNo = c.LowerPersonSysNo AND a.Parent
             if (mType == 1)
             {
                 pd.Field = @" DISTINCT c.SysNo,b.OrganSysNo,b.LowerClassSysNo AS ClassSysNo,a.JXCycle AS JXZQ,a.JXScore,a.JXLevel,c.Name,d.OrganName,e.FunctionInfo,c.EntryDate ";
-                pd.Table = @" dbo.JXMXB a INNER JOIN dbo.JXKHGSB b ON a.LowerPersonSysNo = b.LowerPersonSysNo AND a.JXMXCategory = '99' AND a.Status = '0'
-INNER JOIN dbo.PersonInfo c ON a.LowerPersonSysNo = c.SysNo
-LEFT JOIN dbo.Organ d ON b.OrganSysNo = d.SysNo
-LEFT JOIN dbo.Organ e ON b.LowerClassSysNo = e.SysNo ";
+                pd.Table = @" dbo.JXMXB a WITH (NOLOCK) INNER JOIN dbo.JXKHGSB b WITH (NOLOCK) ON a.LowerPersonSysNo = b.LowerPersonSysNo AND a.JXMXCategory = '99' AND a.Status = '0'
+INNER JOIN dbo.PersonInfo c WITH (NOLOCK) ON a.LowerPersonSysNo = c.SysNo
+LEFT JOIN dbo.Organ d WITH (NOLOCK) ON b.OrganSysNo = d.SysNo
+LEFT JOIN dbo.Organ e WITH (NOLOCK) ON b.LowerClassSysNo = e.SysNo ";
                 
             }
             else
             {
                 pd.Field = @" DISTINCT b.SysNo,b.OrganSysNo,b.ClassSysNo,a.JXCycle AS JXZQ,a.JXScore,a.JXLevel,b.Name,d.OrganName,e.FunctionInfo,b.EntryDate ";
-                pd.Table = @" dbo.JXMXB a INNER JOIN dbo.PersonInfo b ON a.LowerPersonSysNo = b.SysNo AND a.JXMXCategory = '99' AND a.Status = '0'
-LEFT JOIN dbo.Organ d ON b.OrganSysNo = d.SysNo
-LEFT JOIN dbo.Organ e ON b.ClassSysNo = e.SysNo ";
+                pd.Table = @" dbo.JXMXB a WITH (NOLOCK) INNER JOIN dbo.PersonInfo b WITH (NOLOCK) ON a.LowerPersonSysNo = b.SysNo AND a.JXMXCategory = '99' AND a.Status = '0'
+LEFT JOIN dbo.Organ d WITH (NOLOCK) ON b.OrganSysNo = d.SysNo
+LEFT JOIN dbo.Organ e WITH (NOLOCK) ON b.ClassSysNo = e.SysNo ";
             }
             pd.Where = " WHERE 1=1 ";
             pd.SearchWhere = " 1=1 ";
@@ -590,25 +591,49 @@ LEFT JOIN dbo.Organ e ON b.ClassSysNo = e.SysNo ";
 
         public int GetScoreLevel(double totalScore)
         {
-            if(totalScore >= 90)
+            try
             {
-                return (int)AppEnum.JXLevel.A;
+                //获取各等级分数范围
+                string sValue = Convert.ToString(ConfigurationManager.AppSettings["LevelRangeScore"]);//1$90|2$80|3$70|4$60|5$0
+                if (!string.IsNullOrEmpty(sValue))
+                {
+                    string[] mValue = sValue.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (mValue.Length < 4)
+                    {
+                        _log.Error(string.Format("未配置各等级分数范围1"));
+                        throw new Exception("未配置各等级分数范围");
+                    }
+                    if (totalScore >= Convert.ToDouble(mValue[0].Split('$')[1]))
+                    {
+                        return (int)AppEnum.JXLevel.A;
+                    }
+                    else if (totalScore >= Convert.ToDouble(mValue[1].Split('$')[1]))
+                    {
+                        return (int)AppEnum.JXLevel.B;
+                    }
+                    else if (totalScore >= Convert.ToDouble(mValue[2].Split('$')[1]))
+                    {
+                        return (int)AppEnum.JXLevel.C;
+                    }
+                    else if (totalScore >= Convert.ToDouble(mValue[3].Split('$')[1]))
+                    {
+                        return (int)AppEnum.JXLevel.D;
+                    }
+                    else
+                    {
+                        return (int)AppEnum.JXLevel.E;
+                    }
+                }
+                else
+                {
+                    _log.Error(string.Format("未配置各等级分数范围2"));
+                    throw new Exception("未配置各等级分数范围");
+                }
             }
-            else if(totalScore >= 80)
+            catch (Exception ex)
             {
-                return (int)AppEnum.JXLevel.B;
-            }
-            else if (totalScore >= 70)
-            {
-                return (int)AppEnum.JXLevel.C;
-            }
-            else if (totalScore >= 60)
-            {
-                return (int)AppEnum.JXLevel.D;
-            }
-            else
-            {
-                return (int)AppEnum.JXLevel.E;
+                _log.Error(string.Format("未配置各等级分数范围3,错误信息：{0};错误详情：{1}", ex.Message, ex));
+                throw new Exception("未配置各等级分数范围");
             }
         }
     }

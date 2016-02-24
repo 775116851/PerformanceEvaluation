@@ -403,7 +403,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
         public PersonInfoEntity GetModel(int SysNo)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select *  from  dbo.PersonInfo");
+            strSql.Append("select *  from  dbo.PersonInfo WITH (NOLOCK) ");
             strSql.Append(" where SysNo=@SysNo ");
             SqlParameter[] parameters = { 
 		new SqlParameter("@SysNo", SqlDbType.Int,4 )

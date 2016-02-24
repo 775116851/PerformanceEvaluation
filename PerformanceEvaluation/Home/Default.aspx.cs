@@ -1,6 +1,7 @@
 ﻿using log4net;
 using Newtonsoft.Json;
 using PerformanceEvaluation.Cmn;
+using PerformanceEvaluation.PerformanceEvaluation.Biz;
 using PerformanceEvaluation.PerformanceEvaluation.Code;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,6 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Home
                 {
                     if (LoginSession != null && LoginSession.User != null)
                     {
-
                         //IList<Custom_Sys_MenuEntity> menulist = Session["MenuList"] as IList<Custom_Sys_MenuEntity>;
                         //if (menulist == null)
                         //{
