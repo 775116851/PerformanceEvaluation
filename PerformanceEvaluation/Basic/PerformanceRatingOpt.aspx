@@ -103,6 +103,13 @@
                                 </table>
                             </FooterTemplate>--%>
                         </asp:Repeater>
+                            
+                        </table>
+                        <table id="Table3">
+                            <tr>
+                                <td colspan="5" style="text-align: center;color:red;"><asp:Label ID="lblYGDJ" runat="server"></asp:Label></td>
+                                <td style="width: 80px; text-align: center;color:red;"><asp:Label ID="lblYGZF" runat="server"></asp:Label></td>
+                            </tr>
                         </table>
                     </td>
                 </tr>
@@ -124,6 +131,7 @@
 </body>
 </html>
 <script type="text/javascript">
+    var mLevelRangeScore = '<%=LevelRangeScore%>';
     $(function () {
         $("#<%=btnSave.ClientID %>").click(function () {
             var tCount = $("#datatable tbody tr").length;
@@ -175,6 +183,47 @@
             else {
                 $(this).parent().find("input:[sname=Msort]").val((parseFloat(mScore) * parseFloat(mJXGrad) / parseFloat(mJXScore)).toFixed(2));
             }
+            var SumScore = 0;
+            var r = new RegExp("^(-)?[1-9][0-9]*$");
+            $("#datatable tbody tr:not(:first)").each(function (a, b) {
+                var mScore = $(b).find("input:[sname=Msort]").val();
+                var kScore;
+                if ($.trim(mScore).length <= 0) {
+                    kScore = 0;
+                }
+                else if (mScore && (isNaN(mScore) || parseFloat(mScore) <= 0)) {
+                    kScore = 0;
+                }
+                else {
+                    kScore = parseFloat(mScore);
+                }
+                SumScore += kScore;
+            });
+            if ($.trim(mLevelRangeScore).length <= 0) {
+                $("#<%=lblMsg.ClientID %>").attr("style", "color:red").show().text("未设置积分等级规则，请联系管理员！");
+                return false;
+            }
+            var mLevelValueList = mLevelRangeScore.split('|');
+            if (mLevelValueList.Length < 4)
+            {
+                $("#<%=lblMsg.ClientID %>").attr("style", "color:red").show().text("未设置积分等级规则，请联系管理员！");
+                return false;
+            }
+            SumScore = SumScore.toFixed(2);
+            $("#<%=lblYGZF.ClientID %>").text(SumScore);
+            var reLevel;
+            if (SumScore >= parseFloat(mLevelValueList[0].split('$')[1])) {
+                reLevel = 'A';
+            } else if (SumScore >= parseFloat(mLevelValueList[1].split('$')[1])) {
+                reLevel = 'B';
+            } else if (SumScore >= parseFloat(mLevelValueList[2].split('$')[1])) {
+                reLevel = 'C';
+            } else if (SumScore >= parseFloat(mLevelValueList[3].split('$')[1])) {
+                reLevel = 'D';
+            } else {
+                reLevel = 'E';
+            }
+            $("#<%=lblYGDJ.ClientID %>").text("预估等级：" + reLevel);
         })
     })
 </script>

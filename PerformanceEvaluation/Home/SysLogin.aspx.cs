@@ -11,9 +11,9 @@ using System.Web.UI.WebControls;
 
 namespace PerformanceEvaluation.PerformanceEvaluation.Home
 {
-    public partial class SysLogin : System.Web.UI.Page
+    public partial class WebForm1 : System.Web.UI.Page
     {
-        private ILog _log = log4net.LogManager.GetLogger(typeof(SysLogin));
+        private ILog _log = log4net.LogManager.GetLogger(typeof(WebForm1));
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
@@ -190,6 +190,5 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Home
             //menuList.Add(mAA4);
             return menuList;
         }
-
     }
 }

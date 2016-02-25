@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="PerformanceHistory.aspx.cs" Inherits="PerformanceEvaluation.PerformanceEvaluation.Basic.PerformanceHistory" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" EnableEventValidation="false" CodeBehind="PerformanceHistory.aspx.cs" Inherits="PerformanceEvaluation.PerformanceEvaluation.Basic.PerformanceHistory" %>
 <%@ Register Src="~/UC/DropDown.ascx" TagPrefix="uc" TagName="DropDown" %>
 <!DOCTYPE html>
 
@@ -74,9 +74,12 @@
                         </tr>
                     </tbody>
                 </table>
-                <ul class="ConditionsTwo ConditionsTwo-1">
+                <ul class="ConditionsTwo ConditionsTwo-2">
                     <li>
                         <input type="button" class="InputOne3" id="btnQuery" value="查询" onclick="Search()" />
+                    </li>
+                    <li>
+                        <input type="button" class="InputOne3" id="btExport" runat="server" value="导 出" onserverclick="btExport_Click" />
                     </li>
                     <li>
                         <asp:Button ID="btnSave" runat="server" Text="加权汇总" class="InputOne3" OnClick="btnSave_Click"/>

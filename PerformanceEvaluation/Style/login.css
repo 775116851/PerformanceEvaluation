@@ -1,0 +1,186 @@
+@charset "utf-8";
+ @import url(reset.css);
+@import url(base.css);
+body {
+	background:#99CBFF url(../images/BgImg02.gif) 210px 130px no-repeat;
+}
+.body_yz {
+	background:#218D9D url(../images/BgImg03.gif) center 88px no-repeat;
+}
+#Login {
+	width:455px;
+	height:400px;
+	margin:0 auto;
+	font-size: 1.2em;
+	/*line-height:1.8;*/
+	margin-top:170px;
+}
+.box {
+	background: url(../images/BgImg01.png) left top no-repeat;
+	position:relative;
+	width:454px;
+	height:396px;
+	overflow: hidden;
+	zoom:1;
+}
+.box p.a01 {
+	position:absolute;
+	left:25px;
+	top:15px;
+}
+.inBox {
+	width:338px;
+	height:163px;
+	border:1px solid #ccc;
+	border-radius:5px;
+	position:absolute;
+	left:56px;
+	top:90px;
+	background:#fff;
+}
+.inBox-1 {
+	top:115px;
+	height:122px;
+}
+.inBox dl {
+	width:338px;
+	overflow:hidden;
+	zoom:1;
+	border-bottom:1px solid #ccc;
+}
+.inBox dl.L_Name dt {
+	background:url(../images/ImgName.gif) 13px center no-repeat;
+}
+.inBox dl.L_Password dt {
+	background:url(../images/ImgPassword.gif) 13px center no-repeat;
+}
+.inBox dl.NoBorder dt {
+	background:url(../images/ImgCode.gif) 13px center no-repeat;
+}
+.inBox dl.NoBorder {
+	border-bottom:none;
+}
+.inBox dl dt {
+	width:75px;
+	padding-left:50px;
+	float:left;
+	font-size:18px;
+	color:#bebebe;
+	background:url(../images/ImgId.gif) 13px center no-repeat;
+	font-family:微软雅黑;
+	height:40px;
+	line-height:40px;
+}
+.inBox dl dd {
+	float:left;
+}
+.LoginInput01 {
+	width:200px;
+	height:36px;
+	line-height:36px;
+	border:none;
+	margin-top:2px;
+}
+.LoginInput02 {
+	width:100px;
+	height:36px;
+	line-height:36px;
+	border:none;
+	margin-top:2px;
+}
+.inBox dl dd.L_Yzm {
+	margin:2px 0 0 15px;
+}
+.prompt {
+	color:#f00;
+	position:absolute;
+	left:60px;
+	top:255px;
+	font-size:12px;
+}
+
+.prompt-1 { top:245px}
+.InputOne1 {
+	background:url(../images/btnImg01.gif) left top no-repeat;
+	border: none;
+	color: #FFF;
+	cursor: pointer;
+	display: block;
+	font-size:20px;
+	font-family:微软雅黑;
+	height: 55px;
+	letter-spacing:.2em;
+	line-height:50px;
+	text-align: center;
+	width: 132px;
+}
+.InputOne2 {
+	background:url(../images/btnImg02.gif) left top no-repeat;
+	border: none;
+	color: #5a5a5a;
+	cursor: pointer;
+	display: block;
+	font-size:20px;
+	font-family:微软雅黑;
+	height: 55px;
+	letter-spacing:.2em;
+	line-height:50px;
+	text-align: center;
+	width: 132px;
+}
+.InputOne3 {
+	background:url(../images/btnImg03.gif) left top no-repeat;
+	border: none;
+	color: #FFF;
+	cursor: pointer;
+	display: block;
+	font-size:20px;
+	font-family:微软雅黑;
+	height: 55px;
+	letter-spacing:.2em;
+	line-height:50px;
+	text-align: center;
+	width: 132px;
+}
+.InputOne4 {
+	background:url(../images/btnImg-bg.png) 0 -429px no-repeat;
+	border: none;
+	color: #333;
+	cursor: pointer;
+	display: block;
+	font-size:20px;
+	font-family:微软雅黑;
+	height: 41px;
+	letter-spacing:.2em;
+	line-height:41px;
+	text-align: center;
+	width:339px;
+}
+.InputOne1:hover {
+	background:url(../images/btnImg01_on.gif) left top no-repeat;
+}
+.InputOne2:hover {
+	background:url(../images/btnImg02_on.gif) left top no-repeat;
+}
+.InputOne3:hover {
+	background:url(../images/btnImg03_on.gif) left top no-repeat;
+}
+.InputOne4:hover {
+	background:url(../images/btnImg-bg.png) 0 -388px no-repeat;
+}
+.btn-1 {
+	width:339px;
+	position:absolute;
+	left:56px;
+	top:288px;
+}
+
+.btn-2{ top:278px;}
+.btn-1 dd{ margin-left:258px; font-size:14px;}
+.btn-1 dd a {
+	color:#f60;
+	text-decoration:none;
+}
+.btn-1 dd a:hover {
+	text-decoration:underline;
+}

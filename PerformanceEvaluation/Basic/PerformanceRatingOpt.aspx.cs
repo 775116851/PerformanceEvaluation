@@ -6,6 +6,7 @@ using PerformanceEvaluation.PerformanceEvaluation.Info;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Web;
@@ -35,6 +36,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Basic
             set { ViewState["pfCycle"] = value; }
             get { return Convert.ToString(ViewState["pfCycle"]); }
         }
+        public string LevelRangeScore = string.Empty;
         public DataSet repList = new DataSet();
         private ILog _log = log4net.LogManager.GetLogger(typeof(PerformanceRatingOpt));
         protected void Page_Load(object sender, EventArgs e)
@@ -98,6 +100,8 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Basic
         {
             try
             {
+                //获取各等级分数范围
+                LevelRangeScore = Convert.ToString(ConfigurationManager.AppSettings["LevelRangeScore"]);//1$90|2$80|3$70|4$60|5$0
                 lblSJ.Text = LoginSession.User.Name;
                 PersonInfoEntity pieLower = BasicManager.GetInstance().LoadUser(SysNo);
                 if (pieLower == null || pieLower.Status != (int)AppEnum.BiStatus.Valid)

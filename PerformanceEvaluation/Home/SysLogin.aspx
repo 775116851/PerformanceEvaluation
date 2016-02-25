@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SysLogin.aspx.cs" Inherits="PerformanceEvaluation.PerformanceEvaluation.Home.SysLogin" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SysLogin.aspx.cs" Inherits="PerformanceEvaluation.PerformanceEvaluation.Home.WebForm1" %>
 
 <!DOCTYPE html>
 
@@ -6,7 +6,9 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>欢迎您登录绩效管理平台</title>
-    <link href="../Style/style.css" rel="stylesheet" />
+    <%--<link href="../Style/style.css" rel="stylesheet" />--%>
+    <link href="../Style/login.css" rel="stylesheet" />
+    <script src="../Scripts/IPP.js"></script>
     <script src="../Scripts/jquery-1.7.1.min.js"></script>
     <script type="text/javascript">
         function SetFocus() {
@@ -15,40 +17,59 @@
         function keyLogin() {
             if (event.keyCode == 13)   //回车键的键值为13
             {
-                $("#<%=btnLo.ClientID %>").click();//调用登录按钮的登录事件
+                
             }
         }
     </script>
 </head>
-<body onload="SetFocus()" onkeydown="keyLogin();">
+<body onload="SetFocus()">
     <form id="Form1" method="post" runat="server">
-    <div class="loginbox png">
-	    <div class="txtbox">绩效管理平台</div>
-        <div class="inputbox">
-            <%--<div class="ipb png">
-                <asp:TextBox ID="txtOrganID" runat="server" />
-            </div>--%>
-            <div class="ipc png">
-                <%--<input type="text" value="用户名">--%>
-                <asp:TextBox ID="txtUserID" runat="server"  />
+        <div id="wrap">
+          <div id="Login">
+            <div class="box">
+              <p class="a01"><img src="../images/loginImg01.jpg" alt="绩效管理平台" /></p>
+              <div class="inBox inBox-1">
+                <dl class="L_Name">
+                  <dt>用户名</dt>
+                  <dd>
+                      <asp:TextBox ID="txtUserID" runat="server" CssClass="LoginInput01" />
+                  </dd>
+                </dl>
+                <dl class="L_Password">
+                  <dt>密&nbsp;&nbsp;&nbsp;码</dt>
+                  <dd>
+                     <asp:TextBox ID="txtPwd" runat="server"  CssClass="LoginInput01" TextMode="Password" />
+                  </dd>
+                </dl>
+                <dl class="NoBorder">
+                  <dt>验证码</dt>
+                  <dd>
+                       <asp:TextBox ID="txtCode" runat="server" CssClass="LoginInput02" />
+                  </dd>
+                  <dd class="L_Yzm">
+                      <img id="imgVerify" style="height:30px; width:93px; cursor:pointer;" align="absmiddle"  src="VerifyCode.aspx?" alt="看不清？点击更换" onclick="this.src=this.src+'?'" />
+                  </dd>
+                </dl>
+              </div>
+              <div class="prompt prompt-1">
+                <%-- (<%=SSOCmn.cmn.AppConfig.ServerName %>)&#160;&#160;--%><asp:Label ID="lblMessage" runat="server" EnableViewState="False" />&#160;
+            
+              </div>
+              <dl class="btn-1 btn-2">
+                <dt>
+       
+                    <asp:Button ID="btnLogin" runat="server" CssClass="InputOne4"  Text="登录" OnClick="btnLogin_Click" />
+                </dt>
+       
+                <dd></dd>
+              </dl>
+
             </div>
-            <div class="ipd png">
-                <%--<input type="text" value="密码">--%>
-                <asp:TextBox ID="txtPwd" runat="server" TextMode="Password" />
-            </div>
-            <div>
-                <div class="ipe png">
-                    <%--<input type="text" value="验证码">--%>
-                    <asp:TextBox ID="txtCode" runat="server" />
-                </div>
-                <%--<img src="../images/yz.jpg">--%>
-                <img id="imgVerify" style="height:50px; width:100px; cursor:pointer;" align="absmiddle"  src="VerifyCode.aspx?" alt="看不清？点击更换" onclick="this.src=this.src+'?'" />
-                <div style="clear:both;"></div>
-            </div>
-            <div class="ipbottom"><a href="#" runat="server" id="btnLogin" onserverclick="btnLogin_Click"><img src="../images/login_bottom.png"></a><asp:Label ID="lblMessage" runat="server" EnableViewState="False" /></div>
-            <div class="forget"><%--<a href="FindIndex.aspx?Type=SysLogin" target="_blank">忘记密码了？</a>--%><asp:Button ID="btnLo" style="display:none;" runat="server" OnClick="btnLogin_Click" Text="" /></div>
+            <!-- #main--> 
+          </div>
+          <!--container--> 
         </div>
-    </div>
+        <!--#wrap-->
     </form>
 </body>
 </html>

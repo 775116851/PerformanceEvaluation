@@ -148,36 +148,36 @@ LEFT JOIN dbo.JXMXB c WITH (NOLOCK) ON b.SysNo = c.LowerPersonSysNo AND a.Parent
                     userLever = 1;
                 }
                 JXMXBEntity jA = list[0];
-                //判断打分人员是否为二级部负责人(若是，则判断A等级比例上限和B等级比例上限)
-                bool isCheck = false;//是否限制比例
-                int maxA = 0;//A等级最大人数
-                int maxB = 0;//B等级最大人数
-                OrganEntity oe = new OrganDac().GetModel(parentPersonSysNo, (int)AppEnum.OrganType.EJB);
-                if (oe != null && oe.SysNo != AppConst.IntNull)
-                {
-                    isCheck = true;
-                    if (oe.PersonNum == AppConst.IntNull)
-                    {
-                        return Tuple.Create<bool, string>(false, "当前二级部人数为空，请联系系统管理员！");
-                    }
-                    if (oe.AGradScale != AppConst.DecimalNull)
-                    {
-                        maxA = Convert.ToInt32(Math.Round(oe.PersonNum * oe.AGradScale / 100, 0, MidpointRounding.AwayFromZero));
-                    }
-                    else
-                    {
-                        maxA = 99999;
-                    }
-                    if (oe.BGradScale != AppConst.DecimalNull)
-                    {
-                        maxB = Convert.ToInt32(Math.Round(oe.PersonNum * oe.BGradScale / 100, 0, MidpointRounding.AwayFromZero));
-                    }
-                    else
-                    {
-                        maxB = 99999;
-                    }
+                ////判断打分人员是否为二级部负责人(若是，则判断A等级比例上限和B等级比例上限)
+                //bool isCheck = false;//是否限制比例
+                //int maxA = 0;//A等级最大人数
+                //int maxB = 0;//B等级最大人数
+                //OrganEntity oe = new OrganDac().GetModel(parentPersonSysNo, (int)AppEnum.OrganType.EJB);
+                //if (oe != null && oe.SysNo != AppConst.IntNull)
+                //{
+                //    isCheck = true;
+                //    if (oe.PersonNum == AppConst.IntNull)
+                //    {
+                //        return Tuple.Create<bool, string>(false, "当前二级部人数为空，请联系系统管理员！");
+                //    }
+                //    if (oe.AGradScale != AppConst.DecimalNull)
+                //    {
+                //        maxA = Convert.ToInt32(Math.Round(oe.PersonNum * oe.AGradScale / 100, 0, MidpointRounding.AwayFromZero));
+                //    }
+                //    else
+                //    {
+                //        maxA = 99999;
+                //    }
+                //    if (oe.BGradScale != AppConst.DecimalNull)
+                //    {
+                //        maxB = Convert.ToInt32(Math.Round(oe.PersonNum * oe.BGradScale / 100, 0, MidpointRounding.AwayFromZero));
+                //    }
+                //    else
+                //    {
+                //        maxB = 99999;
+                //    }
 
-                }
+                //}
                 DateTime dtTime = DateTime.Now;
                 double TotalScore = 0.0;//总评分 用于等级
                 int returnLevel = 0;
@@ -204,38 +204,38 @@ LEFT JOIN dbo.JXMXB c WITH (NOLOCK) ON b.SysNo = c.LowerPersonSysNo AND a.Parent
                     }
                     JXMXBEntity jeDGHZ = new JXMXBEntity();
                     returnLevel = GetScoreLevel(TotalScore);
-                    if (isCheck == true)//二级部评分 考虑A，B等级比例
-                    {
-                        if (returnLevel == (int)AppEnum.JXLevel.A || returnLevel == (int)AppEnum.JXLevel.B)
-                        {
-                            //获取当前已评分人员的等级汇总
-                            Hashtable htM = new Hashtable();
-                            htM.Add("ParentPersonSysNo", parentPersonSysNo);
-                            htM.Add("LowerPersonSysNo", jA.LowerPersonSysNo);
-                            htM.Add("JXMXCategory", (int)AppEnum.JXMXCategory.DGHZ);
-                            DataSet dsCount = GetLevelCount(htM);
-                            if (Util.HasMoreRow(dsCount))
-                            {
-                                DataRow drCount = dsCount.Tables[0].Rows[0];
-                                int drACount = Convert.ToInt32(drCount["ACount"]);//已评为A的人数
-                                int drBCount = Convert.ToInt32(drCount["BCount"]);//已评为B的人数
-                                if (returnLevel == (int)AppEnum.JXLevel.A)
-                                {
-                                    if (maxA < (drACount + 1))
-                                    {
-                                        return Tuple.Create<bool, string>(false, "评分为A等级人员已超过比例上限：" + maxA + "人，保存异常！");
-                                    }
-                                }
-                                else
-                                {
-                                    if (maxB < (drBCount + 1))
-                                    {
-                                        return Tuple.Create<bool, string>(false, "评分为B等级人员已超过比例上限：" + maxB + "人，保存异常！");
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    //if (isCheck == true)//二级部评分 考虑A，B等级比例
+                    //{
+                    //    if (returnLevel == (int)AppEnum.JXLevel.A || returnLevel == (int)AppEnum.JXLevel.B)
+                    //    {
+                    //        //获取当前已评分人员的等级汇总
+                    //        Hashtable htM = new Hashtable();
+                    //        htM.Add("ParentPersonSysNo", parentPersonSysNo);
+                    //        htM.Add("LowerPersonSysNo", jA.LowerPersonSysNo);
+                    //        htM.Add("JXMXCategory", (int)AppEnum.JXMXCategory.DGHZ);
+                    //        DataSet dsCount = GetLevelCount(htM);
+                    //        if (Util.HasMoreRow(dsCount))
+                    //        {
+                    //            DataRow drCount = dsCount.Tables[0].Rows[0];
+                    //            int drACount = Convert.ToInt32(drCount["ACount"]);//已评为A的人数
+                    //            int drBCount = Convert.ToInt32(drCount["BCount"]);//已评为B的人数
+                    //            if (returnLevel == (int)AppEnum.JXLevel.A)
+                    //            {
+                    //                if (maxA < (drACount + 1))
+                    //                {
+                    //                    return Tuple.Create<bool, string>(false, "评分为A等级人员已超过比例上限：" + maxA + "人，保存异常！");
+                    //                }
+                    //            }
+                    //            else
+                    //            {
+                    //                if (maxB < (drBCount + 1))
+                    //                {
+                    //                    return Tuple.Create<bool, string>(false, "评分为B等级人员已超过比例上限：" + maxB + "人，保存异常！");
+                    //                }
+                    //            }
+                    //        }
+                    //    }
+                    //}
                     if (JXMXSysNo != AppConst.IntNull)
                     {
                         jeDGHZ.SysNo = JXMXSysNo;

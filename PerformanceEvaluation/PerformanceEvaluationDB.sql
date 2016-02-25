@@ -109,7 +109,7 @@ GO
 --VALUES(10002,20,'互联网应用B','互联网应用B',6,30,30,GETDATE(),GETDATE())
 --INSERT INTO dbo.Organ(OrganId,OrganType,FunctionInfo,OrganName,PersonNum,AGradScale,BGradScale,CreateTime,LastUpdateTime)
 --VALUES(20001,20,'电子商务部A','电子商务部A',2,30,30,GETDATE(),GETDATE())
-GO
+--GO
 --TRUNCATE TABLE dbo.PersonInfo
 --INSERT INTO dbo.PersonInfo(Name,BirthDate,EntryDate,Status,SkillCategory,ParentPersonSysNo,TelPhone,IsLogin,LoginPwd,CreateTime,LastUpdateTime,IsAdmin)
 --VALUES('公司老大',GETDATE(),GETDATE(),0,'公司老大','99999','88888888','1','9577C930E002DFE330CEFAFBA8DF82DE',GETDATE(),GETDATE(),1)
@@ -128,10 +128,10 @@ GO
 --INSERT INTO dbo.PersonInfo(OrganSysNo,ClassSysNo,Name,BirthDate,EntryDate,Status,SkillCategory,ParentPersonSysNo,TelPhone,IsLogin,LoginPwd,CreateTime,LastUpdateTime,IsAdmin)
 --VALUES(1,3,'互联经A员工',GETDATE(),GETDATE(),0,'互联经A员工','5','88888888','1','9577C930E002DFE330CEFAFBA8DF82DE',GETDATE(),GETDATE(),0)
 --INSERT INTO dbo.PersonInfo(OrganSysNo,ClassSysNo,Name,BirthDate,EntryDate,Status,SkillCategory,ParentPersonSysNo,TelPhone,IsLogin,LoginPwd,CreateTime,LastUpdateTime,IsAdmin)
---VALUES(1,3,'互联经A员工2',GETDATE(),GETDATE(),0,'互联经A员工2','5','88888888','1','9577C930E002DFE330CEFAFBA8DF82DE',GETDATE(),GETDATE(),0)
+--VALUES(1,3,'互联经A员工2',GETDATE(),GETDATE(),0,'互联经A员工2','5','88888888','0','9577C930E002DFE330CEFAFBA8DF82DE',GETDATE(),GETDATE(),0)
 --INSERT INTO dbo.PersonInfo(OrganSysNo,ClassSysNo,Name,BirthDate,EntryDate,Status,SkillCategory,ParentPersonSysNo,TelPhone,IsLogin,LoginPwd,CreateTime,LastUpdateTime,IsAdmin)
---VALUES(1,4,'互联经B员工',GETDATE(),GETDATE(),0,'互联经B员工','6','88888888','1','9577C930E002DFE330CEFAFBA8DF82DE',GETDATE(),GETDATE(),0)
-GO
+--VALUES(1,4,'互联经B员工',GETDATE(),GETDATE(),0,'互联经B员工','6','88888888','0','9577C930E002DFE330CEFAFBA8DF82DE',GETDATE(),GETDATE(),0)
+--GO
 --TRUNCATE TABLE dbo.JXKHYSB
 --INSERT INTO dbo.JXKHYSB(JXId,JXCategory,JXInfo,JXScore,JXGrad,CreateTime,LastUpdateTime)
 --VALUES('10001','10','上下班打卡情况',100,20,GETDATE(),GETDATE())
@@ -143,13 +143,13 @@ GO
 --VALUES('20004','20','监管员工',100,60,GETDATE(),GETDATE())
 --INSERT INTO dbo.JXKHYSB(JXId,JXCategory,JXInfo,JXScore,JXGrad,CreateTime,LastUpdateTime)
 --VALUES('20005','20','请假情况',100,40,GETDATE(),GETDATE())
-GO
+--GO
 --UPDATE dbo.Organ SET PersonSysNo = '3' WHERE SysNo = '1'
 --UPDATE dbo.Organ SET PersonSysNo = '4' WHERE SysNo = '2'
 --UPDATE dbo.Organ SET PersonSysNo = '5' WHERE SysNo = '3'
 --UPDATE dbo.Organ SET PersonSysNo = '6' WHERE SysNo = '4'
 --UPDATE dbo.Organ SET PersonSysNo = '7' WHERE SysNo = '5'
-GO
+--GO
 --TRUNCATE TABLE dbo.JXKHGSB
 ----公司老大-部门经理及员工
 --INSERT INTO dbo.JXKHGSB(ParentPersonSysNo,OrganSysNo,LowerPersonSysNo,JXCategory,GradScale,CreateTime,LastUpdateTime)
@@ -179,7 +179,7 @@ GO
 --VALUES(5,1,9,3,10,20,GETDATE(),GETDATE())
 --INSERT INTO dbo.JXKHGSB(ParentPersonSysNo,OrganSysNo,LowerPersonSysNo,LowerClassSysNo,JXCategory,GradScale,CreateTime,LastUpdateTime)
 --VALUES(6,1,10,4,10,40,GETDATE(),GETDATE())
-GO
+--GO
 --TRUNCATE TABLE dbo.JXMXB
 GO
 --UPDATE dbo.Organ SET PersonSysNo = '1' WHERE SysNo IN (1,2)
@@ -278,6 +278,9 @@ ddlOrgan=1&ddlClass=-9999&ddlYY=2016&ddlMM=2&txtPersonName=aaa&ddlLevel%24ddlEnu
 
 SELECT * FROM dbo.Organ WITH (NOLOCK) WHERE 1=1 AND OrganType = '10' ORDER BY OrganId ASC
 GO
-SELECT * FROM dbo.Sys_Configuration
 GO
 SELECT DISTINCT ConfigValue FROM dbo.Sys_Configuration WITH (NOLOCK) WHERE ConfigKey = 'LevelRangeScore'
+GO
+SELECT * FROM PersonInfo
+SELECT * FROM JXMXB
+

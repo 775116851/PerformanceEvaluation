@@ -1,4 +1,5 @@
-﻿using log4net;
+﻿using allinpay.Mall.Cmn;
+using log4net;
 using PerformanceEvaluation.Cmn;
 using PerformanceEvaluation.PerformanceEvaluation.Biz;
 using PerformanceEvaluation.PerformanceEvaluation.Code;
@@ -6,6 +7,8 @@ using PerformanceEvaluation.PerformanceEvaluation.Info;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -128,6 +131,122 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Basic
             {
                 _log.Error(string.Format("加权汇总操作出现异常，异常信息：{0};异常详情：{1}", ex.Message, ex));
                 Assert(lblMsg, "加权汇总操作出现异常:" + ex.Message, -1);
+            }
+        }
+
+        //导出
+        protected void btExport_Click(object sender, EventArgs e)
+        {
+            Hashtable ht = new Hashtable();
+            if(!string.IsNullOrEmpty(txtPersonName.Text.Trim()))
+            {
+                ht.Add("Name", txtPersonName.Text.Trim());
+            }
+            if(ddlYY.SelectedValue != AppConst.IntNull.ToString())
+            {
+                if (ddlMM.SelectedValue != AppConst.IntNull.ToString())
+                {
+                    string kMM = ddlMM.SelectedValue;
+                    int iMM = Convert.ToInt32(kMM);
+                    if (iMM <= 9)
+                    {
+                        kMM = "0" + iMM;
+                    }
+                    ht.Add("pfCycle", ddlYY.SelectedValue + kMM);
+                }
+                else
+                {
+                    ht.Add("pfCycleM", ddlYY.SelectedValue);
+                }
+            }
+            if(ddlLevel.KeyValue != AppConst.IntNull)
+            {
+                ht.Add("JXLevel", ddlLevel.KeyValue);
+            }
+            if (LoginSession.User.UserType == 1)
+            {
+                ht.Add("ParentPersonSysNo", LoginSession.User.SysNo);
+                ht.Add("OrganSysNo", LoginSession.User.OrganSysNo);
+                if (LoginSession.User.ClassSysNo != AppConst.IntNull)
+                {
+                    if (LoginSession.User.EJBAdmin == (int)AppEnum.YNStatus.Yes)
+                    {
+                        if (ddlClass.SelectedValue != AppConst.IntNull.ToString())
+                        {
+                            ht.Add("ClassSysNo", ddlClass.SelectedValue);
+                        }
+                    }
+                    else
+                    {
+                        ht.Add("ClassSysNo", LoginSession.User.ClassSysNo);
+                    }
+                }
+            }
+            else//绩效管理员和公司老大
+            {
+                if (ddlOrgan.SelectedValue != AppConst.IntNull.ToString())
+                {
+                    ht.Add("OrganSysNo", ddlOrgan.SelectedValue);
+                }
+                if (ddlClass.SelectedValue != AppConst.IntNull.ToString())
+                {
+                    ht.Add("ClassSysNo", ddlClass.SelectedValue);
+                }
+            }
+            List<DataTable> dtList = new List<DataTable>();
+            List<string> workSheetNameList = new List<string>();
+            //记录运行时间
+            Stopwatch myWatch2 = Stopwatch.StartNew();
+            DataSet ds = BasicManager.GetInstance().GetJXKHHistory(1, 10000000, ht);
+            myWatch2.Stop();
+            _log.Info("导出绩效历史数据;正式访问数据库查询所有列耗时(毫秒)：" + myWatch2.ElapsedMilliseconds);
+            if (Util.HasMoreRow(ds))
+            {
+                DataTable dt = new DataTable();
+                dt.Columns.Add("编号");
+                dt.Columns.Add("绩效周期");
+                dt.Columns.Add("员工姓名");
+                dt.Columns.Add("二级部");
+                dt.Columns.Add("职能室");
+                dt.Columns.Add("入职时间");
+                dt.Columns.Add("绩效得分");
+                dt.Columns.Add("绩效等级");
+
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    DataRow newDr = dt.NewRow();
+                    newDr["编号"] = Convert.ToString(dr["SysNo"]);
+                    newDr["绩效周期"] = Convert.ToString(dr["JXZQ"]);
+                    newDr["员工姓名"] = Convert.ToString(dr["Name"]);
+                    newDr["二级部"] = Convert.ToString(dr["OrganName"]);
+                    newDr["职能室"] = Convert.ToString(dr["FunctionInfo"]);
+                    newDr["入职时间"] = Convert.ToString(dr["EntryDate"]);
+                    newDr["绩效得分"] = Convert.ToString(dr["JXScore"]);
+                    newDr["绩效等级"] = AppEnum.GetDescription(typeof(AppEnum.JXLevel), Convert.ToInt32(dr["JXLevel"]));
+                    dt.Rows.Add(newDr);
+                }
+                workSheetNameList.Add("绩效历史列表");
+                dtList.Add(dt);
+            }
+            if (dtList.Count == 0)
+            {
+                Assert(lblMsg, "没有符合条件的数据！", -1);
+                return;
+            }
+            //记录运行时间
+            Stopwatch myWatch3 = Stopwatch.StartNew();
+            try
+            {
+                ExcelHelper eh = new ExcelHelper(dtList, workSheetNameList, "绩效历史列表导出(" + DateTime.Now.ToString("yyyyMMddHHmmss") + ")");
+                eh.WriteMultiWorkSheetExcelToClient();
+            }
+            catch (Exception ex)
+            {
+                myWatch3.Stop();
+                _log.Info("导出绩效历史数据;写入到Excel耗时(毫秒)：" + myWatch3.ElapsedMilliseconds );
+                _log.Error(string.Format("导出绩效历史数据出现异常，异常信息：{0} ;异常详情：{1}", ex.Message, ex));
+                Assert(lblMsg, ex.Message, -1);
+                //txtProductID.Text = ex.Message;
             }
         }
     }
