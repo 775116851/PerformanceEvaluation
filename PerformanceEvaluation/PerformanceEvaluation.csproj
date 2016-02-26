@@ -121,7 +121,6 @@
     <Content Include="Images\input_key2.png" />
     <Content Include="Images\input_key3.png" />
     <Content Include="Images\Loading.gif" />
-    <Content Include="Images\loginImg01.gif" />
     <Content Include="Images\loginImg01.jpg" />
     <Content Include="Images\loginImg02.jpg" />
     <Content Include="Images\loginImg03.jpg" />

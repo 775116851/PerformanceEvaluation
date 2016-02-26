@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>欢迎您登录绩效管理平台</title>
+    <title>欢迎您登录通联研发中心绩效管理系统</title>
     <%--<link href="../Style/style.css" rel="stylesheet" />--%>
     <link href="../Style/login.css" rel="stylesheet" />
     <script src="../Scripts/IPP.js"></script>
@@ -27,7 +27,7 @@
         <div id="wrap">
           <div id="Login">
             <div class="box">
-              <p class="a01"><img src="../images/loginImg01.jpg" alt="绩效管理平台" /></p>
+              <p class="a01"><img src="../images/loginImg01.jpg" alt="通联研发中心绩效管理系统" /></p>
               <div class="inBox inBox-1">
                 <dl class="L_Name">
                   <dt>用户名</dt>

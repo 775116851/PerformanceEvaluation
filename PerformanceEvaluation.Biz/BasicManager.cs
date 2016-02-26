@@ -393,7 +393,7 @@ LEFT JOIN dbo.JXMXB c WITH (NOLOCK) ON b.SysNo = c.LowerPersonSysNo AND a.Parent
                     sp.Add(new SqlParameter("@pfCycle", iJXCycle));
                     sbSQL.Clear();
                     sbSQL.Append(" SELECT ISNULL(SUM(CASE WHEN b.JXLevel = 1 THEN 1 ELSE 0 END),0) AS ACount,ISNULL(SUM(CASE WHEN b.JXLevel = 2 THEN 1 ELSE 0 END),0) AS BCount ");
-                    sbSQL.Append(" FROM JXKHGSB a WITH (NOLOCK) INNER JOIN JXMXB b WITH (NOLOCK) ON a.LowerPersonSysNo = b.LowerPersonSysNo AND b.Status = '" + (int)AppEnum.BiStatus.Valid + "' AND b.JXMXCategory = '" + (int)AppEnum.JXMXCategory.JQHZ + "' AND b.JXCycle = @pfCycle ");
+                    sbSQL.Append(" FROM (SELECT DISTINCT LowerPersonSysNo,OrganSysNo FROM JXKHGSB) a INNER JOIN JXMXB b WITH (NOLOCK) ON a.LowerPersonSysNo = b.LowerPersonSysNo AND b.Status = '" + (int)AppEnum.BiStatus.Valid + "' AND b.JXMXCategory = '" + (int)AppEnum.JXMXCategory.JQHZ + "' AND b.JXCycle = @pfCycle ");
                     sbSQL.Append(" WHERE 1=1 AND a.OrganSysNo = @OrganSysNo ");
                     DataSet dsCount = SqlHelper.ExecuteDataSet(AppConfig.Conn_PerformanceEvaluation, sbSQL.ToString(), sp);
                     if (Util.HasMoreRow(dsCount))

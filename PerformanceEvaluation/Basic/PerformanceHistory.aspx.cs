@@ -111,6 +111,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Basic
                     ht.Add("userSysNo", LoginSession.User.SysNo);
                     ht.Add("pfCycle", DateTime.Now.Year.ToString("0000") + DateTime.Now.Month.ToString("00"));
                     Tuple<bool, string> result = BasicManager.GetInstance().SaveJQHZ(ht);
+                    _log.Info(string.Format("加权汇总操作完成，完成时间：{0};返回信息：{1}", DateTime.Now, result.Item2));
                     if (result.Item1 == true)
                     {
                         Assert(lblMsg, result.Item2, 1);

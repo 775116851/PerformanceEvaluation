@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>绩效管理平台</title>
+    <title>通联研发中心绩效管理系统</title>
     <link href="../Style/reset.css" rel="stylesheet" />
     <link href="../Style/default.css" rel="stylesheet" />
     <link href="../Style/index.css" rel="stylesheet" />
@@ -18,7 +18,7 @@
                         <div id="divLogo" alt="logo" onclick=""></div>
                     </a>
                 </div>
-                <p class="info">绩效管理平台</p>
+                <p class="info">通联研发中心绩效管理系统</p>
                  <dl style="display:none">
                         <dt></dt>
                         <dd></dd>
