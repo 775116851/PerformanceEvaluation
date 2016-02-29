@@ -35,6 +35,15 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
         private int _CreateUserSysNo;
         private int _LastUpdateUserSysNo;
         private int _IsAdmin;
+        private string _MobilePhone;
+        private string _QQ;
+        private string _Email;
+        private int _Gender;
+        private string _Note;
+        private int _PersonTypeSysNo;
+        private string _BYZD1;
+        private string _BYZD2;
+        private string _BYZD3;
 
         private int _UserType;//用户类型(1普通用户 2绩效管理员 3公司老大) 非数据库字段
         private int _EJBAdmin;//是否二级部管理人员(1是 0否) 非数据库字段
@@ -165,6 +174,69 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
         }
 
         [DataMember]
+        public string MobilePhone
+        {
+            set { _MobilePhone = value; }
+            get { return _MobilePhone; }
+        }
+
+        [DataMember]
+        public string QQ
+        {
+            set { _QQ = value; }
+            get { return _QQ; }
+        }
+
+        [DataMember]
+        public string Email
+        {
+            set { _Email = value; }
+            get { return _Email; }
+        }
+
+        [DataMember]
+        public int Gender
+        {
+            set { _Gender = value; }
+            get { return _Gender; }
+        }
+
+        [DataMember]
+        public string Note
+        {
+            set { _Note = value; }
+            get { return _Note; }
+        }
+
+        [DataMember]
+        public int PersonTypeSysNo
+        {
+            set { _PersonTypeSysNo = value; }
+            get { return _PersonTypeSysNo; }
+        }
+
+        [DataMember]
+        public string BYZD1
+        {
+            set { _BYZD1 = value; }
+            get { return _BYZD1; }
+        }
+
+        [DataMember]
+        public string BYZD2
+        {
+            set { _BYZD2 = value; }
+            get { return _BYZD2; }
+        }
+
+        [DataMember]
+        public string BYZD3
+        {
+            set { _BYZD3 = value; }
+            get { return _BYZD3; }
+        }
+
+        [DataMember]
         public int UserType
         {
             set { _UserType = value; }
@@ -177,6 +249,8 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
             set { _EJBAdmin = value; }
             get { return _EJBAdmin; }
         }
+
+
 
 
         #endregion
@@ -207,6 +281,16 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
             CreateUserSysNo = AppConst.IntNull;
             LastUpdateUserSysNo = AppConst.IntNull;
             IsAdmin = AppConst.IntNull;
+            MobilePhone = AppConst.StringNull;
+            QQ = AppConst.StringNull;
+            Email = AppConst.StringNull;
+            Gender = AppConst.IntNull;
+            Note = AppConst.StringNull;
+            PersonTypeSysNo = AppConst.IntNull;
+            BYZD1 = AppConst.StringNull;
+            BYZD2 = AppConst.StringNull;
+            BYZD3 = AppConst.StringNull;
+
 
             UserType = AppConst.IntNull;
             EJBAdmin = AppConst.IntNull;

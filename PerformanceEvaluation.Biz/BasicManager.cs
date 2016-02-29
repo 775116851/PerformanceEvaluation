@@ -482,8 +482,8 @@ LEFT JOIN dbo.Organ e WITH (NOLOCK) ON b.ClassSysNo = e.SysNo ";
                     {
                         if (mType == 1)
                         {
-                            sb.Append(" AND (b.ParentPersonSysNo = @ParentPersonSysNo OR b.LowerPersonSysNo=@LowerPersonSysNo) ");
-                            spc.Add(new SqlParameter("@PersonName", ht[key].ToString()));
+                            sb.Append(" AND (b.ParentPersonSysNo = @ParentPersonSysNo OR b.LowerPersonSysNo=@ParentPersonSysNo) ");
+                            spc.Add(new SqlParameter("@ParentPersonSysNo", ht[key].ToString()));
                         }
                     }
                     else if (key == "pfCycle")
@@ -582,6 +582,84 @@ LEFT JOIN dbo.Organ e WITH (NOLOCK) ON b.ClassSysNo = e.SysNo ";
                 }
             }
             return organList;
+        }
+
+        //获取用户类型列表
+        public Dictionary<int, PersonTypeEntity> GetPersonTypeList()
+        {
+            Dictionary<int, PersonTypeEntity> organList = new Dictionary<int, PersonTypeEntity>();
+            string sSQL = " SELECT a.* FROM PersonType a WITH (NOLOCK) WHERE 1=1 AND a.Status = '" + (int)AppEnum.BiStatus.Valid + "' ORDER BY SysNo ASC ";
+            DataSet dsOrganList = SqlHelper.ExecuteDataSet(AppConfig.Conn_PerformanceEvaluation, sSQL);
+            if (Util.HasMoreRow(dsOrganList))
+            {
+                foreach (DataRow drPersonType in dsOrganList.Tables[0].Rows)
+                {
+                    PersonTypeEntity pie = new PersonTypeEntity();
+                    new PersonTypeDac().SetDrToEntity(drPersonType, pie);
+                    organList.Add(pie.SysNo, pie);
+                }
+            }
+            return organList;
+        }
+
+        //获取人员列表
+        public DataSet GetPersonList(int PageIndex, int PageSize, Hashtable ht)
+        {
+            PagerData pd = PagerData.GetInstance();
+            pd.Conn = AppConfig.Conn_PerformanceEvaluation;
+            pd.Field = @" a.SysNo,a.OrganSysNo,a.ClassSysNo,a.Name,a.EntryDate,a.Status,a.IsLogin,a.PersonTypeSysNo,c.OrganName,d.FunctionInfo,b.TypeName  ";
+            pd.Table = @" PersonInfo a WITH (NOLOCK) LEFT JOIN PersonType b WITH (NOLOCK) ON a.PersonTypeSysNo = b.SysNo
+LEFT JOIN Organ c WITH (NOLOCK) ON a.OrganSysNo = c.SysNo
+LEFT JOIN Organ d WITH (NOLOCK) ON a.ClassSysNo = d.SysNo ";
+            pd.Where = " WHERE 1=1 ";
+            pd.SearchWhere = " 1=1 ";
+            pd.Order = " ORDER BY a.SysNo ASC ";
+            pd.PageSize = PageSize;
+            pd.CurrentPageIndex = PageIndex;
+            SqlParameterCollection spc = new SqlCommand().Parameters;
+            if (ht != null && ht.Count > 0)
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach (string key in ht.Keys)
+                {
+                    #region 搜索条件
+                    if (key == "OrganSysNo")
+                    {
+                        sb.Append(" AND a.OrganSysNo = @OrganSysNo ");
+                        spc.Add(new SqlParameter("@OrganSysNo", ht[key].ToString()));
+                    }
+                    else if (key == "ClassSysNo")
+                    {
+                        sb.Append(" AND a.ClassSysNo = @ClassSysNo ");
+                        spc.Add(new SqlParameter("@ClassSysNo", ht[key].ToString()));
+                    }
+                    else if (key == "Status")
+                    {
+                        sb.Append(" AND a.Status = @Status ");
+                        spc.Add(new SqlParameter("@Status", ht[key].ToString()));
+                    }
+                    else if (key == "PersonTypeSysNo")
+                    {
+                        sb.Append(" AND a.PersonTypeSysNo = @PersonTypeSysNo ");
+                        spc.Add(new SqlParameter("@PersonTypeSysNo", ht[key].ToString()));
+                    }
+                    else if (key == "PersonSysNo")
+                    {
+                        sb.Append(" AND a.SysNo = @PersonSysNo ");
+                        spc.Add(new SqlParameter("@PersonSysNo", ht[key].ToString()));
+                    }
+                    else if (key == "Name")
+                    {
+                        sb.Append(" AND a.Name LIKE @Name ");
+                        spc.Add(new SqlParameter("@Name", "%" + ht[key].ToString() + "%"));
+                    }
+                    #endregion
+                }
+                pd.SearchWhere += sb.ToString();
+            }
+            pd.Collection = spc;
+            DataSet ds = pd.GetPage(PageIndex);
+            return ds;
         }
 
         public OrganEntity GetEJBOrgan(int OrganSysNo,int OrderType)

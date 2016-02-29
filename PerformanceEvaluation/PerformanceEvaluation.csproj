@@ -38,6 +38,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AspNetPager">
+      <HintPath>..\3rdParty\AspNetPager.dll</HintPath>
+    </Reference>
     <Reference Include="log4net">
       <HintPath>..\3rdParty\log4net.dll</HintPath>
     </Reference>
@@ -70,6 +73,9 @@
     <Content Include="Basic\PerformanceRating.aspx" />
     <Content Include="Basic\PerformanceRatingOpt.aspx" />
     <Content Include="Basic\PerformanceRating_Ajax.aspx" />
+    <Content Include="Basic\PersonSearch.aspx" />
+    <Content Include="Basic\PersonSearchOpt.aspx" />
+    <Content Include="Basic\PersonSearch_Ajax.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Home\ChangePassword.aspx" />
     <Content Include="Home\Default.aspx" />
@@ -569,6 +575,7 @@
     <Content Include="Style\style.css" />
     <Content Include="Style\thickBox.css" />
     <Content Include="UC\DropDown.ascx" />
+    <Content Include="UC\PersonSelect.aspx" />
     <Content Include="Web.config" />
     <Content Include="WebServices\GeneralSearch.asmx" />
   </ItemGroup>
@@ -607,6 +614,27 @@
     </Compile>
     <Compile Include="Basic\PerformanceRating_Ajax.aspx.designer.cs">
       <DependentUpon>PerformanceRating_Ajax.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Basic\PersonSearch.aspx.cs">
+      <DependentUpon>PersonSearch.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Basic\PersonSearch.aspx.designer.cs">
+      <DependentUpon>PersonSearch.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Basic\PersonSearchOpt.aspx.cs">
+      <DependentUpon>PersonSearchOpt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Basic\PersonSearchOpt.aspx.designer.cs">
+      <DependentUpon>PersonSearchOpt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Basic\PersonSearch_Ajax.aspx.cs">
+      <DependentUpon>PersonSearch_Ajax.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Basic\PersonSearch_Ajax.aspx.designer.cs">
+      <DependentUpon>PersonSearch_Ajax.aspx</DependentUpon>
     </Compile>
     <Compile Include="Code\PageBase.cs">
       <SubType>ASPXCodeBehind</SubType>
@@ -657,6 +685,13 @@
     </Compile>
     <Compile Include="UC\DropDown.ascx.designer.cs">
       <DependentUpon>DropDown.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="UC\PersonSelect.aspx.cs">
+      <DependentUpon>PersonSelect.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UC\PersonSelect.aspx.designer.cs">
+      <DependentUpon>PersonSelect.aspx</DependentUpon>
     </Compile>
     <Compile Include="WebServices\GeneralSearch.asmx.cs">
       <DependentUpon>GeneralSearch.asmx</DependentUpon>
@@ -711,7 +746,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>18117</DevelopmentServerPort>
+          <DevelopmentServerPort>21816</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:14655/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

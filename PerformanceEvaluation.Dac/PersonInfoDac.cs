@@ -170,6 +170,78 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
                 param.Value = model.IsAdmin;
                 cmd.Parameters.Add(param);
             }
+            if (model.MobilePhone != AppConst.StringNull)
+            {
+                strSql1.Append("MobilePhone,");
+                strSql2.Append("@MobilePhone,");
+                SqlParameter param = new SqlParameter("@MobilePhone", SqlDbType.NVarChar, 22);
+                param.Value = model.MobilePhone;
+                cmd.Parameters.Add(param);
+            }
+            if (model.QQ != AppConst.StringNull)
+            {
+                strSql1.Append("QQ,");
+                strSql2.Append("@QQ,");
+                SqlParameter param = new SqlParameter("@QQ", SqlDbType.NVarChar, 40);
+                param.Value = model.QQ;
+                cmd.Parameters.Add(param);
+            }
+            if (model.Email != AppConst.StringNull)
+            {
+                strSql1.Append("Email,");
+                strSql2.Append("@Email,");
+                SqlParameter param = new SqlParameter("@Email", SqlDbType.NVarChar, 40);
+                param.Value = model.Email;
+                cmd.Parameters.Add(param);
+            }
+            if (model.Gender != AppConst.IntNull)
+            {
+                strSql1.Append("Gender,");
+                strSql2.Append("@Gender,");
+                SqlParameter param = new SqlParameter("@Gender", SqlDbType.SmallInt, 2);
+                param.Value = model.Gender;
+                cmd.Parameters.Add(param);
+            }
+            if (model.Note != AppConst.StringNull)
+            {
+                strSql1.Append("Note,");
+                strSql2.Append("@Note,");
+                SqlParameter param = new SqlParameter("@Note", SqlDbType.NVarChar, 400);
+                param.Value = model.Note;
+                cmd.Parameters.Add(param);
+            }
+            if (model.PersonTypeSysNo != AppConst.IntNull)
+            {
+                strSql1.Append("PersonTypeSysNo,");
+                strSql2.Append("@PersonTypeSysNo,");
+                SqlParameter param = new SqlParameter("@PersonTypeSysNo", SqlDbType.Int, 4);
+                param.Value = model.PersonTypeSysNo;
+                cmd.Parameters.Add(param);
+            }
+            if (model.BYZD1 != AppConst.StringNull)
+            {
+                strSql1.Append("BYZD1,");
+                strSql2.Append("@BYZD1,");
+                SqlParameter param = new SqlParameter("@BYZD1", SqlDbType.NVarChar, 400);
+                param.Value = model.BYZD1;
+                cmd.Parameters.Add(param);
+            }
+            if (model.BYZD2 != AppConst.StringNull)
+            {
+                strSql1.Append("BYZD2,");
+                strSql2.Append("@BYZD2,");
+                SqlParameter param = new SqlParameter("@BYZD2", SqlDbType.NVarChar, 400);
+                param.Value = model.BYZD2;
+                cmd.Parameters.Add(param);
+            }
+            if (model.BYZD3 != AppConst.StringNull)
+            {
+                strSql1.Append("BYZD3,");
+                strSql2.Append("@BYZD3,");
+                SqlParameter param = new SqlParameter("@BYZD3", SqlDbType.NVarChar, 400);
+                param.Value = model.BYZD3;
+                cmd.Parameters.Add(param);
+            }
             strSql.Append(strSql1.Remove(strSql1.Length - 1, 1)).Append(")");
             strSql.Append(" values (");
             strSql.Append(strSql2.Remove(strSql2.Length - 1, 1)).Append(")");
@@ -311,6 +383,69 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
                 param.Value = model.IsAdmin;
                 cmd.Parameters.Add(param);
             }
+            if (model.MobilePhone != AppConst.StringNull)
+            {
+                strSql.Append("MobilePhone=@MobilePhone,");
+                SqlParameter param = new SqlParameter("@MobilePhone", SqlDbType.NVarChar, 22);
+                param.Value = model.MobilePhone;
+                cmd.Parameters.Add(param);
+            }
+            if (model.QQ != AppConst.StringNull)
+            {
+                strSql.Append("QQ=@QQ,");
+                SqlParameter param = new SqlParameter("@QQ", SqlDbType.NVarChar, 40);
+                param.Value = model.QQ;
+                cmd.Parameters.Add(param);
+            }
+            if (model.Email != AppConst.StringNull)
+            {
+                strSql.Append("Email=@Email,");
+                SqlParameter param = new SqlParameter("@Email", SqlDbType.NVarChar, 40);
+                param.Value = model.Email;
+                cmd.Parameters.Add(param);
+            }
+            if (model.Gender != AppConst.IntNull)
+            {
+                strSql.Append("Gender=@Gender,");
+                SqlParameter param = new SqlParameter("@Gender", SqlDbType.SmallInt, 2);
+                param.Value = model.Gender;
+                cmd.Parameters.Add(param);
+            }
+            if (model.Note != AppConst.StringNull)
+            {
+                strSql.Append("Note=@Note,");
+                SqlParameter param = new SqlParameter("@Note", SqlDbType.NVarChar, 400);
+                param.Value = model.Note;
+                cmd.Parameters.Add(param);
+            }
+            if (model.PersonTypeSysNo != AppConst.IntNull)
+            {
+                strSql.Append("PersonTypeSysNo=@PersonTypeSysNo,");
+                SqlParameter param = new SqlParameter("@PersonTypeSysNo", SqlDbType.Int, 4);
+                param.Value = model.PersonTypeSysNo;
+                cmd.Parameters.Add(param);
+            }
+            if (model.BYZD1 != AppConst.StringNull)
+            {
+                strSql.Append("BYZD1=@BYZD1,");
+                SqlParameter param = new SqlParameter("@BYZD1", SqlDbType.NVarChar, 400);
+                param.Value = model.BYZD1;
+                cmd.Parameters.Add(param);
+            }
+            if (model.BYZD2 != AppConst.StringNull)
+            {
+                strSql.Append("BYZD2=@BYZD2,");
+                SqlParameter param = new SqlParameter("@BYZD2", SqlDbType.NVarChar, 400);
+                param.Value = model.BYZD2;
+                cmd.Parameters.Add(param);
+            }
+            if (model.BYZD3 != AppConst.StringNull)
+            {
+                strSql.Append("BYZD3=@BYZD3,");
+                SqlParameter param = new SqlParameter("@BYZD3", SqlDbType.NVarChar, 400);
+                param.Value = model.BYZD3;
+                cmd.Parameters.Add(param);
+            }
             strSql.Remove(strSql.Length - 1, 1);
             strSql.Append(" where SysNo=@SysNo ");
             cmd.CommandText = strSql.ToString();
@@ -395,6 +530,21 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
             {
                 model.IsAdmin = int.Parse(ds.Tables[0].Rows[0]["IsAdmin"].ToString());
             }
+            model.MobilePhone = ds.Tables[0].Rows[0]["MobilePhone"].ToString();
+            model.QQ = ds.Tables[0].Rows[0]["QQ"].ToString();
+            model.Email = ds.Tables[0].Rows[0]["Email"].ToString();
+            if (ds.Tables[0].Rows[0]["Gender"].ToString() != "")
+            {
+                model.Gender = int.Parse(ds.Tables[0].Rows[0]["Gender"].ToString());
+            }
+            model.Note = ds.Tables[0].Rows[0]["Note"].ToString();
+            if (ds.Tables[0].Rows[0]["PersonTypeSysNo"].ToString() != "")
+            {
+                model.PersonTypeSysNo = int.Parse(ds.Tables[0].Rows[0]["PersonTypeSysNo"].ToString());
+            }
+            model.BYZD1 = ds.Tables[0].Rows[0]["BYZD1"].ToString();
+            model.BYZD2 = ds.Tables[0].Rows[0]["BYZD2"].ToString();
+            model.BYZD3 = ds.Tables[0].Rows[0]["BYZD3"].ToString();
             return model;
         }
         /// <summary>
@@ -488,6 +638,22 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
             {
                 model.IsAdmin = int.Parse(dr["IsAdmin"].ToString());
             }
+            model.MobilePhone = dr["MobilePhone"].ToString();
+            model.QQ = dr["QQ"].ToString();
+            model.Email = dr["Email"].ToString();
+            if (dr["Gender"].ToString() != "")
+            {
+                model.Gender = int.Parse(dr["Gender"].ToString());
+            }
+            model.Note = dr["Note"].ToString();
+            if (dr["PersonTypeSysNo"].ToString() != "")
+            {
+                model.PersonTypeSysNo = int.Parse(dr["PersonTypeSysNo"].ToString());
+            }
+            model.BYZD1 = dr["BYZD1"].ToString();
+            model.BYZD2 = dr["BYZD2"].ToString();
+            model.BYZD3 = dr["BYZD3"].ToString();
+
             return model;
         }
     }

@@ -49,6 +49,7 @@
     <Compile Include="OrganDac.cs" />
     <Compile Include="PagerData.cs" />
     <Compile Include="PersonInfoDac.cs" />
+    <Compile Include="PersonTypeDac.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlHelper.cs" />
   </ItemGroup>

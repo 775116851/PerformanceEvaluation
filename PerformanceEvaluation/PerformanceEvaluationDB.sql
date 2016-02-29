@@ -25,6 +25,17 @@ CreateUserSysNo INT,
 LastUpdateUserSysNo INT,
 IsAdmin SMALLINT
 )
+--人员类型表
+CREATE TABLE PersonType
+(
+SysNo INT IDENTITY(1,1) PRIMARY KEY,
+TypeName NVARCHAR(32),
+[Status] SMALLINT,
+CreateTime DATETIME,
+LastUpdateTime DATETIME,
+CreateUserSysNo INT,
+LastUpdateUserSysNo INT
+)
 GO
 --部门机构表
 CREATE TABLE Organ
@@ -94,10 +105,69 @@ CreateUserSysNo INT,
 LastUpdateUserSysNo INT
 )
 GO
+--手机号
+IF NOT EXISTS(select * from syscolumns where id=object_id('PersonInfo') and name='MobilePhone')
+BEGIN
+ALTER TABLE PersonInfo ADD MobilePhone NVARCHAR(11) 
+END
+--QQ
+IF NOT EXISTS(select * from syscolumns where id=object_id('PersonInfo') and name='QQ')
+BEGIN
+ALTER TABLE PersonInfo ADD QQ NVARCHAR(20) 
+END
+--邮箱
+IF NOT EXISTS(select * from syscolumns where id=object_id('PersonInfo') and name='Email')
+BEGIN
+ALTER TABLE PersonInfo ADD Email NVARCHAR(20) 
+END
+--性别(1男 2女)
+IF NOT EXISTS(select * from syscolumns where id=object_id('PersonInfo') and name='Gender')
+BEGIN
+ALTER TABLE PersonInfo ADD Gender SMALLINT
+END
+--备注
+IF NOT EXISTS(select * from syscolumns where id=object_id('PersonInfo') and name='Note')
+BEGIN
+ALTER TABLE PersonInfo ADD Note NVARCHAR(200)
+END
+--人员类型
+IF NOT EXISTS(select * from syscolumns where id=object_id('PersonInfo') and name='PersonTypeSysNo')
+BEGIN
+ALTER TABLE PersonInfo ADD PersonTypeSysNo INT
+END
+--备用字段一
+IF NOT EXISTS(select * from syscolumns where id=object_id('PersonInfo') and name='BYZD1')
+BEGIN
+ALTER TABLE PersonInfo ADD BYZD1 NVARCHAR(200)
+END
+--备用字段二
+IF NOT EXISTS(select * from syscolumns where id=object_id('PersonInfo') and name='BYZD2')
+BEGIN
+ALTER TABLE PersonInfo ADD BYZD2 NVARCHAR(200)
+END
+--备用字段三
+IF NOT EXISTS(select * from syscolumns where id=object_id('PersonInfo') and name='BYZD3')
+BEGIN
+ALTER TABLE PersonInfo ADD BYZD3 NVARCHAR(200)
+END
 GO
 SELECT * FROM PersonInfo
 SELECT * FROM Organ
+SELECT * FROM PersonType
 GO
+--TRUNCATE TABLE PersonType
+--INSERT INTO PersonType(TypeName,Status,CreateTime,LastUpdateTime)
+--VALUES('中心主要负责人',0,GETDATE(),GETDATE())
+--INSERT INTO PersonType(TypeName,Status,CreateTime,LastUpdateTime)
+--VALUES('中心主要非负责人',0,GETDATE(),GETDATE())
+--INSERT INTO PersonType(TypeName,Status,CreateTime,LastUpdateTime)
+--VALUES('二级部主要负责人',0,GETDATE(),GETDATE())
+--INSERT INTO PersonType(TypeName,Status,CreateTime,LastUpdateTime)
+--VALUES('二级部主要非负责人',0,GETDATE(),GETDATE())
+--INSERT INTO PersonType(TypeName,Status,CreateTime,LastUpdateTime)
+--VALUES('室经理',0,GETDATE(),GETDATE())
+--INSERT INTO PersonType(TypeName,Status,CreateTime,LastUpdateTime)
+--VALUES('普通员工',0,GETDATE(),GETDATE())
 --TRUNCATE TABLE dbo.Organ
 --INSERT INTO dbo.Organ(OrganId,OrganType,FunctionInfo,OrganName,PersonNum,AGradScale,BGradScale,CreateTime,LastUpdateTime)
 --VALUES(10000,10,'互联网应用部','互联网应用部',5,40,30,GETDATE(),GETDATE())
@@ -284,3 +354,16 @@ GO
 SELECT * FROM PersonInfo
 SELECT * FROM JXMXB
 
+
+SELECT a.* FROM PersonType a WITH (NOLOCK) WHERE 1=1 AND a.Status = '0' ORDER BY SysNo ASC
+GO
+SELECT a.SysNo,a.OrganSysNo,a.ClassSysNo,a.Name,a.EntryDate,a.Status,a.IsLogin,a.PersonTypeSysNo,c.OrganName,d.FunctionInfo,b.TypeName 
+FROM PersonInfo a WITH (NOLOCK) LEFT JOIN PersonType b WITH (NOLOCK) ON a.PersonTypeSysNo = b.SysNo
+LEFT JOIN Organ c WITH (NOLOCK) ON a.OrganSysNo = c.SysNo
+LEFT JOIN Organ d WITH (NOLOCK) ON a.ClassSysNo = d.SysNo
+WHERE 1=1 AND a.OrganSysNo = '1' AND a.ClassSysNo = '3' AND a.Status = '0' AND a.Name LIKE '%互联%' AND a.PersonTypeSysNo = ''
+ORDER BY a.SysNo ASC
+
+SELECT * FROM PersonType
+SELECT * FROM PersonInfo
+UPDATE PersonInfo SET PersonTypeSysNo = '6' WHERE SysNo IN ('8','9','10')

@@ -65,6 +65,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Basic
                 }
                 if (LoginSession.User.UserType == 1)
                 {
+                    ht.Add("MType", "1");
                     ht.Add("ParentPersonSysNo", LoginSession.User.SysNo);
                     ht.Add("OrganSysNo", LoginSession.User.OrganSysNo);
                     if (LoginSession.User.ClassSysNo != AppConst.IntNull)
@@ -84,6 +85,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Basic
                 }
                 else//绩效管理员和公司老大
                 {
+                    ht.Add("MType", "2");
                     if (Request.Form["ddlOrgan"] != null && Request.Form["ddlOrgan"].ToString() != "" && Convert.ToInt32(Request.Form["ddlOrgan"]) != AppConst.IntNull)
                     {
                         ht.Add("OrganSysNo", Convert.ToInt32(Request.Form["ddlOrgan"]).ToString());
