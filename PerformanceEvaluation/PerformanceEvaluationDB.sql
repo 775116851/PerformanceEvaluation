@@ -386,7 +386,7 @@ SELECT * FROM PersonInfo
 GO
 --加权汇总（正常数据汇总）
 SELECT a.LowerPersonSysNo,MAX(a.JXCategory) AS JXCategory,MAX(a.ParentPersonSysNo) AS ParentPersonSysNo,MAX(a.JXCycle) AS JXCycle,SUM(a.JXScore * b.GradScale/100) AS TotalScore
-FROM JXMXB a WITH (NOLOCK) INNER JOIN JXKHGSB b WITH (NOLOCK) ON a.ParentPersonSysNo = b.ParentPersonSysNo AND a.LowerPersonSysNo = b.LowerPersonSysNo AND a.JXMXCategory = '20' AND a.Status = '0' AND a.JXCycle = '201603' AND b.RecordType = '1'
+FROM JXMXB a WITH (NOLOCK) INNER JOIN JXKHGSB b WITH (NOLOCK) ON a.ParentPersonSysNo = b.ParentPersonSysNo AND a.LowerPersonSysNo = b.LowerPersonSysNo AND a.RecordType = b.RecordType AND a.JXMXCategory = '20' AND a.Status = '0' AND a.JXCycle = '201603' AND b.RecordType = '1'
 WHERE 1=1 AND a.LowerPersonSysNo NOT IN (SELECT DISTINCT LowerPersonSysNo FROM JXKHGSB WHERE RecordType = '2')
 GROUP BY a.LowerPersonSysNo
 
