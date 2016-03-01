@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" ValidateRequest="false" CodeBehind="PersonSearchOpt.aspx.cs" Inherits="PerformanceEvaluation.PerformanceEvaluation.Basic.PersonSearchOpt" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" EnableEventValidation="false" CodeBehind="PersonSearchOpt.aspx.cs" Inherits="PerformanceEvaluation.PerformanceEvaluation.Basic.PersonSearchOpt" %>
 <%@ Register Src="~/UC/DropDown.ascx" TagPrefix="uc" TagName="DropDown" %>
 <!DOCTYPE html>
 
@@ -46,6 +46,7 @@
                             <th><span>*</span>所属机构</th>
                             <td><asp:DropDownList ID="ddlOrgan" sname="forminput" runat="server"></asp:DropDownList>
                                 <asp:DropDownList ID="ddlClass" sname="forminput" runat="server"></asp:DropDownList>
+                                <asp:HiddenField ID="hidClassSysNo" runat="server" Value="-9999" />
                             </td>
                         </tr>
                         <tr>
@@ -74,7 +75,7 @@
                         <tr>
                             <th>QQ号</th>
                             <td><asp:TextBox ID="txtQQ" runat="server" class="InputOne9" MaxLength="20"></asp:TextBox></td>
-                            <th>邮件</th>
+                            <th>邮箱</th>
                             <td><asp:TextBox ID="txtEmail" runat="server" class="InputOne9" MaxLength="20"></asp:TextBox></td>
                         </tr>
                         <tr>
@@ -104,7 +105,7 @@
 
                 <ul class="ConditionsTwo ConditionsTwo-4">
                     <li>
-                        <asp:Button ID="btnSave" runat="server" Text="保 存"  Style="width: 70px;" class="InputOne3"></asp:Button>
+                        <asp:Button ID="btnSave" runat="server" Text="保 存"  Style="width: 70px;" class="InputOne3" OnClick="btnSave_Click"></asp:Button>
                     </li>
                 </ul>
 
@@ -125,6 +126,12 @@
             if (pOrgan != "<%=PerformanceEvaluation.Cmn.AppConst.IntNull%>") {
                 AjaxWebService("GetClassList", "{organSysNo:'" + pOrgan + "'}", OrganChange_Callback);
             }
+        });
+
+        $("#<%=ddlClass.ClientID %>").change(function () {
+            var pOrgan = $("#<%=ddlOrgan.ClientID %>").val();
+            var pClass = $("#<%=ddlClass.ClientID %>").val();
+            $("#hidClassSysNo").val(pClass);
         });
 
         function OrganChange_Callback(result) {

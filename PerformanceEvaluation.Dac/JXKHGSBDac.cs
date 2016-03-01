@@ -114,6 +114,14 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
                 param.Value = model.LastUpdateUserSysNo;
                 cmd.Parameters.Add(param);
             }
+            if (model.RecordType != AppConst.IntNull)
+            {
+                strSql1.Append("RecordType,");
+                strSql2.Append("@RecordType,");
+                SqlParameter param = new SqlParameter("@RecordType", SqlDbType.SmallInt, 2);
+                param.Value = model.RecordType;
+                cmd.Parameters.Add(param);
+            }
             strSql.Append(strSql1.Remove(strSql1.Length - 1, 1)).Append(")");
             strSql.Append(" values (");
             strSql.Append(strSql2.Remove(strSql2.Length - 1, 1)).Append(")");
@@ -206,6 +214,13 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
                 param.Value = model.LastUpdateUserSysNo;
                 cmd.Parameters.Add(param);
             }
+            if (model.RecordType != AppConst.IntNull)
+            {
+                strSql.Append("RecordType=@RecordType,");
+                SqlParameter param = new SqlParameter("@RecordType", SqlDbType.SmallInt, 2);
+                param.Value = model.RecordType;
+                cmd.Parameters.Add(param);
+            }
             strSql.Remove(strSql.Length - 1, 1);
             strSql.Append(" where SysNo=@SysNo ");
             cmd.CommandText = strSql.ToString();
@@ -273,6 +288,10 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
             if (ds.Tables[0].Rows[0]["LastUpdateUserSysNo"].ToString() != "")
             {
                 model.LastUpdateUserSysNo = int.Parse(ds.Tables[0].Rows[0]["LastUpdateUserSysNo"].ToString());
+            }
+            if (ds.Tables[0].Rows[0]["RecordType"].ToString() != "")
+            {
+                model.RecordType = int.Parse(ds.Tables[0].Rows[0]["RecordType"].ToString());
             }
             return model;
         }

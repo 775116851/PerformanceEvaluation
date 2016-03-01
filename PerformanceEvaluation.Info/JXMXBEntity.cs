@@ -31,6 +31,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
         private int _CreateUserSysNo;
         private int _LastUpdateUserSysNo;
         private int _Status;
+        private int _RecordType;
 
         private double _TotalScore;//评分总分(评分*权重/满分) 非数据库字段
         [DataMember]
@@ -138,6 +139,13 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
             get { return _Status; }
         }
 
+        [DataMember]
+        public int RecordType
+        {
+            set { _RecordType = value; }
+            get { return _RecordType; }
+        }
+
         #endregion
 
         [System.Runtime.Serialization.OnDeserializing]
@@ -162,6 +170,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
             CreateUserSysNo = AppConst.IntNull;
             LastUpdateUserSysNo = AppConst.IntNull;
             Status = AppConst.IntNull;
+            RecordType = AppConst.IntNull;
 
             TotalScore = AppConst.DoubleNull;
         }

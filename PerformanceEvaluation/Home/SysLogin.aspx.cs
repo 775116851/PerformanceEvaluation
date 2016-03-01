@@ -172,14 +172,21 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Home
             mAA2.MenuLink = "../Basic/PerformanceRating.aspx";
             mAA2.Status = 0;
             menuList.Add(mAA2);
-            Custom_Sys_MenuEntity mAA3 = new Custom_Sys_MenuEntity();
-            mAA3.SysNo = 5;
-            mAA3.M1SysNo = 1;
-            mAA3.M2SysNo = 2;
-            mAA3.MenuName = "员工信息管理";
-            mAA3.MenuLink = "../Basic/PersonSearch.aspx";
-            mAA3.Status = 0;
-            menuList.Add(mAA3);
+            SessionInfo LoginSession = Session["LoginSession"] as SessionInfo;
+            if (LoginSession != null)
+            {
+                if(LoginSession.User.UserType == 2)
+                {
+                    Custom_Sys_MenuEntity mAA3 = new Custom_Sys_MenuEntity();
+                    mAA3.SysNo = 5;
+                    mAA3.M1SysNo = 1;
+                    mAA3.M2SysNo = 2;
+                    mAA3.MenuName = "员工信息管理";
+                    mAA3.MenuLink = "../Basic/PersonSearch.aspx";
+                    mAA3.Status = 0;
+                    menuList.Add(mAA3);
+                }
+            }
             //Custom_Sys_MenuEntity mAA4 = new Custom_Sys_MenuEntity();
             //mAA4.SysNo = 6;
             //mAA4.M1SysNo = 1;

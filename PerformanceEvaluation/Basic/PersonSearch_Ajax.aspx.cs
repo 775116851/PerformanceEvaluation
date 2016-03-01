@@ -26,6 +26,10 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Basic
         private ILog _log = log4net.LogManager.GetLogger(typeof(PersonSearch_Ajax));
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (LoginSession.User.UserType != 2)
+            {
+                return;
+            }
             if (Request.QueryString["PageIndex"] != null)
             {
                 PageIndex = Convert.ToInt32(Request.QueryString["PageIndex"]);
@@ -58,6 +62,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Basic
                 {
                     ht.Add("PersonTypeSysNo", Convert.ToInt32(Request.Form["ddlPersonType"]).ToString());
                 }
+                ht.Add("IsAdmin", 0);
                 DataSet ds = BasicManager.GetInstance().GetPersonList(PageIndex, PageSize, ht);
                 PageCount = Convert.ToInt32(ds.Tables[1].Rows[0][0]);
                 BeginIndex = (PageIndex - 1) * PageSize + 1;
@@ -78,7 +83,8 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Basic
             {
                 int sysNo = Convert.ToInt32(DataBinder.Eval(e.Item.DataItem, "SysNo"));
                 Literal ltLink = (Literal)e.Item.FindControl("litLink");
-                ltLink.Text += " <a target='_blank' href='PersonSearchOpt.aspx?SysNo=" + sysNo + "'>修改</a> ";
+                ltLink.Text += " <a target='_blank' href='PersonSearchOpt.aspx?SysNo=" + sysNo + "&OptType=0'>查看</a> ";
+                ltLink.Text += " <a target='_blank' href='PersonSearchOpt.aspx?SysNo=" + sysNo + "&OptType=1'>修改</a> ";
             }
         }
     }

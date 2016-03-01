@@ -28,6 +28,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
         private DateTime _LastUpdateTime;
         private int _CreateUserSysNo;
         private int _LastUpdateUserSysNo;
+        private int _RecordType;
         [DataMember]
         public int SysNo
         {
@@ -105,6 +106,12 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
             get { return _LastUpdateUserSysNo; }
         }
 
+        [DataMember]
+        public int RecordType
+        {
+            set { _RecordType = value; }
+            get { return _RecordType; }
+        }
 
         #endregion
 
@@ -127,6 +134,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
             LastUpdateTime = AppConst.DateTimeNull;
             CreateUserSysNo = AppConst.IntNull;
             LastUpdateUserSysNo = AppConst.IntNull;
+            RecordType = AppConst.IntNull;
 
         }
 

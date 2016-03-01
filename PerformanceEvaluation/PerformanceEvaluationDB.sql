@@ -150,6 +150,16 @@ IF NOT EXISTS(select * from syscolumns where id=object_id('PersonInfo') and name
 BEGIN
 ALTER TABLE PersonInfo ADD BYZD3 NVARCHAR(200)
 END
+--记录类型(1手工填写 2系统填写)
+IF NOT EXISTS(select * from syscolumns where id=object_id('JXKHGSB') and name='RecordType')
+BEGIN
+ALTER TABLE JXKHGSB ADD RecordType SMALLINT
+END
+--记录类型(1手工填写 2系统填写)
+IF NOT EXISTS(select * from syscolumns where id=object_id('JXMXB') and name='RecordType')
+BEGIN
+ALTER TABLE JXMXB ADD RecordType SMALLINT
+END
 GO
 SELECT * FROM PersonInfo
 SELECT * FROM Organ
@@ -220,35 +230,41 @@ GO
 --UPDATE dbo.Organ SET PersonSysNo = '6' WHERE SysNo = '4'
 --UPDATE dbo.Organ SET PersonSysNo = '7' WHERE SysNo = '5'
 --GO
---TRUNCATE TABLE dbo.JXKHGSB
-----公司老大-部门经理及员工
---INSERT INTO dbo.JXKHGSB(ParentPersonSysNo,OrganSysNo,LowerPersonSysNo,JXCategory,GradScale,CreateTime,LastUpdateTime)
---VALUES(1,1,3,20,100,GETDATE(),GETDATE())
---INSERT INTO dbo.JXKHGSB(ParentPersonSysNo,OrganSysNo,LowerPersonSysNo,JXCategory,GradScale,CreateTime,LastUpdateTime)
---VALUES(1,2,4,20,100,GETDATE(),GETDATE())
---INSERT INTO dbo.JXKHGSB(ParentPersonSysNo,OrganSysNo,LowerPersonSysNo,JXCategory,GradScale,CreateTime,LastUpdateTime)
---VALUES(1,1,9,10,50,GETDATE(),GETDATE())
-----部门经理-经理
---INSERT INTO dbo.JXKHGSB(ParentPersonSysNo,OrganSysNo,LowerPersonSysNo,LowerClassSysNo,JXCategory,GradScale,CreateTime,LastUpdateTime)
---VALUES(3,1,5,3,10,100,GETDATE(),GETDATE())
---INSERT INTO dbo.JXKHGSB(ParentPersonSysNo,OrganSysNo,LowerPersonSysNo,LowerClassSysNo,JXCategory,GradScale,CreateTime,LastUpdateTime)
---VALUES(3,1,6,4,10,100,GETDATE(),GETDATE())
---INSERT INTO dbo.JXKHGSB(ParentPersonSysNo,OrganSysNo,LowerPersonSysNo,LowerClassSysNo,JXCategory,GradScale,CreateTime,LastUpdateTime)
---VALUES(4,2,7,5,10,100,GETDATE(),GETDATE())
-----部门经理-员工
---INSERT INTO dbo.JXKHGSB(ParentPersonSysNo,OrganSysNo,LowerPersonSysNo,LowerClassSysNo,JXCategory,GradScale,CreateTime,LastUpdateTime)
---VALUES(3,1,8,3,10,60,GETDATE(),GETDATE())
---INSERT INTO dbo.JXKHGSB(ParentPersonSysNo,OrganSysNo,LowerPersonSysNo,LowerClassSysNo,JXCategory,GradScale,CreateTime,LastUpdateTime)
---VALUES(3,1,9,3,10,30,GETDATE(),GETDATE())
---INSERT INTO dbo.JXKHGSB(ParentPersonSysNo,OrganSysNo,LowerPersonSysNo,LowerClassSysNo,JXCategory,GradScale,CreateTime,LastUpdateTime)
---VALUES(3,1,10,4,10,60,GETDATE(),GETDATE())
-----经理-员工
---INSERT INTO dbo.JXKHGSB(ParentPersonSysNo,OrganSysNo,LowerPersonSysNo,LowerClassSysNo,JXCategory,GradScale,CreateTime,LastUpdateTime)
---VALUES(5,1,8,3,10,40,GETDATE(),GETDATE())
---INSERT INTO dbo.JXKHGSB(ParentPersonSysNo,OrganSysNo,LowerPersonSysNo,LowerClassSysNo,JXCategory,GradScale,CreateTime,LastUpdateTime)
---VALUES(5,1,9,3,10,20,GETDATE(),GETDATE())
---INSERT INTO dbo.JXKHGSB(ParentPersonSysNo,OrganSysNo,LowerPersonSysNo,LowerClassSysNo,JXCategory,GradScale,CreateTime,LastUpdateTime)
---VALUES(6,1,10,4,10,40,GETDATE(),GETDATE())
+TRUNCATE TABLE dbo.JXKHGSB
+--公司老大-部门经理及员工
+INSERT INTO dbo.JXKHGSB(ParentPersonSysNo,OrganSysNo,LowerPersonSysNo,JXCategory,GradScale,CreateTime,LastUpdateTime,RecordType)
+VALUES(1,1,3,20,100,GETDATE(),GETDATE(),1)
+INSERT INTO dbo.JXKHGSB(ParentPersonSysNo,OrganSysNo,LowerPersonSysNo,JXCategory,GradScale,CreateTime,LastUpdateTime,RecordType)
+VALUES(1,2,4,20,100,GETDATE(),GETDATE(),1)
+INSERT INTO dbo.JXKHGSB(ParentPersonSysNo,OrganSysNo,LowerPersonSysNo,JXCategory,GradScale,CreateTime,LastUpdateTime,RecordType)
+VALUES(1,1,9,10,10,GETDATE(),GETDATE(),1)
+--部门经理-经理
+INSERT INTO dbo.JXKHGSB(ParentPersonSysNo,OrganSysNo,LowerPersonSysNo,LowerClassSysNo,JXCategory,GradScale,CreateTime,LastUpdateTime,RecordType)
+VALUES(3,1,5,3,10,100,GETDATE(),GETDATE(),1)
+INSERT INTO dbo.JXKHGSB(ParentPersonSysNo,OrganSysNo,LowerPersonSysNo,LowerClassSysNo,JXCategory,GradScale,CreateTime,LastUpdateTime,RecordType)
+VALUES(3,1,6,4,10,100,GETDATE(),GETDATE(),1)
+INSERT INTO dbo.JXKHGSB(ParentPersonSysNo,OrganSysNo,LowerPersonSysNo,LowerClassSysNo,JXCategory,GradScale,CreateTime,LastUpdateTime,RecordType)
+VALUES(4,2,7,5,10,100,GETDATE(),GETDATE(),1)
+--部门经理-员工
+INSERT INTO dbo.JXKHGSB(ParentPersonSysNo,OrganSysNo,LowerPersonSysNo,LowerClassSysNo,JXCategory,GradScale,CreateTime,LastUpdateTime,RecordType)
+VALUES(3,1,8,3,10,30,GETDATE(),GETDATE(),1)
+INSERT INTO dbo.JXKHGSB(ParentPersonSysNo,OrganSysNo,LowerPersonSysNo,LowerClassSysNo,JXCategory,GradScale,CreateTime,LastUpdateTime,RecordType)
+VALUES(3,1,8,3,10,50,GETDATE(),GETDATE(),2)
+INSERT INTO dbo.JXKHGSB(ParentPersonSysNo,OrganSysNo,LowerPersonSysNo,LowerClassSysNo,JXCategory,GradScale,CreateTime,LastUpdateTime,RecordType)
+VALUES(3,1,9,3,10,30,GETDATE(),GETDATE(),1)
+INSERT INTO dbo.JXKHGSB(ParentPersonSysNo,OrganSysNo,LowerPersonSysNo,LowerClassSysNo,JXCategory,GradScale,CreateTime,LastUpdateTime,RecordType)
+VALUES(3,1,9,3,10,20,GETDATE(),GETDATE(),2)
+INSERT INTO dbo.JXKHGSB(ParentPersonSysNo,OrganSysNo,LowerPersonSysNo,LowerClassSysNo,JXCategory,GradScale,CreateTime,LastUpdateTime,RecordType)
+VALUES(3,1,10,4,10,60,GETDATE(),GETDATE(),1)
+--经理-员工
+INSERT INTO dbo.JXKHGSB(ParentPersonSysNo,OrganSysNo,LowerPersonSysNo,LowerClassSysNo,JXCategory,GradScale,CreateTime,LastUpdateTime,RecordType)
+VALUES(5,1,8,3,10,20,GETDATE(),GETDATE(),1)
+INSERT INTO dbo.JXKHGSB(ParentPersonSysNo,OrganSysNo,LowerPersonSysNo,LowerClassSysNo,JXCategory,GradScale,CreateTime,LastUpdateTime,RecordType)
+VALUES(5,1,9,3,10,20,GETDATE(),GETDATE(),1)
+INSERT INTO dbo.JXKHGSB(ParentPersonSysNo,OrganSysNo,LowerPersonSysNo,LowerClassSysNo,JXCategory,GradScale,CreateTime,LastUpdateTime,RecordType)
+VALUES(5,1,9,3,10,20,GETDATE(),GETDATE(),2)
+INSERT INTO dbo.JXKHGSB(ParentPersonSysNo,OrganSysNo,LowerPersonSysNo,LowerClassSysNo,JXCategory,GradScale,CreateTime,LastUpdateTime,RecordType)
+VALUES(6,1,10,4,10,40,GETDATE(),GETDATE(),1)
 --GO
 --TRUNCATE TABLE dbo.JXMXB
 GO
@@ -361,9 +377,48 @@ SELECT a.SysNo,a.OrganSysNo,a.ClassSysNo,a.Name,a.EntryDate,a.Status,a.IsLogin,a
 FROM PersonInfo a WITH (NOLOCK) LEFT JOIN PersonType b WITH (NOLOCK) ON a.PersonTypeSysNo = b.SysNo
 LEFT JOIN Organ c WITH (NOLOCK) ON a.OrganSysNo = c.SysNo
 LEFT JOIN Organ d WITH (NOLOCK) ON a.ClassSysNo = d.SysNo
-WHERE 1=1 AND a.OrganSysNo = '1' AND a.ClassSysNo = '3' AND a.Status = '0' AND a.Name LIKE '%互联%' AND a.PersonTypeSysNo = ''
+WHERE 1=1 AND ISNULL(a.IsAdmin,0) = 0 AND a.OrganSysNo = '1' AND a.ClassSysNo = '3' AND a.Status = '0' AND a.Name LIKE '%互联%' AND a.PersonTypeSysNo = ''
 ORDER BY a.SysNo ASC
 
 SELECT * FROM PersonType
 SELECT * FROM PersonInfo
-UPDATE PersonInfo SET PersonTypeSysNo = '6' WHERE SysNo IN ('8','9','10')
+--UPDATE PersonInfo SET PersonTypeSysNo = '6' WHERE SysNo IN ('8','9','10')
+GO
+--加权汇总（正常数据汇总）
+SELECT a.LowerPersonSysNo,MAX(a.JXCategory) AS JXCategory,MAX(a.ParentPersonSysNo) AS ParentPersonSysNo,MAX(a.JXCycle) AS JXCycle,SUM(a.JXScore * b.GradScale/100) AS TotalScore
+FROM JXMXB a WITH (NOLOCK) INNER JOIN JXKHGSB b WITH (NOLOCK) ON a.ParentPersonSysNo = b.ParentPersonSysNo AND a.LowerPersonSysNo = b.LowerPersonSysNo AND a.JXMXCategory = '20' AND a.Status = '0' AND a.JXCycle = '201603' AND b.RecordType = '1'
+WHERE 1=1 AND a.LowerPersonSysNo NOT IN (SELECT DISTINCT LowerPersonSysNo FROM JXKHGSB WHERE RecordType = '2')
+GROUP BY a.LowerPersonSysNo
+
+DELETE FROM JXMXB WHERE JXCycle = '201603' AND JXMXCategory = '20' AND RecordType = '2';
+SELECT b.ParentPersonSysNo,b.LowerPersonSysNo,b.JXCategory,'201603' AS JXCycle,a.JXScore,a.JXLevel,a.JXLevel,'20' AS JXMXCategory
+FROM JXMXB a WITH (NOLOCK) INNER JOIN JXKHGSB b WITH (NOLOCK) ON a.LowerPersonSysNo = b.ParentPersonSysNo AND a.JXMXCategory = '99' AND a.Status = '0' AND a.JXCycle = '201603' AND b.RecordType = '2'
+
+
+SELECT * FROM JXMXB WHERE JXMXCategory = '20' AND JXCycle = '201603'
+SELECT * FROM JXMXB WHERE JXMXCategory = '99' AND JXCycle = '201603'
+SELECT * FROM JXKHGSB
+SELECT * FROM JXMXB WHERE JXCycle = '201603' AND JXMXCategory IN ('20','99') AND LowerPersonSysNo = '7'
+GO
+DELETE JXMXB WHERE JXCycle = '201603' AND JXMXCategory = '20'
+DELETE JXMXB WHERE SysNo IN ('274','275','276')
+
+SELECT a.LowerPersonSysNo,MAX(a.JXCategory) AS JXCategory,MAX(a.ParentPersonSysNo) AS ParentPersonSysNo,MAX(a.JXCycle) AS JXCycle,SUM(a.JXScore * b.GradScale/100) AS TotalScore
+FROM JXMXB a WITH (NOLOCK) INNER JOIN JXKHGSB b WITH (NOLOCK) ON a.ParentPersonSysNo = b.ParentPersonSysNo AND a.LowerPersonSysNo = b.LowerPersonSysNo AND a.JXMXCategory = '20' AND a.Status = '0' AND a.JXCycle = '201603' AND b.RecordType = '2'
+WHERE 1=1 
+GROUP BY a.LowerPersonSysNo
+
+
+SELECT * FROM JXMXB WHERE JXMXCategory = '20' AND JXCycle = '201603' AND LowerPersonSysNo IN ('8','9')
+SELECT * FROM JXKHGSB WHERE LowerPersonSysNo IN ('8','9')
+SELECT * FROM JXKHGSB WHERE LowerPersonSysNo ='8'
+SELECT * FROM JXKHGSB WHERE LowerPersonSysNo ='9'
+
+SELECT a.LowerPersonSysNo,MAX(a.JXCategory) AS JXCategory,MAX(a.ParentPersonSysNo) AS ParentPersonSysNo,MAX(a.JXCycle) AS JXCycle,SUM(a.JXScore * b.GradScale/100) AS TotalScore
+FROM JXMXB a WITH (NOLOCK) INNER JOIN JXKHGSB b WITH (NOLOCK) ON a.ParentPersonSysNo = b.ParentPersonSysNo AND a.LowerPersonSysNo = b.LowerPersonSysNo AND a.RecordType = b.RecordType AND a.JXMXCategory = '20' AND a.Status = '0' AND a.JXCycle = '201603'
+WHERE 1=1 AND a.LowerPersonSysNo IN (SELECT DISTINCT LowerPersonSysNo FROM JXKHGSB WHERE RecordType = '2')
+GROUP BY a.LowerPersonSysNo
+
+SELECT a.LowerPersonSysNo,a.JXCategory,a.ParentPersonSysNo,a.JXCycle,a.JXScore * b.GradScale/100
+FROM JXMXB a WITH (NOLOCK) INNER JOIN JXKHGSB b WITH (NOLOCK) ON a.ParentPersonSysNo = b.ParentPersonSysNo AND a.LowerPersonSysNo = b.LowerPersonSysNo AND a.RecordType = b.RecordType AND a.JXMXCategory = '20' AND a.Status = '0' AND a.JXCycle = '201603'
+WHERE 1=1 AND a.LowerPersonSysNo IN (SELECT DISTINCT LowerPersonSysNo FROM JXKHGSB WHERE RecordType = '2')

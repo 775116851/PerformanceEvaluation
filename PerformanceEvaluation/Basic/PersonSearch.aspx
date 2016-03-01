@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="PersonSearch.aspx.cs" Inherits="PerformanceEvaluation.PerformanceEvaluation.Basic.PersonSearch" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" EnableEventValidation="false" CodeBehind="PersonSearch.aspx.cs" Inherits="PerformanceEvaluation.PerformanceEvaluation.Basic.PersonSearch" %>
 <%@ Register Src="~/UC/DropDown.ascx" TagPrefix="uc" TagName="DropDown" %>
 <!DOCTYPE html>
 
@@ -61,6 +61,7 @@
                             <th>所属机构</th>
                             <td><asp:DropDownList ID="ddlOrgan" sname="forminput" runat="server"></asp:DropDownList>
                                 <asp:DropDownList ID="ddlClass" sname="forminput" runat="server"></asp:DropDownList>
+                                <asp:HiddenField ID="hidClassSysNo" runat="server" Value="-9999" />
                             </td>
                             <th>员工类型</th>
                             <td><asp:DropDownList ID="ddlPersonType" sname="forminput" runat="server"></asp:DropDownList></td>
@@ -84,7 +85,7 @@
                         <input type="button" class="InputOne3" id="btnAdd" runat="server" onclick="Add()" value="添加" />
                     </li>
                     <li>
-                        <input type="button" class="InputOne3" id="btExport" runat="server" value="导 出"/>
+                        <input type="button" class="InputOne3" id="btExport" runat="server" value="导 出" onserverclick="btExport_Click"/>
                     </li>
                 </ul>
             </div>
@@ -110,6 +111,12 @@
             if (pOrgan != "<%=PerformanceEvaluation.Cmn.AppConst.IntNull%>") {
                 AjaxWebService("GetClassList", "{organSysNo:'" + pOrgan + "'}", OrganChange_Callback);
             }
+        });
+
+        $("#<%=ddlClass.ClientID %>").change(function () {
+            var pOrgan = $("#<%=ddlOrgan.ClientID %>").val();
+            var pClass = $("#<%=ddlClass.ClientID %>").val();
+            $("#hidClassSysNo").val(pClass);
         });
 
         function OrganChange_Callback(result) {

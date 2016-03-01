@@ -6527,6 +6527,16 @@ namespace PerformanceEvaluation.Cmn
         }
         #endregion
 
+        #region 填入类型
+        public enum RecordType
+        {
+            [Description("手工填入")]
+            SGTR = 1,
+            [Description("系统填入")]
+            XTTR = 2,
+        }
+        #endregion
+
         #endregion
 
     }

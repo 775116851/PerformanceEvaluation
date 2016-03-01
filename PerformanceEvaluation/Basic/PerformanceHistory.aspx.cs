@@ -172,9 +172,9 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Basic
                 {
                     if (LoginSession.User.EJBAdmin == (int)AppEnum.YNStatus.Yes)
                     {
-                        if (ddlClass.SelectedValue != AppConst.IntNull.ToString())
+                        if (!string.IsNullOrEmpty(hidClassSysNo.Value.Trim()) && hidClassSysNo.Value != AppConst.IntNull.ToString())
                         {
-                            ht.Add("ClassSysNo", ddlClass.SelectedValue);
+                            ht.Add("ClassSysNo", Convert.ToInt32(hidClassSysNo.Value.Trim()));
                         }
                     }
                     else
@@ -189,9 +189,9 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Basic
                 {
                     ht.Add("OrganSysNo", ddlOrgan.SelectedValue);
                 }
-                if (ddlClass.SelectedValue != AppConst.IntNull.ToString())
+                if (!string.IsNullOrEmpty(hidClassSysNo.Value.Trim()) && hidClassSysNo.Value != AppConst.IntNull.ToString())
                 {
-                    ht.Add("ClassSysNo", ddlClass.SelectedValue);
+                    ht.Add("ClassSysNo", Convert.ToInt32(hidClassSysNo.Value.Trim()));
                 }
             }
             List<DataTable> dtList = new List<DataTable>();
