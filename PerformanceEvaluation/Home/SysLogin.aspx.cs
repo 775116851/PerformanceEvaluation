@@ -115,7 +115,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Home
                     if (oUser != null)
                     {
 
-                        List<Custom_Sys_MenuEntity> menuList = GetMenuList();
+                        List<Custom_Sys_MenuEntity> menuList = GetMenuList(oUser.UserType);
                         if (menuList != null)
                         {
                             session.menuList = menuList;
@@ -142,7 +142,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Home
         }
 
         //获取菜单列表
-        public List<Custom_Sys_MenuEntity> GetMenuList()
+        public List<Custom_Sys_MenuEntity> GetMenuList(int UserType)
         {
             List<Custom_Sys_MenuEntity> menuList = new List<Custom_Sys_MenuEntity>();
             Custom_Sys_MenuEntity mA = new Custom_Sys_MenuEntity();
@@ -173,19 +173,16 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Home
             mAA2.Status = 0;
             menuList.Add(mAA2);
             SessionInfo LoginSession = Session["LoginSession"] as SessionInfo;
-            if (LoginSession != null)
+            if (UserType == 2)
             {
-                if(LoginSession.User.UserType == 2)
-                {
-                    Custom_Sys_MenuEntity mAA3 = new Custom_Sys_MenuEntity();
-                    mAA3.SysNo = 5;
-                    mAA3.M1SysNo = 1;
-                    mAA3.M2SysNo = 2;
-                    mAA3.MenuName = "员工信息管理";
-                    mAA3.MenuLink = "../Basic/PersonSearch.aspx";
-                    mAA3.Status = 0;
-                    menuList.Add(mAA3);
-                }
+                Custom_Sys_MenuEntity mAA3 = new Custom_Sys_MenuEntity();
+                mAA3.SysNo = 5;
+                mAA3.M1SysNo = 1;
+                mAA3.M2SysNo = 2;
+                mAA3.MenuName = "员工信息管理";
+                mAA3.MenuLink = "../Basic/PersonSearch.aspx";
+                mAA3.Status = 0;
+                menuList.Add(mAA3);
             }
             //Custom_Sys_MenuEntity mAA4 = new Custom_Sys_MenuEntity();
             //mAA4.SysNo = 6;

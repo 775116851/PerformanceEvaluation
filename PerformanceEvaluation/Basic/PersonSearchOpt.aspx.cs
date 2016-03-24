@@ -14,6 +14,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Basic
 {
     public partial class PersonSearchOpt : PageBase
     {
+        bool isTJ = true;
         protected int SysNo
         {
             set { ViewState["SysNo"] = value; }
@@ -253,33 +254,40 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Basic
             model.LastUpdateUserSysNo = LoginSession.User.SysNo;
             try
             {
-                int result = BasicManager.GetInstance().SaveUser(model);
-                if (model.SysNo == AppConst.IntNull)
+                if (isTJ == true)
                 {
-                    SysNo = result;
-                    Assert(lblMsg, "添加员工信息成功!", 1);
-                }
-                else
-                {
-                    Assert(lblMsg, "修改员工信息成功!", 1);
-                }
-                //职能室列表
-                Dictionary<int, OrganEntity> classList = BasicManager.GetInstance().GetClassList(model.OrganSysNo);
-                if (classList != null && classList.Count != 0)
-                {
-                    for (int i = 0; i < classList.Count; i++)
+                    isTJ = false;
+                    int result = BasicManager.GetInstance().SaveUser(model);
+                    if (model.SysNo == AppConst.IntNull)
                     {
-                        ddlClass.Items.Add(new ListItem(classList.Values.ElementAt(i).FunctionInfo, classList.Values.ElementAt(i).SysNo.ToString()));
+                        SysNo = result;
+                        Assert(lblMsg, "添加员工信息成功!", 1);
                     }
+                    else
+                    {
+                        Assert(lblMsg, "修改员工信息成功!", 1);
+                    }
+                    isTJ = true;
+                    //职能室列表
+                    Dictionary<int, OrganEntity> classList = BasicManager.GetInstance().GetClassList(model.OrganSysNo);
+                    if (classList != null && classList.Count != 0)
+                    {
+                        for (int i = 0; i < classList.Count; i++)
+                        {
+                            ddlClass.Items.Add(new ListItem(classList.Values.ElementAt(i).FunctionInfo, classList.Values.ElementAt(i).SysNo.ToString()));
+                        }
+                    }
+                    ddlClass.SelectedValue = model.ClassSysNo.ToString();
+                    hidClassSysNo.Value = model.ClassSysNo.ToString();
                 }
-                ddlClass.SelectedValue = model.ClassSysNo.ToString();
-                hidClassSysNo.Value = model.ClassSysNo.ToString();
+                isTJ = true;
             }
             catch (Exception ex)
             {
+                isTJ = true;
                 Assert(lblMsg, "数据保存失败!" + ex.Message, -1);
             }
-
+            isTJ = true;
         }
     }
 }

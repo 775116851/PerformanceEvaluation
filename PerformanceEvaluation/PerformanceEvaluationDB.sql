@@ -105,6 +105,11 @@ CreateUserSysNo INT,
 LastUpdateUserSysNo INT
 )
 GO
+--无用
+IF NOT EXISTS(select * from syscolumns where id=object_id('PersonInfo') and name='Birthday')
+BEGIN
+ALTER TABLE PersonInfo ADD Birthday DATETIME
+END
 --手机号
 IF NOT EXISTS(select * from syscolumns where id=object_id('PersonInfo') and name='MobilePhone')
 BEGIN

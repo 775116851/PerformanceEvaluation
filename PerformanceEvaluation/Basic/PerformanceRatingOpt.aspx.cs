@@ -38,6 +38,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Basic
         }
         public string LevelRangeScore = string.Empty;
         public DataSet repList = new DataSet();
+        bool isTJ = true;//是否允许提交数据
         private ILog _log = log4net.LogManager.GetLogger(typeof(PerformanceRatingOpt));
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -144,8 +145,10 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Basic
         //提交数据
         protected void btnSave_Click(object sender, EventArgs e)
         {
+            
             try
             {
+                
                 int fCount = 0;
                 string errorMessage = string.Empty;
                 DateTime dtTime = DateTime.Now;
@@ -198,6 +201,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Basic
                         jMX.Status = (int)AppEnum.BiStatus.Valid;
                         jMX.CreateTime = dtTime;
                         jMX.CreateUserSysNo = LoginSession.User.SysNo;
+                        jMX.RecordType = (int)AppEnum.RecordType.SGTR;
                     }
                     else
                     {
@@ -221,26 +225,33 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Basic
                     Assert(lblMsg, "请先将评分项填写完整后，再提交！", -1);
                     return;
                 }
-                Tuple<bool, string> result = BasicManager.GetInstance().SaveJXMX(list, LoginSession.User.SysNo, JXMXSysNo);
-                if (result.Item1 == true)
+                if (isTJ == true)
                 {
-                    string[] returnMsg = result.Item2.Split('|');
-                    JXMXSysNo = Convert.ToInt32(returnMsg[1]);
-                    Assert(lblMsg, "保存成功，评分等级为：" + returnMsg[0], 1);
-                    BindRep();
+                    isTJ = false;
+                    Tuple<bool, string> result = BasicManager.GetInstance().SaveJXMX(list, LoginSession.User.SysNo, JXMXSysNo);
+                    isTJ = true;
+                    if (result.Item1 == true)
+                    {
+                        string[] returnMsg = result.Item2.Split('|');
+                        JXMXSysNo = Convert.ToInt32(returnMsg[1]);
+                        Assert(lblMsg, "保存成功，评分等级为：" + returnMsg[0], 1);
+                        BindRep();
+                    }
+                    else
+                    {
+                        Assert(lblMsg, result.Item2, -1);
+                        return;
+                    }
                 }
-                else
-                {
-                    Assert(lblMsg, result.Item2, -1);
-                    return;
-                }
+                
             }
             catch (Exception ex)
             {
+                isTJ = true;
                 _log.Error(string.Format("保存评分子项出错，错误信息：{0};错误详情：{1}",ex.Message,ex));
                 Assert(lblMsg, "保存评分子项出错:" + ex.Message, -1);
             }
-
+            isTJ = true;
         }
 
         public string GetIntScore(string score)

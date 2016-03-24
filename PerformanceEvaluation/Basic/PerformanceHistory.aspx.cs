@@ -18,6 +18,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Basic
 {
     public partial class PerformanceHistory : PageBase
     {
+        bool isTJ = true;//是否提交
         private ILog _log = log4net.LogManager.GetLogger(typeof(PerformanceHistory));
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -110,17 +111,23 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Basic
                     Hashtable ht = new Hashtable();
                     ht.Add("userSysNo", LoginSession.User.SysNo);
                     ht.Add("pfCycle", DateTime.Now.Year.ToString("0000") + DateTime.Now.Month.ToString("00"));
-                    Tuple<bool, string> result = BasicManager.GetInstance().SaveJQHZ(ht);
-                    _log.Info(string.Format("加权汇总操作完成，完成时间：{0};返回信息：{1}", DateTime.Now, result.Item2));
-                    if (result.Item1 == true)
+                    if(isTJ == true)
                     {
-                        Assert(lblMsg, result.Item2, 1);
+                        isTJ = false;
+                        Tuple<bool, string> result = BasicManager.GetInstance().SaveJQHZ(ht);
+                        isTJ = true;
+                        _log.Info(string.Format("加权汇总操作完成，完成时间：{0};返回信息：{1}", DateTime.Now, result.Item2));
+                        if (result.Item1 == true)
+                        {
+                            Assert(lblMsg, result.Item2, 1);
+                        }
+                        else
+                        {
+                            Assert(lblMsg, result.Item2, -1);
+                            return;
+                        }
                     }
-                    else
-                    {
-                        Assert(lblMsg, result.Item2, -1);
-                        return;
-                    }
+                    
                 }
                 else
                 {
@@ -130,9 +137,11 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Basic
             }
             catch (Exception ex)
             {
+                isTJ = true;
                 _log.Error(string.Format("加权汇总操作出现异常，异常信息：{0};异常详情：{1}", ex.Message, ex));
                 Assert(lblMsg, "加权汇总操作出现异常:" + ex.Message, -1);
             }
+            isTJ = true;
         }
 
         //导出
@@ -168,20 +177,21 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Basic
             {
                 ht.Add("ParentPersonSysNo", LoginSession.User.SysNo);
                 ht.Add("OrganSysNo", LoginSession.User.OrganSysNo);
-                if (LoginSession.User.ClassSysNo != AppConst.IntNull)
+                if (LoginSession.User.EJBAdmin == (int)AppEnum.YNStatus.Yes)
                 {
-                    if (LoginSession.User.EJBAdmin == (int)AppEnum.YNStatus.Yes)
+                    if (!string.IsNullOrEmpty(hidClassSysNo.Value.Trim()) && hidClassSysNo.Value != AppConst.IntNull.ToString())
                     {
-                        if (!string.IsNullOrEmpty(hidClassSysNo.Value.Trim()) && hidClassSysNo.Value != AppConst.IntNull.ToString())
-                        {
-                            ht.Add("ClassSysNo", Convert.ToInt32(hidClassSysNo.Value.Trim()));
-                        }
+                        ht.Add("ClassSysNo", Convert.ToInt32(hidClassSysNo.Value.Trim()));
                     }
-                    else
+                }
+                else
+                {
+                    if (LoginSession.User.ClassSysNo != AppConst.IntNull)
                     {
                         ht.Add("ClassSysNo", LoginSession.User.ClassSysNo);
                     }
                 }
+                
             }
             else//绩效管理员和公司老大
             {

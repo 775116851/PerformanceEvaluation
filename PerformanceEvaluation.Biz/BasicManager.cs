@@ -60,10 +60,10 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Biz
             pd.Conn = AppConfig.Conn_PerformanceEvaluation;
             pd.Field = @" '" + pfCycle + "' AS JXZQ,b.SysNo,b.Name,b.EntryDate,b.SkillCategory,CASE WHEN c.SysNo IS NULL THEN 0 ELSE 1 END AS IsPF,c.JXScore,c.JXLevel,c.SysNo AS JXMXSysNo ";//c.JXLevel
             pd.Table = @" dbo.JXKHGSB a WITH (NOLOCK) INNER JOIN dbo.PersonInfo b WITH (NOLOCK) ON a.LowerPersonSysNo = b.SysNo AND a.RecordType = '" + (int)AppEnum.RecordType.SGTR + "' AND b.Status = '" + (int)AppEnum.BiStatus.Valid + @"'
-LEFT JOIN dbo.JXMXB c WITH (NOLOCK) ON b.SysNo = c.LowerPersonSysNo AND a.ParentPersonSysNo = c.ParentPersonSysNo AND c.Status = '" + (int)AppEnum.BiStatus.Valid + "' AND c.JXMXCategory = '" + (int)AppEnum.JXMXCategory.DGHZ + "' AND c.JXCycle = @pfCycle ";
+LEFT JOIN dbo.JXMXB c WITH (NOLOCK) ON b.SysNo = c.LowerPersonSysNo AND a.ParentPersonSysNo = c.ParentPersonSysNo AND a.RecordType = c.RecordType AND c.Status = '" + (int)AppEnum.BiStatus.Valid + "' AND c.JXMXCategory = '" + (int)AppEnum.JXMXCategory.DGHZ + "' AND c.JXCycle = @pfCycle ";
             pd.Where = " WHERE 1=1 AND a.ParentPersonSysNo = @ParentPersonSysNo ";
             pd.SearchWhere = " 1=1 ";
-            pd.Order = " ORDER BY b.EntryDate DESC ";
+            pd.Order = " ORDER BY ISNULL(c.JXScore,0) DESC,b.EntryDate DESC ";
             pd.PageSize = PageSize;
             pd.CurrentPageIndex = PageIndex;
             SqlParameterCollection spc = new SqlCommand().Parameters;
@@ -122,6 +122,8 @@ LEFT JOIN dbo.JXMXB c WITH (NOLOCK) ON b.SysNo = c.LowerPersonSysNo AND a.Parent
         {
             try
             {
+                StringBuilder sbSQL = new StringBuilder();
+                SqlParameterCollection sp = new SqlCommand().Parameters;
                 PersonInfoEntity pie = LoadUser(parentPersonSysNo);
                 if (pie == null || pie.Status != (int)AppEnum.BiStatus.Valid)
                 {
@@ -194,7 +196,24 @@ LEFT JOIN dbo.JXMXB c WITH (NOLOCK) ON b.SysNo = c.LowerPersonSysNo AND a.Parent
                             {
                                 return Tuple.Create<bool, string>(false, "评分子项数据异常，保存异常！");
                             }
-                            new JXMXBDac().Add(jxmxbe);
+                            //判断数据是否存在
+                            sbSQL.Clear();
+                            sp = new SqlCommand().Parameters;
+                            sp.Add(new SqlParameter("@LowerPersonSysNo", jxmxbe.LowerPersonSysNo));
+                            sp.Add(new SqlParameter("@ParentPersonSysNo", jxmxbe.ParentPersonSysNo));
+                            sp.Add(new SqlParameter("@JXSysNo", jxmxbe.JXSysNo));
+                            sp.Add(new SqlParameter("@JXCycle", jxmxbe.JXCycle));
+                            sbSQL.Append(" SELECT DISTINCT a.SysNo FROM JXMXB a WHERE a.LowerPersonSysNo = @LowerPersonSysNo AND a.ParentPersonSysNo = @ParentPersonSysNo AND a.JXSysNo = @JXSysNo AND a.JXCycle = @JXCycle AND a.JXMXCategory = '" + (int)AppEnum.JXMXCategory.MX + "' AND a.RecordType = '" + (int)AppEnum.RecordType.SGTR + "' AND a.Status = '" + (int)AppEnum.BiStatus.Valid + "' ");
+                            string mSysNo = Convert.ToString(SqlHelper.ExecuteScalar(AppConfig.Conn_PerformanceEvaluation, sbSQL.ToString(), sp));
+                            if (!string.IsNullOrEmpty(mSysNo))
+                            {
+                                jxmxbe.SysNo = Convert.ToInt32(mSysNo);
+                                new JXMXBDac().Update(jxmxbe);
+                            }
+                            else
+                            {
+                                new JXMXBDac().Add(jxmxbe);
+                            }
                         }
                         else
                         {
@@ -247,6 +266,7 @@ LEFT JOIN dbo.JXMXB c WITH (NOLOCK) ON b.SysNo = c.LowerPersonSysNo AND a.Parent
                     }
                     else
                     {
+                        
 
                         jeDGHZ.SysNo = AppConst.IntNull;
                         jeDGHZ.LowerPersonSysNo = jA.LowerPersonSysNo;
@@ -262,7 +282,23 @@ LEFT JOIN dbo.JXMXB c WITH (NOLOCK) ON b.SysNo = c.LowerPersonSysNo AND a.Parent
                         jeDGHZ.LastUpdateUserSysNo = parentPersonSysNo;
                         jeDGHZ.Status = (int)AppEnum.BiStatus.Valid;
                         jeDGHZ.RecordType = (int)AppEnum.RecordType.SGTR;
-                        JXMXSysNo = new JXMXBDac().Add(jeDGHZ);
+                        //判断数据是否存在
+                        sbSQL.Clear();
+                        sp = new SqlCommand().Parameters;
+                        sp.Add(new SqlParameter("@LowerPersonSysNo", jeDGHZ.LowerPersonSysNo));
+                        sp.Add(new SqlParameter("@ParentPersonSysNo", jeDGHZ.ParentPersonSysNo));
+                        sp.Add(new SqlParameter("@JXCycle", jeDGHZ.JXCycle));
+                        sbSQL.Append(" SELECT DISTINCT a.SysNo FROM JXMXB a WHERE a.LowerPersonSysNo = @LowerPersonSysNo AND a.ParentPersonSysNo = @ParentPersonSysNo AND a.JXCycle = @JXCycle AND a.JXMXCategory = '" + (int)AppEnum.JXMXCategory.DGHZ + "' AND a.RecordType = '" + (int)AppEnum.RecordType.SGTR + "' AND a.Status = '" + (int)AppEnum.BiStatus.Valid + "' ");
+                        string mSysNo = Convert.ToString(SqlHelper.ExecuteScalar(AppConfig.Conn_PerformanceEvaluation, sbSQL.ToString(), sp));
+                        if (!string.IsNullOrEmpty(mSysNo))
+                        {
+                            jeDGHZ.SysNo = Convert.ToInt32(mSysNo);
+                            new JXMXBDac().Update(jeDGHZ);
+                        }
+                        else
+                        {
+                            JXMXSysNo = new JXMXBDac().Add(jeDGHZ);
+                        }
                     }
                     scope.Complete();
                     return Tuple.Create<bool, string>(true, AppEnum.GetDescription(typeof(AppEnum.JXLevel), returnLevel) + "|" + JXMXSysNo);
@@ -287,7 +323,7 @@ LEFT JOIN dbo.JXMXB c WITH (NOLOCK) ON b.SysNo = c.LowerPersonSysNo AND a.Parent
                 sp.Add(new SqlParameter("@pfCycle", iJXCycle));
                 StringBuilder sbSQL = new StringBuilder();
                 sbSQL.Append(" UPDATE JXMXB SET Status = '" + (int)AppEnum.BiStatus.Delete + "' WHERE JXMXCategory = '" + (int)AppEnum.JXMXCategory.JQHZ + "' AND JXCycle = @pfCycle;SELECT a.LowerPersonSysNo,MAX(a.JXCategory) AS JXCategory,MAX(a.ParentPersonSysNo) AS ParentPersonSysNo,MAX(a.JXCycle) AS JXCycle,SUM(a.JXScore * b.GradScale/100) AS TotalScore  ");
-                sbSQL.Append(" FROM JXMXB a WITH (NOLOCK) INNER JOIN JXKHGSB b WITH (NOLOCK) ON a.ParentPersonSysNo = b.ParentPersonSysNo AND a.LowerPersonSysNo = b.LowerPersonSysNo AND a.RecordType = b.RecordTyp AND a.JXMXCategory = '" + (int)AppEnum.JXMXCategory.DGHZ + "' AND a.Status = '" + (int)AppEnum.BiStatus.Valid + "' AND a.JXCycle = @pfCycle AND b.RecordType = '" + (int)AppEnum.RecordType.SGTR + "' ");
+                sbSQL.Append(" FROM JXMXB a WITH (NOLOCK) INNER JOIN JXKHGSB b WITH (NOLOCK) ON a.ParentPersonSysNo = b.ParentPersonSysNo AND a.LowerPersonSysNo = b.LowerPersonSysNo AND a.RecordType = b.RecordType AND a.JXMXCategory = '" + (int)AppEnum.JXMXCategory.DGHZ + "' AND a.Status = '" + (int)AppEnum.BiStatus.Valid + "' AND a.JXCycle = @pfCycle AND b.RecordType = '" + (int)AppEnum.RecordType.SGTR + "' ");
                 sbSQL.Append(" WHERE 1=1 AND a.LowerPersonSysNo NOT IN (SELECT DISTINCT LowerPersonSysNo FROM JXKHGSB WHERE RecordType = '" + (int)AppEnum.RecordType.XTTR + "') ");
                 sbSQL.Append(" GROUP BY a.LowerPersonSysNo ");
                 DataSet dsList = SqlHelper.ExecuteDataSet(AppConfig.Conn_PerformanceEvaluation, sbSQL.ToString(), sp);
@@ -515,7 +551,7 @@ LEFT JOIN dbo.JXMXB c WITH (NOLOCK) ON b.SysNo = c.LowerPersonSysNo AND a.Parent
             pd.Conn = AppConfig.Conn_PerformanceEvaluation;
             if (mType == 1)
             {
-                pd.Field = @" DISTINCT c.SysNo,b.OrganSysNo,b.LowerClassSysNo AS ClassSysNo,a.JXCycle AS JXZQ,a.JXScore,a.JXLevel,c.Name,d.OrganName,e.FunctionInfo,c.EntryDate ";
+                pd.Field = @" c.SysNo,b.OrganSysNo,b.LowerClassSysNo AS ClassSysNo,a.JXCycle AS JXZQ,ISNULL(a.JXScore,0) AS JXScore,a.JXLevel,c.Name,d.OrganName,e.FunctionInfo,c.EntryDate ";
                 pd.Table = @" dbo.JXMXB a WITH (NOLOCK) INNER JOIN dbo.JXKHGSB b WITH (NOLOCK) ON a.LowerPersonSysNo = b.LowerPersonSysNo AND a.JXMXCategory = '99' AND a.Status = '0' AND b.RecordType = '1' 
 INNER JOIN dbo.PersonInfo c WITH (NOLOCK) ON a.LowerPersonSysNo = c.SysNo
 LEFT JOIN dbo.Organ d WITH (NOLOCK) ON b.OrganSysNo = d.SysNo
@@ -524,14 +560,14 @@ LEFT JOIN dbo.Organ e WITH (NOLOCK) ON b.LowerClassSysNo = e.SysNo ";
             }
             else
             {
-                pd.Field = @" DISTINCT b.SysNo,b.OrganSysNo,b.ClassSysNo,a.JXCycle AS JXZQ,a.JXScore,a.JXLevel,b.Name,d.OrganName,e.FunctionInfo,b.EntryDate ";
+                pd.Field = @" b.SysNo,b.OrganSysNo,b.ClassSysNo,a.JXCycle AS JXZQ,ISNULL(a.JXScore,0) AS JXScore,a.JXLevel,b.Name,d.OrganName,e.FunctionInfo,b.EntryDate ";
                 pd.Table = @" dbo.JXMXB a WITH (NOLOCK) INNER JOIN dbo.PersonInfo b WITH (NOLOCK) ON a.LowerPersonSysNo = b.SysNo AND a.JXMXCategory = '99' AND a.Status = '0'
 LEFT JOIN dbo.Organ d WITH (NOLOCK) ON b.OrganSysNo = d.SysNo
 LEFT JOIN dbo.Organ e WITH (NOLOCK) ON b.ClassSysNo = e.SysNo ";
             }
             pd.Where = " WHERE 1=1 ";
             pd.SearchWhere = " 1=1 ";
-            pd.Order = " ORDER BY a.JXCycle DESC ";
+            pd.Order = " ORDER BY ISNULL(a.JXScore,0) DESC, a.JXCycle DESC ";
             pd.PageSize = PageSize;
             pd.CurrentPageIndex = PageIndex;
             SqlParameterCollection spc = new SqlCommand().Parameters;

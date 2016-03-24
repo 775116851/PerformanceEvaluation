@@ -62,7 +62,7 @@
                         </tr>
                         <tr>
                             <th>技能类别</th>
-                            <td><asp:TextBox ID="txtSkillCategory" runat="server" class="InputOne9" MaxLength="20"></asp:TextBox></td>
+                            <td><asp:TextBox ID="txtSkillCategory" runat="server" class="InputOne9"></asp:TextBox></td>
                             <th>性别</th>
                             <td><uc:DropDown ID="ddlGender" runat="server" /></td>
                         </tr>
@@ -74,9 +74,9 @@
                         </tr>
                         <tr>
                             <th>QQ号</th>
-                            <td><asp:TextBox ID="txtQQ" runat="server" class="InputOne9" MaxLength="20"></asp:TextBox></td>
+                            <td><asp:TextBox ID="txtQQ" runat="server" class="InputOne9" MaxLength="30"></asp:TextBox></td>
                             <th>邮箱</th>
-                            <td><asp:TextBox ID="txtEmail" runat="server" class="InputOne9" MaxLength="20"></asp:TextBox></td>
+                            <td><asp:TextBox ID="txtEmail" runat="server" class="InputOne9" MaxLength="30"></asp:TextBox></td>
                         </tr>
                         <tr>
                             <th>出生日期</th>

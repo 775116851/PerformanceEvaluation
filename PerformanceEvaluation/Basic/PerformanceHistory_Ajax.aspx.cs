@@ -68,16 +68,16 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Basic
                     ht.Add("MType", "1");
                     ht.Add("ParentPersonSysNo", LoginSession.User.SysNo);
                     ht.Add("OrganSysNo", LoginSession.User.OrganSysNo);
-                    if (LoginSession.User.ClassSysNo != AppConst.IntNull)
+                    if (LoginSession.User.EJBAdmin == (int)AppEnum.YNStatus.Yes)
                     {
-                        if (LoginSession.User.EJBAdmin == (int)AppEnum.YNStatus.Yes)
+                        if (Request.Form["ddlClass"] != null && Request.Form["ddlClass"].ToString() != "" && Convert.ToInt32(Request.Form["ddlClass"]) != AppConst.IntNull)
                         {
-                            if (Request.Form["ddlClass"] != null && Request.Form["ddlClass"].ToString() != "" && Convert.ToInt32(Request.Form["ddlClass"]) != AppConst.IntNull)
-                            {
-                                ht.Add("ClassSysNo", Convert.ToInt32(Request.Form["ddlClass"]).ToString());
-                            }
+                            ht.Add("ClassSysNo", Convert.ToInt32(Request.Form["ddlClass"]).ToString());
                         }
-                        else
+                    }
+                    else
+                    {
+                        if (LoginSession.User.ClassSysNo != AppConst.IntNull)
                         {
                             ht.Add("ClassSysNo", LoginSession.User.ClassSysNo);
                         }

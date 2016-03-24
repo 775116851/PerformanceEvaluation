@@ -190,7 +190,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
             {
                 strSql1.Append("Email,");
                 strSql2.Append("@Email,");
-                SqlParameter param = new SqlParameter("@Email", SqlDbType.NVarChar, 40);
+                SqlParameter param = new SqlParameter("@Email", SqlDbType.NVarChar, 200);
                 param.Value = model.Email;
                 cmd.Parameters.Add(param);
             }
@@ -393,7 +393,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
             if (model.QQ != AppConst.StringNull)
             {
                 strSql.Append("QQ=@QQ,");
-                SqlParameter param = new SqlParameter("@QQ", SqlDbType.NVarChar, 40);
+                SqlParameter param = new SqlParameter("@QQ", SqlDbType.NVarChar, 200);
                 param.Value = model.QQ;
                 cmd.Parameters.Add(param);
             }
