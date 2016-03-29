@@ -74,12 +74,12 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
                 param.Value = model.EntryDate;
                 cmd.Parameters.Add(param);
             }
-            if (model.OutData != AppConst.DateTimeNull)
+            if (model.OutDate != AppConst.DateTimeNull)
             {
-                strSql1.Append("OutData,");
-                strSql2.Append("@OutData,");
-                SqlParameter param = new SqlParameter("@OutData", SqlDbType.DateTime);
-                param.Value = model.OutData;
+                strSql1.Append("OutDate,");
+                strSql2.Append("@OutDate,");
+                SqlParameter param = new SqlParameter("@OutDate", SqlDbType.DateTime);
+                param.Value = model.OutDate;
                 cmd.Parameters.Add(param);
             }
             if (model.Status != AppConst.IntNull)
@@ -242,6 +242,14 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
                 param.Value = model.BYZD3;
                 cmd.Parameters.Add(param);
             }
+            if (model.PositiveDate != AppConst.DateTimeNull)
+            {
+                strSql1.Append("PositiveDate,");
+                strSql2.Append("@PositiveDate,");
+                SqlParameter param = new SqlParameter("@PositiveDate", SqlDbType.DateTime);
+                param.Value = model.PositiveDate;
+                cmd.Parameters.Add(param);
+            }
             strSql.Append(strSql1.Remove(strSql1.Length - 1, 1)).Append(")");
             strSql.Append(" values (");
             strSql.Append(strSql2.Remove(strSql2.Length - 1, 1)).Append(")");
@@ -299,11 +307,11 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
                 param.Value = model.EntryDate;
                 cmd.Parameters.Add(param);
             }
-            if (model.OutData != AppConst.DateTimeNull)
+            if (model.OutDate != AppConst.DateTimeNull)
             {
-                strSql.Append("OutData=@OutData,");
-                SqlParameter param = new SqlParameter("@OutData", SqlDbType.DateTime);
-                param.Value = model.OutData;
+                strSql.Append("OutDate=@OutDate,");
+                SqlParameter param = new SqlParameter("@OutDate", SqlDbType.DateTime);
+                param.Value = model.OutDate;
                 cmd.Parameters.Add(param);
             }
             if (model.Status != AppConst.IntNull)
@@ -400,7 +408,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
             if (model.Email != AppConst.StringNull)
             {
                 strSql.Append("Email=@Email,");
-                SqlParameter param = new SqlParameter("@Email", SqlDbType.NVarChar, 40);
+                SqlParameter param = new SqlParameter("@Email", SqlDbType.NVarChar, 200);
                 param.Value = model.Email;
                 cmd.Parameters.Add(param);
             }
@@ -444,6 +452,13 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
                 strSql.Append("BYZD3=@BYZD3,");
                 SqlParameter param = new SqlParameter("@BYZD3", SqlDbType.NVarChar, 400);
                 param.Value = model.BYZD3;
+                cmd.Parameters.Add(param);
+            }
+            if (model.PositiveDate != AppConst.DateTimeNull)
+            {
+                strSql.Append("PositiveDate=@PositiveDate,");
+                SqlParameter param = new SqlParameter("@PositiveDate", SqlDbType.DateTime);
+                param.Value = model.PositiveDate;
                 cmd.Parameters.Add(param);
             }
             strSql.Remove(strSql.Length - 1, 1);
@@ -491,9 +506,9 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
             {
                 model.EntryDate = DateTime.Parse(ds.Tables[0].Rows[0]["EntryDate"].ToString());
             }
-            if (ds.Tables[0].Rows[0]["OutData"].ToString() != "")
+            if (ds.Tables[0].Rows[0]["OutDate"].ToString() != "")
             {
-                model.OutData = DateTime.Parse(ds.Tables[0].Rows[0]["OutData"].ToString());
+                model.OutDate = DateTime.Parse(ds.Tables[0].Rows[0]["OutDate"].ToString());
             }
             if (ds.Tables[0].Rows[0]["Status"].ToString() != "")
             {
@@ -545,6 +560,10 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
             model.BYZD1 = ds.Tables[0].Rows[0]["BYZD1"].ToString();
             model.BYZD2 = ds.Tables[0].Rows[0]["BYZD2"].ToString();
             model.BYZD3 = ds.Tables[0].Rows[0]["BYZD3"].ToString();
+            if (ds.Tables[0].Rows[0]["PositiveDate"].ToString() != "")
+            {
+                model.PositiveDate = DateTime.Parse(ds.Tables[0].Rows[0]["PositiveDate"].ToString());
+            }
             return model;
         }
         /// <summary>
@@ -599,9 +618,9 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
             {
                 model.EntryDate = DateTime.Parse(dr["EntryDate"].ToString());
             }
-            if (dr["OutData"].ToString() != "")
+            if (dr["OutDate"].ToString() != "")
             {
-                model.OutData = DateTime.Parse(dr["OutData"].ToString());
+                model.OutDate = DateTime.Parse(dr["OutDate"].ToString());
             }
             if (dr["Status"].ToString() != "")
             {
@@ -653,7 +672,10 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
             model.BYZD1 = dr["BYZD1"].ToString();
             model.BYZD2 = dr["BYZD2"].ToString();
             model.BYZD3 = dr["BYZD3"].ToString();
-
+            if (dr["PositiveDate"].ToString() != "")
+            {
+                model.PositiveDate = DateTime.Parse(dr["PositiveDate"].ToString());
+            }
             return model;
         }
     }

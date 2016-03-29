@@ -768,6 +768,88 @@ LEFT JOIN Organ d WITH (NOLOCK) ON a.ClassSysNo = d.SysNo ";
             return ds;
         }
 
+        //导入人员信息 分新增(A)/修改(U)/删除(D)
+        public Tuple<int, string> ImportPersonInfo(List<PersonInfoEntity> list)
+        {
+            int line = 0;
+            if(list.Count <= 0)
+            {
+                return Tuple.Create<int, string>(-1, "员工信息导入失败，导入数据为空");
+            }
+            try
+            {
+                TransactionOptions options = new TransactionOptions();
+                options.IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted;
+                options.Timeout = TransactionManager.DefaultTimeout;
+                using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Required, options))
+                {
+                    foreach(PersonInfoEntity pie in list)
+                    {
+                        if (pie.CZBZ == "D")//删除
+                        {
+                            PersonInfoEntity pieDelete = new PersonInfoEntity();
+                            pieDelete.SysNo = pie.SysNo;
+                            pieDelete.Status = (int)AppEnum.BiStatus.InValid;
+                            pieDelete.LastUpdateUserSysNo = pie.LastUpdateUserSysNo;
+                            pieDelete.LastUpdateTime = pie.LastUpdateTime;
+                            new PersonInfoDac().Update(pieDelete);
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrEmpty(pie.EJBName) && pie.EJBName != AppConst.StringNull)//二级部
+                            {
+                                OrganEntity ejbM = new OrganDac().GetModel(10, pie.EJBName);
+                                if (ejbM != null && ejbM.SysNo != AppConst.IntNull)
+                                {
+                                    pie.OrganSysNo = ejbM.SysNo;
+                                    if (!string.IsNullOrEmpty(pie.ZNSName) && pie.ZNSName != AppConst.StringNull)//职能室
+                                    {
+                                        OrganEntity znsM = new OrganDac().GetModel(20, pie.ZNSName);
+                                        if (znsM != null && znsM.SysNo != AppConst.IntNull)
+                                        {
+                                            pie.ClassSysNo = znsM.SysNo;
+                                        }
+                                    }
+                                }
+                            }
+                            if (!string.IsNullOrEmpty(pie.YGNXName) && pie.YGNXName != AppConst.StringNull)
+                            {
+                                PersonTypeEntity ygnxM = new PersonTypeDac().GetModel(pie.YGNXName);
+                                if (ygnxM != null && ygnxM.SysNo != AppConst.IntNull)
+                                {
+                                    pie.PersonTypeSysNo = ygnxM.SysNo;
+                                }
+                            }
+                            if (pie.CZBZ == "U")//修改
+                            {
+                                new PersonInfoDac().Update(pie);
+                            }
+                            else//新增
+                            {
+                                pie.SysNo = AppConst.IntNull;
+                                pie.CreateTime = pie.LastUpdateTime;
+                                pie.CreateUserSysNo = pie.LastUpdateUserSysNo;
+                                pie.IsAdmin = (int)AppEnum.YNStatus.No;
+                                pie.LoginPwd = "9577C930E002DFE330CEFAFBA8DF82DE";//初始密码 12345a
+                                pie.Status = (int)AppEnum.BiStatus.Valid;
+                                pie.IsLogin = (int)AppEnum.YNStatus.No;
+                                new PersonInfoDac().Add(pie);
+                            }
+                        }
+                        line++;
+                    }
+                    scope.Complete();
+                }
+            }
+            catch (Exception ex)
+            {
+                line = -1;
+                _log.Error(string.Format("员工信息导入出现异常：{0} ;异常详情：{1}", ex.Message, ex));
+                return Tuple.Create<int, string>(-1, ex.Message);
+            }
+            return Tuple.Create<int, string>(line, "导入成功"); ;
+        }
+
         public OrganEntity GetEJBOrgan(int OrganSysNo,int OrderType)
         {
             return new OrganDac().GetModel(OrganSysNo, OrderType);

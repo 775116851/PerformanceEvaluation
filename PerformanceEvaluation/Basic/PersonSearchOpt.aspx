@@ -85,6 +85,12 @@
                             <td><input autocomplete="off" type="text" id="textEntryDate" runat="server" class="InputOne9" onclick="WdatePicker()" /></td>
                         </tr>
                         <tr>
+                            <th>转正日期</th>
+                            <td><input autocomplete="off" type="text" id="textPositiveDate" runat="server" class="InputOne9" onclick="WdatePicker()" /></td>
+                            <th>离职日期</th>
+                            <td><input autocomplete="off" type="text" id="textOutDate" runat="server" class="InputOne9" onclick="WdatePicker()" /></td>
+                        </tr>
+                        <tr>
                             <th><span>*</span>是否允许登录</th>
                             <td><uc:DropDown ID="ddlIsLogin" runat="server" /></td>
                             <th><span>*</span>状态</th>

@@ -166,6 +166,24 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Basic {
         protected global::System.Web.UI.HtmlControls.HtmlInputText textEntryDate;
         
         /// <summary>
+        /// textPositiveDate 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText textPositiveDate;
+        
+        /// <summary>
+        /// textOutDate 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText textOutDate;
+        
+        /// <summary>
         /// ddlIsLogin 控件。
         /// </summary>
         /// <remarks>

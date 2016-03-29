@@ -252,5 +252,30 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
             }
             return model;
         }
+
+        /// <summary>
+        /// 得到一个对象实体
+        /// </summary>
+        public PersonTypeEntity GetModel(string TypeName)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select *  from  dbo.PersonType");
+            strSql.Append(" where TypeName=@TypeName ");
+            SqlParameter[] parameters = { 
+		new SqlParameter("@TypeName", SqlDbType.NVarChar,64 )
+ 		};
+            parameters[0].Value = TypeName;
+            PersonTypeEntity model = new PersonTypeEntity();
+            DataSet ds = SqlHelper.ExecuteDataSet(AppConfig.Conn_PerformanceEvaluation, strSql.ToString(), parameters);
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                SetDsToEntity(ds, model);
+                return model;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

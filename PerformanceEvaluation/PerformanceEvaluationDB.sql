@@ -427,3 +427,12 @@ GROUP BY a.LowerPersonSysNo
 SELECT a.LowerPersonSysNo,a.JXCategory,a.ParentPersonSysNo,a.JXCycle,a.JXScore * b.GradScale/100
 FROM JXMXB a WITH (NOLOCK) INNER JOIN JXKHGSB b WITH (NOLOCK) ON a.ParentPersonSysNo = b.ParentPersonSysNo AND a.LowerPersonSysNo = b.LowerPersonSysNo AND a.RecordType = b.RecordType AND a.JXMXCategory = '20' AND a.Status = '0' AND a.JXCycle = '201603'
 WHERE 1=1 AND a.LowerPersonSysNo IN (SELECT DISTINCT LowerPersonSysNo FROM JXKHGSB WHERE RecordType = '2')
+
+GO
+--20160329修改如下
+--修改OutData为OutDate
+--转正日期
+IF NOT EXISTS(select * from syscolumns where id=object_id('PersonInfo') and name='PositiveDate')
+BEGIN
+ALTER TABLE PersonInfo ADD PositiveDate DATETIME 
+END

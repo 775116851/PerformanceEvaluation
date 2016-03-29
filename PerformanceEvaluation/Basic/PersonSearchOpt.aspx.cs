@@ -154,6 +154,14 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Basic
                 {
                     textEntryDate.Value = pie.EntryDate.ToString("yyyy-MM-dd");
                 }
+                if (pie.PositiveDate != AppConst.DateTimeNull)
+                {
+                    textPositiveDate.Value = pie.PositiveDate.ToString("yyyy-MM-dd");
+                }
+                if (pie.OutDate != AppConst.DateTimeNull)
+                {
+                    textOutDate.Value = pie.OutDate.ToString("yyyy-MM-dd");
+                }
                 ddlIsLogin.KeyValue = pie.IsLogin;
                 ddlStatus.KeyValue = pie.Status;
                 txtNote.Text = pie.Note;
@@ -215,6 +223,14 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Basic
             if (!string.IsNullOrEmpty(textEntryDate.Value.Trim()))
             {
                 model.EntryDate = Convert.ToDateTime(textEntryDate.Value.Trim());
+            }
+            if (!string.IsNullOrEmpty(textPositiveDate.Value.Trim()))
+            {
+                model.PositiveDate = Convert.ToDateTime(textPositiveDate.Value.Trim());
+            }
+            if (!string.IsNullOrEmpty(textOutDate.Value.Trim()))
+            {
+                model.OutDate = Convert.ToDateTime(textOutDate.Value.Trim());
             }
             model.Status = ddlStatus.KeyValue;
             if (!string.IsNullOrEmpty(txtSkillCategory.Text.Trim()))

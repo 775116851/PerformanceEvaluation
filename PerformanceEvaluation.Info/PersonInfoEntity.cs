@@ -23,7 +23,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
         private string _Name;
         private DateTime _BirthDate;
         private DateTime _EntryDate;
-        private DateTime _OutData;
+        private DateTime _OutDate;
         private int _Status;
         private string _SkillCategory;
         private int _ParentPersonSysNo;
@@ -44,9 +44,14 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
         private string _BYZD1;
         private string _BYZD2;
         private string _BYZD3;
+        private DateTime _PositiveDate;
 
         private int _UserType;//用户类型(1普通用户 2绩效管理员 3公司老大) 非数据库字段
         private int _EJBAdmin;//是否二级部管理人员(1是 0否) 非数据库字段
+        public string CZBZ;//操作标志(D删U修A增) 非数据库字段
+        public string EJBName;//二级部名称 非数据库字段
+        public string ZNSName;//职能室名称 非数据库字段
+        public string YGNXName;//员工类型名称 非数据库字段
         [DataMember]
         public int SysNo
         {
@@ -90,10 +95,10 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
         }
 
         [DataMember]
-        public DateTime OutData
+        public DateTime OutDate
         {
-            set { _OutData = value; }
-            get { return _OutData; }
+            set { _OutDate = value; }
+            get { return _OutDate; }
         }
 
         [DataMember]
@@ -250,7 +255,12 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
             get { return _EJBAdmin; }
         }
 
-
+        [DataMember]
+        public DateTime PositiveDate
+        {
+            set { _PositiveDate = value; }
+            get { return _PositiveDate; }
+        }
 
 
         #endregion
@@ -269,7 +279,7 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
             Name = AppConst.StringNull;
             BirthDate = AppConst.DateTimeNull;
             EntryDate = AppConst.DateTimeNull;
-            OutData = AppConst.DateTimeNull;
+            OutDate = AppConst.DateTimeNull;
             Status = AppConst.IntNull;
             SkillCategory = AppConst.StringNull;
             ParentPersonSysNo = AppConst.IntNull;
@@ -290,10 +300,15 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Info
             BYZD1 = AppConst.StringNull;
             BYZD2 = AppConst.StringNull;
             BYZD3 = AppConst.StringNull;
+            PositiveDate = AppConst.DateTimeNull;
 
 
             UserType = AppConst.IntNull;
             EJBAdmin = AppConst.IntNull;
+            CZBZ = AppConst.StringNull;
+            EJBName = AppConst.StringNull;
+            ZNSName = AppConst.StringNull;
+            YGNXName = AppConst.StringNull;
         }
 
         #region 实现IComparable<T>接口的泛型排序方法

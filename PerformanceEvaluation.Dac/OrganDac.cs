@@ -408,5 +408,36 @@ namespace PerformanceEvaluation.PerformanceEvaluation.Dac
             }
             return model;
         }
+
+        /// <summary>
+        /// 得到一个对象实体
+        /// </summary>
+        public OrganEntity GetModel(int OrganType, string OrganName)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select *  from  dbo.Organ WITH (NOLOCK) ");
+            if (OrganType == (int)AppEnum.OrganType.EJB)
+            {
+                strSql.Append(" WHERE OrganType = '10' AND OrganName = @OrganName ");
+            }
+            else
+            {
+                strSql.Append(" WHERE OrganType = '20' AND (OrganName = @OrganName OR FunctionInfo = @OrganName) ");
+            }
+            SqlParameterCollection spc = new SqlCommand().Parameters;
+            spc.Add(new SqlParameter("@OrganName", OrganName));
+
+            OrganEntity model = new OrganEntity();
+            DataSet ds = SqlHelper.ExecuteDataSet(AppConfig.Conn_PerformanceEvaluation, strSql.ToString(), spc);
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                SetDsToEntity(ds, model);
+                return model;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

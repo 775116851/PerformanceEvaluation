@@ -87,6 +87,12 @@
                     <li>
                         <input type="button" class="InputOne3" id="btExport" runat="server" value="导 出" onserverclick="btExport_Click"/>
                     </li>
+                    <li>
+                        <asp:FileUpload ID="FileUpload1" runat="server" />
+                        <asp:Button ID="btnUploadCode" runat="server" Text="上  传" OnClick="btnUploadCode_Click"  />
+                        <asp:LinkButton ID="linkbtnDown" runat="server" Font-Underline="True" ForeColor="#0066FF" OnClick="linkbtnDown_Click">下载模板</asp:LinkButton>
+                        <%--<asp:LinkButton ID="linkbtnDown7" runat="server" Font-Underline="True" ForeColor="#0066FF">下载2007模板</asp:LinkButton>--%>
+                    </li>
                 </ul>
             </div>
             <div id="ListDiv">
